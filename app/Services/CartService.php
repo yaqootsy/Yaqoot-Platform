@@ -275,7 +275,7 @@ class CartService
                     'product_id' => $cartItem->product_id,
                     'quantity' => $cartItem->quantity,
                     'price' => $cartItem->price,
-                    'option_ids' => $cartItem->variation_type_option_id,
+                    'option_ids' => $cartItem->variation_type_option_ids,
                 ];
             })
             ->toArray();
@@ -303,5 +303,40 @@ class CartService
                 'totalPrice' => $items->sum(fn ($item) => $item['price'] * $item['quantity']),
             ])
             ->toArray();
+    }
+
+    public function moveCartItemsToDatabase($userId): void
+    {
+        // Get the cart items from the cookie
+        $cartItems = $this->getCartItemsFromCookies();
+
+        // Loop through the cart items and insert them into the database
+        foreach ($cartItems as $itemKey => $cartItem) {
+            // Check if the cart item already exists for the user
+            $existingItem = CartItem::where('user_id', $userId)
+                ->where('product_id', $cartItem['product_id'])
+                ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
+                ->first();
+
+            if ($existingItem) {
+                // If the item exists, update the quantity
+                $existingItem->update([
+                    'quantity' => $existingItem->quantity + $cartItem['quantity'],
+                    'price' => $cartItem['price'],  // Optional: Update price if needed
+                ]);
+            } else {
+                // If the item doesn't exist, create a new record
+                CartItem::create([
+                    'user_id' => $userId,
+                    'product_id' => $cartItem['product_id'],
+                    'quantity' => $cartItem['quantity'],
+                    'price' => $cartItem['price'],
+                    'variation_type_option_ids' => $cartItem['option_ids'],
+                ]);
+            }
+        }
+
+        // After transferring the items, delete the cart from the cookies
+        Cookie::queue(self::COOKIE_NAME, '', -1); // Delete cookie by setting a past expiration time
     }
 }
