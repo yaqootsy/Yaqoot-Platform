@@ -1,5 +1,5 @@
 import {Product, VariationTypeOption} from "@/types";
-import {Head, router, useForm, usePage} from "@inertiajs/react";
+import {Head, Link, router, useForm, usePage} from "@inertiajs/react";
 import {useEffect, useMemo, useState} from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Carousel from "@/Components/Core/Carousel";
@@ -177,10 +177,17 @@ function Show({product, variationOptions}: {
       <div className="container mx-auto p-8">
         <div className="grid gap-8 grid-cols-1 lg:grid-cols-12">
           <div className="col-span-7">
-          <Carousel images={images}/>
+            <Carousel images={images}/>
           </div>
           <div className="col-span-5">
-            <h1 className="text-2xl mb-8">{product.title}</h1>
+            <h1 className="text-2xl ">{product.title}</h1>
+
+            <p className={'mb-8'}>
+              by <Link href={route('vendor.profile', product.user.store_name)} className="hover:underline">
+              {product.user.name}
+            </Link>&nbsp;
+              in <Link href="/" className="hover:underline">{product.department.name}</Link>
+            </p>
 
             <div>
               <div className="text-3xl font-semibold">
