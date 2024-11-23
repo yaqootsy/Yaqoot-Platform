@@ -108,7 +108,13 @@ class ProductResource extends Resource
                 Select::make('status')
                     ->options(ProductStatusEnum::labels())
                     ->default(ProductStatusEnum::Draft->value)
-                    ->required()
+                    ->required(),
+                Forms\Components\Section::make('SEO')
+                    ->collapsible()
+                    ->schema([
+                        Forms\Components\TextInput::make('meta_title'),
+                        Forms\Components\Textarea::make('meta_description')
+                    ])
             ]);
     }
 
