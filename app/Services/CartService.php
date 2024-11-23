@@ -8,6 +8,7 @@ use App\Models\VariationType;
 use App\Models\VariationTypeOption;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CartService
