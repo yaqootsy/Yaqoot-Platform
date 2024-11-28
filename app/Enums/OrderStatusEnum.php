@@ -20,4 +20,15 @@ enum OrderStatusEnum: string
             self::Cancelled->value => __('Cancelled'),
         ];
     }
+
+    public static function colors()
+    {
+        return [
+            'gray' => self::Draft->value,
+            'primary' => self::Paid->value,
+            'warning' => self::Shipped->value,
+            'success' => self::Delivered->value,
+            'error' => self::Cancelled->value,
+        ];
+    }
 }

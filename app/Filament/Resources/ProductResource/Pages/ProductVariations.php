@@ -161,7 +161,7 @@ class ProductVariations extends EditRecord
 
             // Prepare the data structure for the database
             $formattedData[] = [
-                'id' => $option['id'],
+                'id' => $option['id'] ?? null,
                 'variation_type_option_ids' => $variationTypeOptionIds,
                 'quantity' => $quantity,
                 'price' => $price,
