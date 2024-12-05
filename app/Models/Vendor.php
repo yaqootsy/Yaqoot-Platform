@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enums\VendorStatusEnum;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vendor extends Model
 {
-    // I added this
+    use HasFactory;
+
     protected $primaryKey = 'user_id';
 
     public function scopeEligibleForPayout(Builder $query): Builder
