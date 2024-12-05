@@ -23,10 +23,41 @@ git clone https://github.com/larastore-io/laravel-react-inertia.git
 cd laravel-react-inertia
 ```
 
-Create `.env` file
+Create `.env` file and adjustthe environment variables.
+
 ```bash
 cp .env.example .env
 ```
+
+If you want to use MySql instead of sqlite, modify the `DB_*` variables.
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=larastore
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Then we have two options:
+1. Setup with docker and sail
+2. Or setup manually 
+
+### Setup with Docker
+
+This command will download all necessary docker images and setup the project.
+
+```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php84-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+### Manual Setup
 
 #### 3. Install Dependencies
 
