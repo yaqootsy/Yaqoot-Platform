@@ -1,6 +1,15 @@
 # LaraStore
 Multi vendor e-commerce starter kit built with Laravel and React with Inertia with server side rendering built-in.
 
+## Requirements
+ - PHP >= 8.2
+ - Laravel 11
+ - MariaDB 10.3+
+ - MySQL 5.7+
+ - PostgreSQL 10.0+
+ - SQLite 3.26.0+
+ - SQL Server 2017+
+
 ## Project Setup
 #### 1. Clone or download project repository
 
