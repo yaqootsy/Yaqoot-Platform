@@ -68,6 +68,9 @@ php artisan migrate --seed
 composer run dev
 ```
 
+## License
+
+The project is under [MIT License](LICENSE.md).
 
 
 
