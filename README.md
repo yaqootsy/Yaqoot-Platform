@@ -23,7 +23,7 @@ git clone https://github.com/larastore-io/laravel-react-inertia.git
 cd laravel-react-inertia
 ```
 
-Create `.env` file and adjustthe environment variables.
+Create `.env` file and adjust the environment variables.
 
 ```bash
 cp .env.example .env
@@ -32,12 +32,14 @@ cp .env.example .env
 If you want to use MySql instead of sqlite, modify the `DB_*` variables.
 
 ```env
+...
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=larastore
 DB_USERNAME=root
 DB_PASSWORD=
+...
 ```
 
 Then we have two options:
@@ -45,6 +47,8 @@ Then we have two options:
 2. Or setup manually 
 
 ### Setup with Docker
+
+#### Download docker images
 
 This command will download all necessary docker images and setup the project.
 
@@ -55,6 +59,41 @@ docker run --rm \
     -w /var/www/html \
     laravelsail/php84-composer:latest \
     composer install --ignore-platform-reqs
+```
+
+After this whenever you need to execute artisan commands you need to execute them from docker image.
+
+```bash
+./vendor/bin/sail bash
+```
+
+After executing the following command you are inside the docker container and you can execute any php or artisan commands.
+
+#### Generate application key
+
+```bash
+php artisan key:generate --ansi
+```
+
+#### Start the project
+
+```bash
+./vendor/bin/sail up
+```
+
+You can optionally provide `-d` flag to the above command to start the containers in detached mode.
+
+#### Stop the project
+If you started the project without `-d` flag you can simply hit `ctrl + C` (`cmd + C` on Mac) to stop running containers. However if you started the project with `-d` you need to execute the following commands to stop running containers.
+
+```bash
+./vendor/bin/sail stop
+```
+
+If you want to drop all containers, execute
+
+```bash
+./vendor/bin/sail down
 ```
 
 ### Manual Setup
