@@ -100,6 +100,10 @@ export type PageProps<
     message: string;
     time: number;
   },
+  errorToast: {
+    message: string;
+    time: number;
+  },
   auth: {
     user: User;
   };

@@ -60,6 +60,10 @@ class HandleInertiaRequests extends Middleware
                 'time' => microtime(true),
             ],
             'error' => session('error'),
+            'errorToast' => [
+                'message' => session('errorToast'),
+                'time' => microtime(true),
+            ],
             'totalPrice' => $totalPrice,
             'totalQuantity' => $totalQuantity,
             'miniCartItems' => $cartItems,
