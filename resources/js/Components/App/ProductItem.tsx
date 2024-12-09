@@ -17,7 +17,7 @@ export default function ProductItem({product}: { product: Product }) {
       preserveScroll: true,
       preserveState: true,
       onError: (err) => {
-        console.log(err)
+        console.error(err)
       }
     })
   }

@@ -338,4 +338,17 @@ class CartService
         // After transferring the items, delete the cart from the cookies
         Cookie::queue(self::COOKIE_NAME, '', -1); // Delete cookie by setting a past expiration time
     }
+
+    /**
+     * @param Product $product
+     * @param mixed $optionIds
+     * @return mixed
+     */
+    public function getQuantity(Product $product, mixed $optionIds): int
+    {
+        return collect($this->getCartItems())
+            ->filter(fn($item) => $item['product_id'] === $product->id)
+            ->filter(fn($item) => $item['option_ids'] === $optionIds)
+            ->sum('quantity');
+    }
 }

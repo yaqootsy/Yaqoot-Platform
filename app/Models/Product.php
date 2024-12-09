@@ -181,4 +181,17 @@ class Product extends Model implements HasMedia
             ->mapWithKeys(fn($type) => [$type->id => $type->options[0]?->id])
             ->toArray();
     }
+
+    public function getTotalQuantity(mixed $optionIds)
+    {
+        $optionIds = $optionIds ? array_values($optionIds) : [];
+        sort($optionIds);
+        $variation = $this->variations->first(fn($variation) => $variation->variation_type_option_ids == $optionIds);
+
+        if ($variation) {
+            return $variation->quantity;
+        }
+
+        return $this->quantity;
+    }
 }

@@ -35,8 +35,22 @@ class CartController extends Controller
 
         $data = $request->validate([
             'option_ids' => ['nullable', 'array'],
-            'quantity' => ['required', 'integer', 'min:1'],
+            'quantity' => [
+                'required', 'integer', 'min:1'
+            ],
         ]);
+
+        $productTotalQuantity = $product->getTotalQuantity($data['option_ids']);
+        $cartQuantity = $cartService->getQuantity($product, $data['option_ids']);
+
+        if ($cartQuantity + $data['quantity'] > $productTotalQuantity) {
+            $message = match($productTotalQuantity - $cartQuantity) {
+                0 => 'The Product is out of stock',
+                1 => 'There is only 1 item left in stock',
+                default => 'There are only ' . ($productTotalQuantity - $cartQuantity) . ' items left in stock'
+            };
+            return back()->with('errorToast', $message);
+        }
 
         $cartService->addItemToCart(
             $product,
@@ -53,7 +67,16 @@ class CartController extends Controller
     public function update(Request $request, Product $product, CartService $cartService)
     {
         $request->validate([
-            'quantity' => ['integer', 'min:1'],
+            'quantity' => [
+                'integer', 'min:1', function($attribute, $value, $fail) use ($product, $request) {
+                    $optionIds = $request->input('option_ids') ?: [];
+                    $productTotalQuantity = $product->getTotalQuantity($optionIds);
+
+                    if ($value > $productTotalQuantity) {
+                        $fail("There are only {$productTotalQuantity} items left in stock");
+                    }
+                },
+            ],
         ]);
 
         $optionIds = $request->input('option_ids') ?: []; // Get the option IDs (if applicable)

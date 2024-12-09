@@ -10,6 +10,7 @@ function CartItem({item}: { item: CartItemType }) {
     option_ids: item.option_ids
   })
 
+  const [quantity, setQuantity] = useState(item.quantity)
   const [error, setError] = useState('')
 
   const onDeleteClick = () => {
@@ -27,6 +28,7 @@ function CartItem({item}: { item: CartItemType }) {
     }, {
       preserveScroll: true,
       onError: (errors) => {
+        setQuantity(item.quantity)
         setError(Object.values(errors)[0])
       }
     })
@@ -63,7 +65,9 @@ function CartItem({item}: { item: CartItemType }) {
               <div className="text-sm">Quantity:</div>
               <div className={error ? 'tooltip tooltip-open tooltip-error' : ''} data-tip={error}>
                 <TextInput type="number"
-                           defaultValue={item.quantity}
+                           min={1}
+                           value={quantity}
+                           onChange={(ev) => setQuantity(parseInt(ev.target.value))}
                            onBlur={handleQuantityChange}
                            className="input-sm w-16"></TextInput>
               </div>
@@ -74,7 +78,7 @@ function CartItem({item}: { item: CartItemType }) {
               <button className="btn btn-sm btn-ghost">Save for Later</button>
             </div>
             <div className="font-bold text-lg">
-              <CurrencyFormatter amount={item.price * item.quantity}/>
+              <CurrencyFormatter amount={item.price * quantity}/>
             </div>
           </div>
         </div>
