@@ -32,8 +32,8 @@ export default function ProductItem({product}: { product: Product }) {
             className="aspect-square object-cover"/>
         </figure>
       </Link>
-      <div className="card-body">
-        <h2 className="card-title">{product.title}</h2>
+      <div className="card-body p-6">
+        <h2 className="card-title">{product.id} - {product.title}</h2>
         <p>
           by <Link href={route('vendor.profile', product.user.store_name)} className="hover:underline">
           {product.user.name}

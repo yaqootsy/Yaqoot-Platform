@@ -2,7 +2,7 @@ import React from 'react';
 import {PageProps, PaginationProps, Product, Vendor} from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {Head} from "@inertiajs/react";
-import ProductItem from "@/Components/App/ProductItem";
+import ProductListing from "@/Components/App/ProductListing";
 
 function Profile(
   {
@@ -31,13 +31,7 @@ function Profile(
         </div>
       </div>
 
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 p-8">
-          {products.data.map(product => (
-            <ProductItem product={product} key={product.id}/>
-          ))}
-        </div>
-      </div>
+      <ProductListing products={products}/>
     </AuthenticatedLayout>
   );
 }

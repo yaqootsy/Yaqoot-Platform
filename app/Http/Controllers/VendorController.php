@@ -25,7 +25,7 @@ class VendorController extends Controller
                 });
             })
             ->where('created_by', $vendor->user_id)
-            ->paginate();
+            ->paginate(24);
 
         return Inertia::render('Vendor/Profile', [
             'vendor' => $vendor,

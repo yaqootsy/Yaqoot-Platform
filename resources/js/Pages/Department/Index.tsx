@@ -1,7 +1,7 @@
 import React from 'react';
 import {Department, PageProps, PaginationProps, Product} from "@/types";
 import {Head} from "@inertiajs/react";
-import ProductItem from "@/Components/App/ProductItem";
+import ProductListing from "@/Components/App/ProductListing";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 function Index(
@@ -39,16 +39,7 @@ function Index(
           </div>
         </div>
 
-        {products.data.length === 0 && (
-          <div className={"py-16 px-8 text-center text-gray-300 text-3xl"}>
-            No products found
-          </div>
-        )}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 p-8">
-          {products.data.map(product => (
-            <ProductItem product={product} key={product.id}/>
-          ))}
-        </div>
+        <ProductListing products={products}/>
       </div>
     </AuthenticatedLayout>
   );

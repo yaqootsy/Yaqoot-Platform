@@ -23,7 +23,7 @@ class ProductController extends Controller
                         ->orWhere('description', 'LIKE', "%{$keyword}%");
                 });
             })
-            ->paginate(12);
+            ->paginate(24);
 
         return Inertia::render('Home', [
             'products' => ProductListResource::collection($products)
@@ -52,7 +52,7 @@ class ProductController extends Controller
                         ->orWhere('description', 'LIKE', "%{$keyword}%");
                 });
             })
-            ->paginate();
+            ->paginate(24);
 
         return Inertia::render('Department/Index', [
             'department' => new DepartmentResource($department),

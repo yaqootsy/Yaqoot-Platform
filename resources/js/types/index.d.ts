@@ -87,7 +87,15 @@ export type GroupedCartItems = {
 }
 
 export type PaginationProps<T> = {
-  data: Array<T>
+  data: Array<T>;
+  meta: {
+    current_page: number;
+    from: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    links: Array<{ url: string; label: string; active: boolean }>;
+  }
 }
 
 export type PageProps<
