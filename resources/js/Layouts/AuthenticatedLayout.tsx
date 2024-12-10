@@ -11,7 +11,7 @@ export default function AuthenticatedLayout(
   const props = usePage().props;
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-base-200">
       <Navbar/>
 
       {props.error && (

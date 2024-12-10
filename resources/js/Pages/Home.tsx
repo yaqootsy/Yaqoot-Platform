@@ -10,7 +10,7 @@ export default function Home({
     return (
       <AuthenticatedLayout>
         <Head title="Home"/>
-        <div className="hero bg-gray-200 h-[300px]">
+        <div className="hero bg-base-200 h-[300px]">
           <div className="hero-content text-center">
             <div className="max-w-md">
               <h1 className="text-5xl font-bold">Hello there</h1>
