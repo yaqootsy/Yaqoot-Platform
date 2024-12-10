@@ -22,7 +22,7 @@ export default function ForgotPassword({status}: { status?: string }) {
       <div className={"p-8"}>
         <div className="card bg-white dark:bg-gray-800 shadow max-w-[420px] mx-auto">
           <div className="card-body">
-            <div className="mb-4 text-sm text-neutral-content">
+            <div className="mb-4 text-sm text-gray-800 dark:text-neutral-content">
               Forgot your password? No problem. Just let us know your email
               address and we will email you a password reset link that will
               allow you to choose a new one.
@@ -42,6 +42,7 @@ export default function ForgotPassword({status}: { status?: string }) {
                 value={data.email}
                 className="mt-1 block w-full"
                 isFocused={true}
+                placeholder={"Your Email"}
                 onChange={(e) => setData('email', e.target.value)}
               />
 
