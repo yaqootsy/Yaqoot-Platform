@@ -10,8 +10,8 @@ function Carousel({images}: { images: Image[] }) {
 
   return (
     <>
-      <div className="flex items-start gap-8">
-        <div className="flex flex-col items-center gap-2 py-2">
+      <div className="flex flex-col sm:flex-row items-start gap-8">
+        <div className="order-2 sm:order-1 flex flex-row sm:flex-col items-center gap-2 py-2">
           {images.map((image, i) => (
             <button onClick={ev => setSelectedImage(image)}
                     className=
@@ -19,16 +19,15 @@ function Carousel({images}: { images: Image[] }) {
                         (selectedImage.id === image.id ? 'border-blue-500' : 'hover:border-blue-500')
                       }
                     key={image.id}>
-              <img src={image.thumb} alt="" className="w-[50px]"/>
+              <img src={image.thumb} alt="" className="w-[64px] h-[64px] object-contain"/>
             </button>
           ))}
         </div>
-        {/*<pre>{JSON.stringify(images, undefined, 2)}</pre>*/}
-        <div className="carousel w-full">
+        <div className="order-1 sm:order-2 carousel w-full">
           <div className="carousel-item w-full">
             <img
               src={selectedImage.large}
-              className="w-full"/>
+              className="w-full h-[600px] object-contain"/>
           </div>
         </div>
       </div>
