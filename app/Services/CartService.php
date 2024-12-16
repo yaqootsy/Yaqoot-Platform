@@ -157,7 +157,7 @@ class CartService
 
         $cartItem = CartItem::where('user_id', $userId)
             ->where('product_id', $productId)
-            ->where('variation_type_option_ids', json_encode($optionIds))
+            ->filterByOptions($optionIds)
             ->first();
 
         if ($cartItem) {
@@ -191,7 +191,7 @@ class CartService
 
         $cartItem = CartItem::where('user_id', $userId)
             ->where('product_id', $productId)
-            ->where('variation_type_option_ids', json_encode($optionIds))
+            ->filterByOptions($optionIds)
             ->first();
 
         if ($cartItem) {
@@ -239,11 +239,9 @@ class CartService
     {
         $userId = Auth::id();
 
-        ksort($optionIds);
-
         CartItem::where('user_id', $userId)
             ->where('product_id', $productId)
-            ->where('variation_type_option_ids', json_encode($optionIds))
+            ->filterByOptions($optionIds)
             ->delete();
     }
 
@@ -314,7 +312,7 @@ class CartService
             // Check if the cart item already exists for the user
             $existingItem = CartItem::where('user_id', $userId)
                 ->where('product_id', $cartItem['product_id'])
-                ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
+                ->filterByOptions($cartItem['option_ids'])
                 ->first();
 
             if ($existingItem) {
