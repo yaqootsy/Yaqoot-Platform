@@ -56,7 +56,9 @@ class ProductResource extends Resource
                         TextInput::make('slug')
                             ->required(),
                         Select::make('department_id')
-                            ->relationship('department', 'name')
+                            ->relationship('department', 'name', function ($query) {
+                                $query->where('active', true); // Filter departments with status active
+                            })
                             ->label(__('Department'))
                             ->preload()
                             ->searchable()
@@ -70,6 +72,7 @@ class ProductResource extends Resource
                                 name: 'category',
                                 titleAttribute: 'name',
                                 modifyQueryUsing: function (Builder $query, callable $get) {
+                                    $query->where('active', true);
                                     // Modify the category query based on the selected department
                                     $departmentId = $get('department_id'); // Get selected department ID
                                     if ($departmentId) {
