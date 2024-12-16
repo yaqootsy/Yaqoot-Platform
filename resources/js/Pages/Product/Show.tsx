@@ -52,7 +52,7 @@ function Show({
     }
     return {
       price: product.price,
-      quantity: product.quantity
+      quantity: product.quantity === null ? Number.MAX_VALUE : product.quantity,
     };
   }, [product, selectedOptions]);
 
@@ -124,7 +124,8 @@ function Show({
             <div className="flex gap-2 mb-4">
               {type.options.map(option => (
                 <div onClick={() => chooseOption(type.id, option)} key={option.id}>
-                  {option.images && <img src={option.images[0].thumb} alt="" className={'w-[50px] ' + (
+                  {option.images &&
+                    <img src={option.images[0].thumb} alt="" className={'w-[64px] h-[64px] object-contain ' + (
                     selectedOptions[type.id]?.id === option.id ?
                       'outline outline-4 outline-primary' : ''
                   )}/>}
@@ -191,10 +192,10 @@ function Show({
 
       <div className="container mx-auto p-8">
         <div className="grid gap-8 grid-cols-1 lg:grid-cols-12">
-          <div className="col-span-7">
+          <div className="col-span-12 md:col-span-7">
             <Carousel images={images}/>
           </div>
-          <div className="col-span-5">
+          <div className="col-span-12 md:col-span-5">
             <h1 className="text-2xl ">{product.title}</h1>
 
             <p className={'mb-8'}>
