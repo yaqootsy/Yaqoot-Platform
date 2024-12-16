@@ -22,6 +22,9 @@ export default function ForgotPassword({status}: { status?: string }) {
       <div className={"p-8"}>
         <div className="card bg-white dark:bg-gray-800 shadow max-w-[420px] mx-auto">
           <div className="card-body">
+
+            <h1 className={"text-2xl mb-6 text-center"}>Forgot your password</h1>
+
             <div className="mb-4 text-sm text-gray-800 dark:text-neutral-content">
               Forgot your password? No problem. Just let us know your email
               address and we will email you a password reset link that will

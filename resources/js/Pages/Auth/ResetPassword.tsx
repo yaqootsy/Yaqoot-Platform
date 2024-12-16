@@ -35,6 +35,8 @@ export default function ResetPassword({
         <div className="card bg-white dark:bg-gray-800 shadow max-w-[420px] mx-auto">
           <div className="card-body">
 
+            <h1 className={"text-2xl mb-6 text-center"}>Reset your password</h1>
+
             <form onSubmit={submit}>
               <div>
                 <InputLabel htmlFor="email" value="Email"/>

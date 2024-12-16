@@ -36,6 +36,9 @@ export default function Login({
       <div className={"p-8"}>
         <div className="card bg-white dark:bg-gray-800 shadow max-w-[420px] mx-auto">
           <div className="card-body">
+
+            <h1 className={"text-2xl mb-6 text-center"}>Login to your account</h1>
+
             {status && (
               <div className="mb-4 text-sm font-medium text-green-600">
                 {status}
