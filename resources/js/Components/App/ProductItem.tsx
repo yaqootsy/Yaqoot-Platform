@@ -29,21 +29,26 @@ export default function ProductItem({product}: { product: Product }) {
           <img
             src={product.image}
             alt={product.title}
-            className="aspect-square object-cover"/>
+            className="w-full h-48 aspect-square object-contain"/>
         </figure>
       </Link>
       <div className="card-body p-6">
-        <h2 className="card-title">{product.id} - {product.title}</h2>
-        <p>
+        <Link href={route('product.show', product.slug)}>
+          <h2 className="card-title text-sm">{product.id} - {
+            (product.title && product.title.length > 50) ? (product.title.substring(0, 90) + '...') : product.title
+          }</h2>
+        </Link>
+        <p className={"text-sm"}>
           by <Link href={route('vendor.profile', product.user.store_name)} className="hover:underline">
           {product.user.name}
         </Link>&nbsp;
-          in <Link href={route('product.byDepartment', product.department.slug)} className="hover:underline">{product.department.name}</Link>
+          in <Link href={route('product.byDepartment', product.department.slug)}
+                   className="hover:underline">{product.department.name}</Link>
         </p>
         <div className="card-actions items-center justify-between mt-3">
           <button onClick={addToCart} className="btn btn-primary">Add to Cart</button>
           <span className="text-2xl">
-            <CurrencyFormatter amount={product.price} />
+            <CurrencyFormatter amount={product.price}/>
           </span>
         </div>
       </div>
