@@ -20,8 +20,9 @@ function ProductListing({products}: { products: PaginationProps<Product> }) {
 
       {products.meta.total > products.meta.per_page && <div className={"flex justify-center"}>
         <div className="join mt-8">
-          {products.meta.links.map(link => (
+          {products.meta.links.map((link, ind) => (
             <Link href={link.url}
+                  key={ind}
                   preserveScroll
                   preserveState
                   className={[
