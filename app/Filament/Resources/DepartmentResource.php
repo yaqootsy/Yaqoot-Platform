@@ -13,6 +13,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -46,8 +47,13 @@ class DepartmentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->sortable()
-                ->searchable()
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('slug')
+                    ->sortable()
+                    ->searchable(),
+                IconColumn::make('active')
+                    ->boolean()
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
