@@ -188,10 +188,15 @@ class Product extends Model implements HasMedia
         sort($optionIds);
         $variation = $this->variations->first(fn($variation) => $variation->variation_type_option_ids == $optionIds);
 
+        $quantity = $this->quantity;
         if ($variation) {
-            return $variation->quantity;
+            $quantity = $variation->quantity;
         }
 
-        return $this->quantity;
+        if ($quantity === null) {
+            $quantity = $this->quantity;
+        }
+
+        return $quantity === null ? PHP_INT_MAX : $quantity;
     }
 }
