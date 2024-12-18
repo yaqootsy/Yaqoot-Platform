@@ -132,7 +132,7 @@ class ProductResource extends Resource
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('title')
                     ->sortable()
-                    ->words(10)
+                    ->words(7)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
