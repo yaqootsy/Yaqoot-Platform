@@ -58,7 +58,7 @@ class CartController extends Controller
             $data['option_ids'] ?: []
         );
 
-        return back()->with('success', 'Product added to cart successfully!');
+        return back()->with('successToast', 'Product added to cart successfully!');
     }
 
     /**
@@ -84,7 +84,7 @@ class CartController extends Controller
 
         $cartService->updateItemQuantity($product->id, $quantity, $optionIds);
 
-        return back()->with('success', 'Quantity was updated');
+        return back()->with('successToast', 'Quantity was updated');
     }
 
     /**
@@ -96,7 +96,7 @@ class CartController extends Controller
 
         $cartService->removeItemFromCart($product->id, $optionIds);
 
-        return back()->with('success', 'Product was removed from cart.');
+        return back()->with('successToast', 'Product was removed from cart.');
     }
 
     public function checkout(Request $request, CartService $cartService)

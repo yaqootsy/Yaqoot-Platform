@@ -22,9 +22,17 @@ export default function AuthenticatedLayout(
         </div>
       )}
 
+      {props.success && (
+        <div className="container mx-auto px-8 mt-8 ">
+          <div className="alert alert-success">
+            {props.success}
+          </div>
+        </div>
+      )}
+
       <ToastList alertVariant='error' pageProp="errorToast" />
 
-      <ToastList alertVariant='success' pageProp="success" />
+      <ToastList alertVariant='success' pageProp="successToast" />
 
       <main>{children}</main>
     </div>

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {usePage} from "@inertiajs/react";
 
-function ToastList({pageProp, alertVariant}: { pageProp: 'errorToast' | 'success', alertVariant: string }) {
+function ToastList({pageProp, alertVariant}: { pageProp: 'errorToast' | 'successToast', alertVariant: string }) {
   const props = usePage().props;
 
   const [messages, setMessages] = useState<any[]>([]);

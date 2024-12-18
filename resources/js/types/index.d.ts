@@ -104,7 +104,8 @@ export type PageProps<
   appName: string;
   csrf_token: string;
   error: string;
-  success: {
+  success: string;
+  successToast: {
     message: string;
     time: number;
   },
