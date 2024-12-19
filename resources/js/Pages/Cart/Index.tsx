@@ -12,12 +12,12 @@ function Index(
     cartItems,
     totalQuantity,
     totalPrice
-  }: PageProps<{cartItems: Record<number, GroupedCartItems>}>) {
+  }: PageProps<{ cartItems: Record<number, GroupedCartItems> }>) {
   return (
     <AuthenticatedLayout>
       <Head title="Your Cart"/>
 
-      <div className="container mx-auto p-8 flex flex-col lg:flex-row gap-4">
+      <div className="container mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-4">
         <div className="card flex-1 bg-white dark:bg-gray-800 order-2 lg:order-1">
           <div className="card-body">
             <h2 className="text-lg font-bold">
@@ -32,20 +32,19 @@ function Index(
               )}
               {Object.values(cartItems).map(cartItem => (
                 <div key={cartItem.user.id}>
-                  <div className={"flex items-center justify-between pb-4 border-b border-gray-300 mb-4"}>
-                    <Link href="/public" className={"underline"}>
+                  <div
+                    className={"flex flex-col sm:flex-row items-center justify-between pb-4 border-b border-gray-300 mb-4"}>
+                    <Link href={route('vendor.profile', cartItem.user.name)} className={"underline"}>
                       {cartItem.user.name}
                     </Link>
-                    <div>
-                      <form action={route('cart.checkout')} method="post">
-                        <input type="hidden" name="_token" value={csrf_token}/>
-                        <input type="hidden" name="vendor_id" value={cartItem.user.id}/>
-                        <button className="btn btn-sm btn-ghost">
-                          <CreditCardIcon className={"size-6"}/>
-                          Pay Only for this seller
-                        </button>
-                      </form>
-                    </div>
+                    <form action={route('cart.checkout')} method="post">
+                      <input type="hidden" name="_token" value={csrf_token}/>
+                      <input type="hidden" name="vendor_id" value={cartItem.user.id}/>
+                      <button className="btn btn-sm btn-ghost">
+                        <CreditCardIcon className={"size-6"}/>
+                        Pay Only for this seller
+                      </button>
+                    </form>
                   </div>
                   {cartItem.items.map(item => (
                     <CartItem item={item} key={item.id}/>

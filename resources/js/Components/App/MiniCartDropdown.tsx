@@ -8,8 +8,8 @@ function MiniCartDropdown() {
   const {totalQuantity, totalPrice, miniCartItems} = usePage().props
 
   return (
-    <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+    <details className="dropdown dropdown-end static sm:relative ">
+      <summary tabIndex={0} role="button" className="btn btn-ghost btn-circle">
         <div className="indicator">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,10 +27,10 @@ function MiniCartDropdown() {
                 {totalQuantity}
               </span>
         </div>
-      </div>
+      </summary>
       <div
         tabIndex={0}
-        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-[480px] shadow">
+        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-full left-0 sm:left-auto sm:w-[480px] shadow">
         <div className="card-body">
           <span className="text-lg font-bold">{totalQuantity} Items</span>
 
@@ -79,7 +79,7 @@ function MiniCartDropdown() {
           </div>
         </div>
       </div>
-    </div>
+    </details>
   );
 }
 

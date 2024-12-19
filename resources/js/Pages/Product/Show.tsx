@@ -191,7 +191,7 @@ function Show({
       </Head>
 
       <div className="container mx-auto p-8">
-        <div className="grid gap-8 grid-cols-1 lg:grid-cols-12">
+        <div className="grid gap-4 sm:gap-8 grid-cols-1 lg:grid-cols-12">
           <div className="col-span-12 md:col-span-7">
             <Carousel images={images}/>
           </div>

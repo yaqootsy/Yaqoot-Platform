@@ -5,7 +5,7 @@ import {PaginationProps, Product} from "@/types";
 
 function ProductListing({products}: { products: PaginationProps<Product> }) {
   return (
-    <div className="container py-8 mx-auto">
+    <div className="container py-8 px-4 mx-auto">
       {products.data.length === 0 && (
         <div className={"py-16 px-8 text-center text-gray-300 text-3xl"}>
           No products found
@@ -18,23 +18,49 @@ function ProductListing({products}: { products: PaginationProps<Product> }) {
       </div>
       {/*<pre>{JSON.stringify(products, undefined, 2)}</pre>*/}
 
-      {products.meta.total > products.meta.per_page && <div className={"flex justify-center"}>
-        <div className="join mt-8">
-          {products.meta.links.map((link, ind) => (
-            <Link href={link.url}
-                  key={ind}
+      {products.meta.total > products.meta.per_page &&
+        <>
+          <div className={"hidden justify-center md:flex"}>
+            <div className="join mt-8">
+              {products.meta.links.map((link, ind) => (
+                <Link href={link.url}
+                      key={ind}
+                      preserveScroll
+                      preserveState
+                      className={[
+                        `join-item btn`,
+                        (link.active ? 'btn-primary' : ''),
+                        (!link.url ? 'btn-disabled' : '')
+                      ]
+                        .join(' ')}
+                      dangerouslySetInnerHTML={{__html: link.label}}></Link>
+              ))}
+            </div>
+          </div>
+          <div className={"flex justify-between my-4 md:hidden"}>
+            <Link href={products.links.prev}
                   preserveScroll
                   preserveState
                   className={[
-                    `join-item btn`,
-                    (link.active ? 'btn-primary' : ''),
-                    (!link.url ? 'btn-disabled' : '')
+                    `btn btn-primary`,
+                    (!products.links.prev ? 'btn-disabled' : '')
                   ]
-                    .join(' ')}
-                  dangerouslySetInnerHTML={{__html: link.label}}></Link>
-          ))}
-        </div>
-      </div>}
+                    .join(' ')}>
+              Previous
+            </Link>
+            <Link href={products.links.next}
+                  preserveScroll
+                  preserveState
+                  className={[
+                    `btn btn-primary`,
+                    (!products.links.next ? 'btn-disabled' : '')
+                  ]
+                    .join(' ')}>
+              Next
+            </Link>
+          </div>
+        </>
+      }
     </div>
   );
 }

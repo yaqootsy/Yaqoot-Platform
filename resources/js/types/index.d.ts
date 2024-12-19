@@ -95,6 +95,12 @@ export type PaginationProps<T> = {
     per_page: number;
     total: number;
     links: Array<{ url: string; label: string; active: boolean }>;
+  },
+  links: {
+    first: string;
+    last: string;
+    prev: string;
+    next: string;
   }
 }
 
