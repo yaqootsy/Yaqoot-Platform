@@ -6,6 +6,7 @@ export interface User {
   email: string;
   email_verified_at?: string;
   stripe_account_active: boolean;
+  roles: string[];
   vendor: {
     status: string;
     status_label: string;

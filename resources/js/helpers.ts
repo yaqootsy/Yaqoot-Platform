@@ -1,4 +1,4 @@
-import {CartItem} from "@/types";
+import {CartItem, User} from "@/types";
 
 export const arraysAreEqual = (arr1: any[], arr2: any[]) => {
   if (arr1.length !== arr2.length) return false; // Check if lengths are the same
@@ -14,4 +14,12 @@ export const productRoute = (item: CartItem) => {
     })
 
   return route('product.show', item.slug) + '?' + params.toString();
+}
+
+export const hasRole = (user: User, role: string) => {
+  return user.roles.includes(role)
+}
+
+export const hasAnyRole = (user: User, roles: string[]) => {
+  return roles.some(role => user.roles.includes(role))
 }

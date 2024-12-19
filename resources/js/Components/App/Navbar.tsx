@@ -1,8 +1,8 @@
 import React, {FormEventHandler} from 'react';
 import {Link, useForm, usePage} from "@inertiajs/react";
 import MiniCartDropdown from "@/Components/App/MiniCartDropdown";
-import {PageProps} from "@/types";
 import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
+import {hasAnyRole, hasRole} from "@/helpers";
 
 function Navbar() {
   const {auth, departments, keyword} = usePage().props;
@@ -70,6 +70,13 @@ function Navbar() {
                   Profile
                 </Link>
               </li>
+              {hasAnyRole(auth.user, ['Admin', 'Vendor']) &&
+                <li>
+                  <a href="/admin" className="justify-between">
+                    {hasRole(auth.user, 'Admin') ? 'Admin Area' : 'Vendor Area'}
+                  </a>
+                </li>
+              }
               <li>
                 <Link href={route('logout')} method={"post"} as="button">
                   Logout
