@@ -3,7 +3,7 @@ import {Head} from '@inertiajs/react';
 import {Address, Country, PageProps} from "@/types";
 import AddressItem from "@/Pages/ShippingAddress/Partials/AddressItem";
 import {PlusCircleIcon} from "@heroicons/react/24/solid";
-import NewAddressModal from "@/Pages/ShippingAddress/Partials/NewAddressModal";
+import AddressFormModal from "@/Pages/ShippingAddress/Partials/AddressFormModal";
 import {useState} from "react";
 
 export default function Index(
@@ -41,10 +41,10 @@ export default function Index(
         </div>
       </div>
 
-      <NewAddressModal countries={countries}
-                       address={editAddress}
-                       show={showNewAddressModal}
-                       onHide={() => setShowNewAddressModal(false)}/>
+      <AddressFormModal countries={countries}
+                        address={editAddress}
+                        show={showNewAddressModal}
+                        onHide={() => setShowNewAddressModal(false)}/>
     </AuthenticatedLayout>
   );
 }

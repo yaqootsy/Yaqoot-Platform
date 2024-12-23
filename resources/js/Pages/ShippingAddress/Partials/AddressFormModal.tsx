@@ -8,7 +8,7 @@ import InputLabel from "@/Components/Core/InputLabel";
 import InputError from "@/Components/Core/InputError";
 import {Address, Country} from "@/types";
 
-function NewAddressModal(
+function AddressFormModal(
   {
     countries, show, onHide, address
   }: {
@@ -163,4 +163,4 @@ function NewAddressModal(
   );
 }
 
-export default NewAddressModal;
+export default AddressFormModal;
