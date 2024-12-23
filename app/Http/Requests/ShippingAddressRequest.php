@@ -31,7 +31,7 @@ class ShippingAddressRequest extends FormRequest
             'address1' => ['required', 'string'],
             'address2' => ['nullable', 'string'],
             'state' => ['nullable', 'required_if:country_code,USA', 'string'],
-            'primary' => ['required', 'boolean'],
+            'default' => ['required', 'boolean'],
             'delivery_instructions' => ['nullable', 'string'],
         ];
     }

@@ -14,8 +14,8 @@ function AddressItem({address, onEdit}: { address: Address, onEdit?: Function })
   }
 
   const deleteAddress = () => {
-    if (address.primary) {
-      alert('You cannot delete your primary address. Please make another address primary before deleting this one.');
+    if (address.default) {
+      alert('You cannot delete your default address. Please make another address default before deleting this one.');
       return;
     }
     if (!confirm('Are you sure you want to delete this address?')) {
@@ -36,7 +36,7 @@ function AddressItem({address, onEdit}: { address: Address, onEdit?: Function })
 
   return (
     <div
-      className={'text-sm p-4 border-2 rounded-xl w-[280px] relative overflow-hidden pr-16 ' + (address.primary ? ' border-primary' : '')}>
+      className={'text-sm p-4 border-2 rounded-xl w-[280px] relative overflow-hidden pr-16 ' + (address.default ? ' border-primary' : '')}>
       <h3 className="font-black">{address.full_name}</h3>
       <div>{address.address1} <br/>
         {address.address2} <br/>
@@ -46,12 +46,12 @@ function AddressItem({address, onEdit}: { address: Address, onEdit?: Function })
         <hr className="my-2"/>
         <em>{address.delivery_instructions}</em>
       </div>
-      {address.primary && <div
+      {address.default && <div
         className="absolute transform rotate-45 bold bg-primary py-1 px-3 text-white top-[20px] -right-[60px] w-48 text-center">
-        Primary
+        Default
       </div>}
       <div className="flex gap-2 mt-4 whitespace-nowrap">
-        {!address.primary && <>
+        {!address.default && <>
           <button onClick={ev => makeDefault()}
                   className="text-primary hover:underline">Make Default
           </button>

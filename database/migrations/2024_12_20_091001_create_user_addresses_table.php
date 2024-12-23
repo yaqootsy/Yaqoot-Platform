@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('address1', 255);
             $table->string('address2', 255)->nullable();
             $table->string('state', 255)->nullable();
-            $table->boolean('primary')->default(false);
+            $table->boolean('default')->default(false);
             $table->text('delivery_instructions')->nullable();
 
             // Foreign key to the 'countries' table
@@ -49,7 +49,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_addresses');
+        Schema::dropIfExists('addresses');
         Schema::dropIfExists('countries');
     }
 };

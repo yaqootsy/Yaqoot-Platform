@@ -25,7 +25,7 @@ function AddressFormModal(
     address1: '',
     address2: '',
     state: '',
-    primary: false,
+    default: false,
     delivery_instructions: ''
   });
 
@@ -71,10 +71,10 @@ function AddressFormModal(
         city: address.city,
         zipcode: address.zipcode,
         address1: address.address1,
-        address2: address.address2,
+        address2: address.address2 || '',
         state: address.state,
-        primary: address.primary,
-        delivery_instructions: address.delivery_instructions,
+        default: address.default,
+        delivery_instructions: address.delivery_instructions || '',
         type: address.type
       })
     }
@@ -142,7 +142,7 @@ function AddressFormModal(
           )}
           <InputGroup form={form} label='Zipcode' field='zipcode' required/>
         </div>
-        <InputGroup type="checkbox" form={form} label='Default Shipping Address' field='primary' className="mb-3"/>
+        <InputGroup type="checkbox" form={form} label='Default Shipping Address' field='default' className="mb-3"/>
         <InputGroup type="textarea"
                     form={form}
                     label='Delivery Instructions'

@@ -193,7 +193,7 @@ export type Address = {
   address1: string;
   address2: string;
   state: string;
-  primary: boolean;
+  default: boolean;
   delivery_instructions: string;
   country: Country;
 }

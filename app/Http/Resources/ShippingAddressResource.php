@@ -28,7 +28,7 @@ class ShippingAddressResource extends JsonResource
             'address1' => $this->address1,
             'address2' => $this->address2,
             'state' => $this->state,
-            'primary' => (bool)$this->primary,
+            'default' => (bool)$this->default,
             'phone' => $this->phone,
             'delivery_instructions' => $this->delivery_instructions,
         ];

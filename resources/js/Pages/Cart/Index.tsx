@@ -1,18 +1,23 @@
-import {PageProps, GroupedCartItems} from "@/types";
+import {PageProps, GroupedCartItems, Address} from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {Head, Link} from "@inertiajs/react";
 import CurrencyFormatter from "@/Components/Core/CurrencyFormatter";
 import PrimaryButton from "@/Components/Core/PrimaryButton";
 import {CreditCardIcon} from "@heroicons/react/24/outline";
 import CartItem from "@/Components/App/CartItem";
+import AddressItem from "@/Pages/ShippingAddress/Partials/AddressItem";
 
 function Index(
   {
     csrf_token,
     cartItems,
     totalQuantity,
-    totalPrice
-  }: PageProps<{ cartItems: Record<number, GroupedCartItems> }>) {
+    totalPrice,
+    shippingAddress
+  }: PageProps<{
+    cartItems: Record<number, GroupedCartItems>,
+    shippingAddress: Address
+  }>) {
   return (
     <AuthenticatedLayout>
       <Head title="Your Cart"/>
@@ -54,17 +59,46 @@ function Index(
             </div>
           </div>
         </div>
-        <div className="card bg-white dark:bg-gray-800 lg:min-w-[260px] order-1 lg:order-2">
-          <div className="card-body">
-            Subtotal ({totalQuantity} items): &nbsp;
-            <CurrencyFormatter amount={totalPrice}/>
-            <form action={route('cart.checkout')} method="post">
-              <input type="hidden" name="_token" value={csrf_token}/>
-              <PrimaryButton className="rounded-full">
-                <CreditCardIcon className={"size-6"}/>
-                Proceed to checkout
-              </PrimaryButton>
-            </form>
+        <div className="lg:min-w-[260px] order-1 lg:order-2">
+          <div className="card bg-white dark:bg-gray-800 mb-4">
+            <div className="card-body">
+              {shippingAddress && (
+                <AddressItem address={shippingAddress} />
+              )}
+              {!shippingAddress && (
+                <div className="text-gray-500 text-center">
+                  No shipping address selected. <br/>
+                  <button className="link">Select a shipping address</button>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="card bg-white dark:bg-gray-800">
+            <div className="card-body">
+              <div className="flex justify-between">
+                <span>Items ({totalQuantity})</span>
+                <CurrencyFormatter amount={totalPrice}/>
+              </div>
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span>N/A</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Tax</span>
+                <span>N/A</span>
+              </div>
+              <div className="flex justify-between font-bold text-xl">
+                <span>Order Total</span>
+                <CurrencyFormatter amount={totalPrice}/>
+              </div>
+              <form action={route('cart.checkout')} method="post">
+                <input type="hidden" name="_token" value={csrf_token}/>
+                <PrimaryButton className="rounded-full" disabled={!shippingAddress}>
+                  <CreditCardIcon className={"size-6"}/>
+                  Proceed to checkout
+                </PrimaryButton>
+              </form>
+            </div>
           </div>
         </div>
       </div>
