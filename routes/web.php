@@ -27,6 +27,8 @@ Route::controller(CartController::class)->group(function () {
         ->name('cart.update');
     Route::delete('/cart/{product}', 'destroy')
         ->name('cart.destroy');
+    Route::put('/cart/update-shipping-address/{address}', [CartController::class, 'updateShippingAddress'])
+        ->name('cart.shippingAddress');
 });
 
 Route::post('/stripe/webhook', [StripeController::class, 'webhook'])

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use SimonHamp\LaravelStripeConnect\Traits\Payable;
@@ -61,5 +62,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphMany(Address::class, 'addressable')
             ->where('type', AddressTypeEnum::Shipping);
+    }
+
+    public function shippingAddress(): MorphOne
+    {
+        return $this->morphOne(Address::class, 'addressable')
+            ->where('type', AddressTypeEnum::Shipping)
+            ->where('primary', true);
     }
 }

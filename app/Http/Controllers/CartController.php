@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnum;
+use App\Http\Resources\ShippingAddressResource;
+use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -19,8 +21,18 @@ class CartController extends Controller
      */
     public function index(CartService $cartService)
     {
+        $user = auth()->user();
+        // Get shipping address from session
+        $shippingAddressId = session()->get('shipping_address_id');
+        if ($shippingAddressId) {
+            $defaultAddress = $user->shippingAddresses->find($shippingAddressId);
+        } else {
+            $defaultAddress = $user->shippingAddress;
+        }
         return Inertia::render('Cart/Index', [
             'cartItems' => $cartService->getCartItemsGrouped(),
+            'addresses' => ShippingAddressResource::collection($user->shippingAddresses)->collection->toArray(),
+            'shippingAddress' => $defaultAddress ? new ShippingAddressResource($defaultAddress) : null
         ]);
     }
 
@@ -178,5 +190,12 @@ class CartController extends Controller
             Db::rollBack();
             return back()->with('error', $e->getMessage() ?: 'Something went wrong');
         }
+    }
+
+    public function updateShippingAddress(Address $address)
+    {
+        // Update the shipping address in session
+        session()->put('shipping_address_id', $address->id);
+        return back();
     }
 }

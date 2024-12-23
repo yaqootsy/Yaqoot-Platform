@@ -2,7 +2,12 @@ import React from 'react';
 import {Address} from "@/types";
 import {router} from "@inertiajs/react";
 
-function AddressItem({address, onEdit}: { address: Address, onEdit?: Function }) {
+function AddressItem(
+  {
+    address, onEdit, className = '', readonly = false
+  }: {
+    address: Address, onEdit?: Function, className?: string, readonly?: boolean
+  }) {
   const makeDefault = () => {
     if (!confirm('Are you sure you want to make this address your default shipping address?')) {
       return;
@@ -36,21 +41,25 @@ function AddressItem({address, onEdit}: { address: Address, onEdit?: Function })
 
   return (
     <div
-      className={'text-sm p-4 border-2 rounded-xl w-[280px] relative overflow-hidden pr-16 ' + (address.default ? ' border-primary' : '')}>
+      className={'text-sm p-4 border-2 rounded-xl w-[280px] h-48 relative overflow-hidden pr-16 ' + (address.default ? 'border-primary ' : '') + className}>
       <h3 className="font-black">{address.full_name}</h3>
       <div>{address.address1} <br/>
-        {address.address2} <br/>
+        {address.address2 && <>
+          {address.address2} <br/>
+        </>}
         {address.city}, {address.state} {address.zipcode} <br/>
         {address.country.name} <br/>
         Phone Number: {address.phone} <br/>
-        <hr className="my-2"/>
-        <em>{address.delivery_instructions}</em>
+        {address.delivery_instructions && <>
+          <hr className="my-2"/>
+          <em>{address.delivery_instructions}</em>
+        </>}
       </div>
       {address.default && <div
         className="absolute transform rotate-45 bold bg-primary py-1 px-3 text-white top-[20px] -right-[60px] w-48 text-center">
         Default
       </div>}
-      <div className="flex gap-2 mt-4 whitespace-nowrap">
+      {!readonly && <div className="flex gap-2 mt-4 whitespace-nowrap">
         {!address.default && <>
           <button onClick={ev => makeDefault()}
                   className="text-primary hover:underline">Make Default
@@ -63,7 +72,7 @@ function AddressItem({address, onEdit}: { address: Address, onEdit?: Function })
         |
         <button onClick={ev => deleteAddress()}
                 className="text-error hover:underline">Delete</button>
-      </div>
+      </div>}
     </div>
   );
 }

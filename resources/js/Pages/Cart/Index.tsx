@@ -1,11 +1,12 @@
 import {PageProps, GroupedCartItems, Address} from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import {Head, Link} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import CurrencyFormatter from "@/Components/Core/CurrencyFormatter";
 import PrimaryButton from "@/Components/Core/PrimaryButton";
 import {CreditCardIcon} from "@heroicons/react/24/outline";
 import CartItem from "@/Components/App/CartItem";
 import AddressItem from "@/Pages/ShippingAddress/Partials/AddressItem";
+import SelectAddress from "@/Components/App/SelectAddress";
 
 function Index(
   {
@@ -13,11 +14,22 @@ function Index(
     cartItems,
     totalQuantity,
     totalPrice,
-    shippingAddress
+    shippingAddress,
+    addresses
   }: PageProps<{
     cartItems: Record<number, GroupedCartItems>,
-    shippingAddress: Address
+    shippingAddress: Address,
+    addresses: Address[]
   }>) {
+
+
+  const onAddressChange = (address: Address) => {
+    router.put(route('cart.shippingAddress', address.id), {}, {
+      preserveScroll: true,
+      preserveState: true,
+    });
+  }
+
   return (
     <AuthenticatedLayout>
       <Head title="Your Cart"/>
@@ -63,18 +75,28 @@ function Index(
           <div className="card bg-white dark:bg-gray-800 mb-4">
             <div className="card-body">
               {shippingAddress && (
-                <AddressItem address={shippingAddress} />
+                <>
+                  <h2 className="text-lg font-bold border-b pb-2 mb-2">
+                    Shipping Address
+                  </h2>
+                  <AddressItem address={shippingAddress} readonly={true}
+                               className="w-auto h-auto border-none !p-0 pr-0"/>
+                </>
               )}
               {!shippingAddress && (
                 <div className="text-gray-500 text-center">
+                  <pre>{JSON.stringify(shippingAddress, undefined, 2)}</pre>
                   No shipping address selected. <br/>
-                  <button className="link">Select a shipping address</button>
                 </div>
               )}
+              <SelectAddress addresses={addresses}
+                             selectedAddress={shippingAddress}
+                             onChange={onAddressChange}
+                             buttonLabel="Change Address"/>
             </div>
           </div>
           <div className="card bg-white dark:bg-gray-800">
-            <div className="card-body">
+            <div className="card-body gap-1">
               <div className="flex justify-between">
                 <span>Items ({totalQuantity})</span>
                 <CurrencyFormatter amount={totalPrice}/>
@@ -93,7 +115,7 @@ function Index(
               </div>
               <form action={route('cart.checkout')} method="post">
                 <input type="hidden" name="_token" value={csrf_token}/>
-                <PrimaryButton className="rounded-full" disabled={!shippingAddress}>
+                <PrimaryButton className="rounded-full w-full mt-4" disabled={!shippingAddress}>
                   <CreditCardIcon className={"size-6"}/>
                   Proceed to checkout
                 </PrimaryButton>
