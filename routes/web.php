@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/shipping-address', [ShippingAddressController::class, 'index'])
+        ->name('shippingAddress.index');
+
+    Route::post('/shipping-address', [ShippingAddressController::class, 'store'])
+        ->name('shippingAddress.store');
+
+    Route::put('/shipping-address/{address}', [ShippingAddressController::class, 'update'])
+        ->name('shippingAddress.update');
+
+    Route::put('/shipping-address/make-default/{address}', [ShippingAddressController::class, 'makeDefault'])
+        ->name('shippingAddress.makeDefault');
+
+    Route::delete('/shipping-address/{address}', [ShippingAddressController::class, 'destroy'])
+        ->name('shippingAddress.destroy');
 
     Route::middleware(['verified'])->group(function () {
         Route::post('/cart/checkout', [CartController::class, 'checkout'])
