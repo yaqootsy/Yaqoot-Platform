@@ -30,9 +30,16 @@ class ShippingAddressRequest extends FormRequest
             'zipcode' => ['required', 'string'],
             'address1' => ['required', 'string'],
             'address2' => ['nullable', 'string'],
-            'state' => ['nullable', 'string'],
+            'state' => ['nullable', 'required_if:country_code,USA', 'string'],
             'primary' => ['required', 'boolean'],
             'delivery_instructions' => ['nullable', 'string'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'state.required_if' => 'The state field is required',
         ];
     }
 

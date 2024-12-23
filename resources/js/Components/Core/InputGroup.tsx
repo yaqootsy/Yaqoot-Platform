@@ -9,17 +9,19 @@ import TextAreaInput from "@/Components/Core/TextAreaInput";
 
 function InputGroup(
   {
-    type = 'text',
     form,
     label,
     field,
+    required = false,
+    type = 'text',
     className = '',
     placeholder = '',
   }: {
-    type?: string,
     form: InertiaFormProps,
     label: string,
     field: string,
+    required?: boolean,
+    type?: string,
     className?: string,
     placeholder?: string,
   }) {
@@ -36,7 +38,7 @@ function InputGroup(
               }
             />
             <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
-                {label}
+                {label} {required && <span className="text-error">*</span>}
             </span>
           </label>
 
@@ -44,7 +46,9 @@ function InputGroup(
       )}
       {type !== 'checkbox' && (
         <>
-          <InputLabel htmlFor={field} value={label}/>
+          <InputLabel htmlFor={field}>
+            {label} {required && <span className="text-error">*</span>}
+          </InputLabel>
 
           {type !== 'textarea' && <TextInput
             id={field}

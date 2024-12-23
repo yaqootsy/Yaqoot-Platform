@@ -88,13 +88,15 @@ function NewAddressModal(
         </h2>
 
         <div className="mb-3">
-          <InputLabel htmlFor="country_code" value="Country"/>
+          <InputLabel htmlFor="country_code">
+            Country <span className="text-error">*</span>
+          </InputLabel>
 
           <select
             id="country_code"
             name="country_code"
             value={form.data.country_code}
-            className="select select-bordered w-full mt-1"
+            className={"select select-bordered w-full mt-1 " + (form.errors.country_code ? 'select-error' : '')}
             onChange={(e) => form.setData('country_code', e.target.value)}
           >
             <option value="">Select a country</option>
@@ -104,24 +106,26 @@ function NewAddressModal(
           <InputError message={form.errors.country_code} className="mt-2"/>
         </div>
         <div className="flex flex-col md:flex-row gap-4 mb-3">
-          <InputGroup form={form} label='Full Name' field='full_name' className="w-full"/>
-          <InputGroup form={form} label='Phone' field='phone' className="w-full"/>
+          <InputGroup form={form} label='Full Name' field='full_name' className="w-full" required/>
+          <InputGroup form={form} label='Phone' field='phone' className="w-full" required/>
         </div>
         <div className="flex flex-col md:flex-row gap-4 mb-3">
-          <InputGroup form={form} label='Address line 1' field='address1' className="w-full"/>
+          <InputGroup form={form} label='Address line 1' field='address1' className="w-full" required/>
           <InputGroup form={form} label='Address line 2' field='address2' className="w-full"/>
         </div>
         <div className="flex flex-col md:flex-row gap-4 mb-3">
-          <InputGroup form={form} label='City' field='city'/>
+          <InputGroup form={form} label='City' field='city' required/>
           {selectedCountry?.states && Object.keys(selectedCountry.states).length > 0 && (
             <div>
-              <InputLabel htmlFor="state" value="State"/>
+              <InputLabel htmlFor="state">
+                State <span className="text-error">*</span>
+              </InputLabel>
 
               <select
                 id="state"
                 name="state"
                 value={form.data.state}
-                className="select select-bordered w-full mt-1"
+                className={"select select-bordered w-full mt-1" + (form.errors.state ? ' select-error' : '')}
                 onChange={(e) => form.setData('state', e.target.value)}
               >
                 <option value="">Select a state</option>
@@ -136,7 +140,7 @@ function NewAddressModal(
           {!(selectedCountry?.states && Object.keys(selectedCountry.states).length > 0) && (
             <InputGroup form={form} label='State' field='state'/>
           )}
-          <InputGroup form={form} label='Zipcode' field='zipcode'/>
+          <InputGroup form={form} label='Zipcode' field='zipcode' required/>
         </div>
         <InputGroup type="checkbox" form={form} label='Default Shipping Address' field='primary' className="mb-3"/>
         <InputGroup type="textarea"
