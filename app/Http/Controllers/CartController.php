@@ -21,14 +21,7 @@ class CartController extends Controller
      */
     public function index(CartService $cartService)
     {
-        $user = auth()->user();
-        // Get shipping address from session
-        $shippingAddressId = session()->get('shipping_address_id');
-        if ($shippingAddressId) {
-            $defaultAddress = $user->shippingAddresses->find($shippingAddressId);
-        } else {
-            $defaultAddress = $user->shippingAddress;
-        }
+        list($user, $defaultAddress) = $this->userShippingAddress();
         return Inertia::render('Cart/Index', [
             'cartItems' => $cartService->getCartItemsGrouped(),
             'addresses' => ShippingAddressResource::collection($user->shippingAddresses)->collection->toArray(),
@@ -56,7 +49,7 @@ class CartController extends Controller
         $cartQuantity = $cartService->getQuantity($product, $data['option_ids']);
 
         if ($cartQuantity + $data['quantity'] > $productTotalQuantity) {
-            $message = match($productTotalQuantity - $cartQuantity) {
+            $message = match ($productTotalQuantity - $cartQuantity) {
                 0 => 'The Product is out of stock',
                 1 => 'There is only 1 item left in stock',
                 default => 'There are only ' . ($productTotalQuantity - $cartQuantity) . ' items left in stock'
@@ -80,7 +73,7 @@ class CartController extends Controller
     {
         $request->validate([
             'quantity' => [
-                'integer', 'min:1', function($attribute, $value, $fail) use ($product, $request) {
+                'integer', 'min:1', function ($attribute, $value, $fail) use ($product, $request) {
                     $optionIds = $request->input('option_ids') ?: [];
                     $productTotalQuantity = $product->getTotalQuantity($optionIds);
 
@@ -119,6 +112,8 @@ class CartController extends Controller
 
         $allCartItems = $cartService->getCartItemsGrouped();
 
+        list($authUser, $defaultAddress) = $this->userShippingAddress();
+
         DB::beginTransaction();
         try {
             $checkoutCartItems = $allCartItems;
@@ -133,11 +128,16 @@ class CartController extends Controller
 
                 $order = Order::create([
                     'stripe_session_id' => null,
-                    'user_id' => $request->user()->id,
+                    'user_id' => $authUser->id,
                     'vendor_user_id' => $user['id'],
                     'total_price' => $item['totalPrice'],
                     'status' => OrderStatusEnum::Draft->value
                 ]);
+                $tmpAddressData = $defaultAddress->toArray();
+                $tmpAddressData['addressable_id'] = $order->id;
+                $tmpAddressData['addressable_type'] = Order::class;
+                unset($tmpAddressData['id']);
+                $order->shippingAddress()->create($tmpAddressData);
                 $orders[] = $order;
 
                 foreach ($cartItems as $cartItem) {
@@ -171,7 +171,7 @@ class CartController extends Controller
                 }
             }
             $session = \Stripe\Checkout\Session::create([
-                'customer_email' => $request->user()->email,
+                'customer_email' => $authUser->email,
                 'line_items' => $lineItems,
                 'mode' => 'payment',
                 'success_url' => route('stripe.success', []) . "?session_id={CHECKOUT_SESSION_ID}",
@@ -194,8 +194,27 @@ class CartController extends Controller
 
     public function updateShippingAddress(Address $address)
     {
+        // TODO Check if the address belongs to the authenticated user
         // Update the shipping address in session
         session()->put('shipping_address_id', $address->id);
         return back();
+    }
+
+    /**
+     * @return array
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function userShippingAddress(): array
+    {
+        $user = auth()->user();
+        // Get shipping address from session
+        $shippingAddressId = session()->get('shipping_address_id');
+        if ($shippingAddressId) {
+            $defaultAddress = $user->shippingAddresses->find($shippingAddressId);
+        } else {
+            $defaultAddress = $user->shippingAddress;
+        }
+        return array($user, $defaultAddress);
     }
 }

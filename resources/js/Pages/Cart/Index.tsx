@@ -79,7 +79,9 @@ function Index(
                   <h2 className="text-lg font-bold border-b pb-2 mb-2">
                     Shipping Address
                   </h2>
-                  <AddressItem address={shippingAddress} readonly={true}
+                  <AddressItem address={shippingAddress}
+                               readonly={true}
+                               defaultBadge={false}
                                className="w-auto h-auto border-none !p-0 pr-0"/>
                 </>
               )}

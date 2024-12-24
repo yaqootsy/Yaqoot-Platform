@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Order extends Model
 {
@@ -43,5 +44,10 @@ class Order extends Model
     public function vendor(): BelongsTo
     {
         return $this->belongsTo(Vendor::class, 'vendor_user_id', 'user_id');
+    }
+
+    public function shippingAddress(): MorphOne
+    {
+        return $this->morphOne(Address::class, 'addressable');
     }
 }

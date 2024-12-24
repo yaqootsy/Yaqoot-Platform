@@ -4,9 +4,9 @@ import {router} from "@inertiajs/react";
 
 function AddressItem(
   {
-    address, onEdit, className = '', readonly = false
+    address, onEdit, className = '', readonly = false, defaultBadge = true
   }: {
-    address: Address, onEdit?: Function, className?: string, readonly?: boolean
+    address: Address, onEdit?: Function, className?: string, readonly?: boolean, defaultBadge?: boolean
   }) {
   const makeDefault = () => {
     if (!confirm('Are you sure you want to make this address your default shipping address?')) {
@@ -55,7 +55,7 @@ function AddressItem(
           <em>{address.delivery_instructions}</em>
         </>}
       </div>
-      {address.default && <div
+      {address.default && defaultBadge && <div
         className="absolute transform rotate-45 bold bg-primary py-1 px-3 text-white top-[20px] -right-[60px] w-48 text-center">
         Default
       </div>}
