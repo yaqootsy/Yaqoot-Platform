@@ -26,10 +26,10 @@ class ShippingAddressController extends Controller
     {
         $user = Auth::user();
         $address = $user->shippingAddresses()->create($request->validated());
-        if ($request->primary) {
+        if ($request->default) {
             $user->shippingAddresses()
                 ->where('id', '!=', $address->id)
-                ->update(['primary' => false]);
+                ->update(['default' => false]);
         }
         return redirect()->route('shippingAddress.index')
             ->with('success', 'Shipping address created.');
@@ -37,12 +37,13 @@ class ShippingAddressController extends Controller
 
     public function update(ShippingAddressRequest $request, Address $address)
     {
+        // TODO Check if the address belongs to the user
         $user = Auth::user();
         $address->update($request->validated());
-        if ($request->primary) {
+        if ($request->default) {
             $user->shippingAddresses()
                 ->where('id', '!=', $address->id)
-                ->update(['primary' => false]);
+                ->update(['default' => false]);
         }
         return redirect()->route('shippingAddress.index')
             ->with('success', 'Shipping address updated.');
@@ -50,18 +51,20 @@ class ShippingAddressController extends Controller
 
     public function makeDefault(Address $address)
     {
+        // TODO Check if the address belongs to the user
         $user = Auth::user();
         $user->shippingAddresses()
             ->where('id', '!=', $address->id)
-            ->update(['primary' => false]);
+            ->update(['default' => false]);
 
-        $address->update(['primary' => 1]);
+        $address->update(['default' => 1]);
         return redirect()->route('shippingAddress.index')
             ->with('successToast', 'Default shipping address updated.');
     }
 
     public function destroy(Address $address)
     {
+        // TODO Check if the address belongs to the user
         $address->delete();
         return redirect()->route('shippingAddress.index')
             ->with('successToast', 'Shipping address deleted.');

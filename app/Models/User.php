@@ -68,6 +68,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphOne(Address::class, 'addressable')
             ->where('type', AddressTypeEnum::Shipping)
-            ->where('primary', true);
+            ->where('default', true);
     }
 }
