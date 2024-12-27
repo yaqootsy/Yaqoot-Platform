@@ -37,7 +37,9 @@ class ShippingAddressController extends Controller
 
     public function update(ShippingAddressRequest $request, Address $address)
     {
-        // TODO Check if the address belongs to the user
+        if (!$address->belongs(auth()->user())) {
+            abort(403, "Unauthorized");
+        }
         $user = Auth::user();
         $address->update($request->validated());
         if ($request->default) {
@@ -51,7 +53,9 @@ class ShippingAddressController extends Controller
 
     public function makeDefault(Address $address)
     {
-        // TODO Check if the address belongs to the user
+        if (!$address->belongs(auth()->user())) {
+            abort(403, "Unauthorized");
+        }
         $user = Auth::user();
         $user->shippingAddresses()
             ->where('id', '!=', $address->id)
@@ -64,7 +68,9 @@ class ShippingAddressController extends Controller
 
     public function destroy(Address $address)
     {
-        // TODO Check if the address belongs to the user
+        if (!$address->belongs(auth()->user())) {
+            abort(403, "Unauthorized");
+        }
         $address->delete();
         return redirect()->route('shippingAddress.index')
             ->with('successToast', 'Shipping address deleted.');

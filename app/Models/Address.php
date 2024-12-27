@@ -25,4 +25,9 @@ class Address extends Model
     {
         return $this->belongsTo(Country::class, 'country_code', 'code');
     }
+
+    public function belongs(User $user): bool
+    {
+        return $this->addressable_type === User::class && $this->addressable_id === $user->id;
+    }
 }

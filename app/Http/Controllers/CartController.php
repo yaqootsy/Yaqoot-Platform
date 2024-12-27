@@ -194,7 +194,9 @@ class CartController extends Controller
 
     public function updateShippingAddress(Address $address)
     {
-        // TODO Check if the address belongs to the authenticated user
+        if (!$address->belongs(auth()->user())) {
+            abort(403, "Unauthorized");
+        }
         // Update the shipping address in session
         session()->put('shipping_address_id', $address->id);
         return back();
