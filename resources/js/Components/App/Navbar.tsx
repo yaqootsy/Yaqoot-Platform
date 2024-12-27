@@ -78,6 +78,11 @@ function Navbar() {
                 </li>
               }
               <li>
+                <Link href={route('shippingAddress.index')} className="justify-between">
+                  My Addresses
+                </Link>
+              </li>
+              <li>
                 <Link href={route('logout')} method={"post"} as="button">
                   Logout
                 </Link>

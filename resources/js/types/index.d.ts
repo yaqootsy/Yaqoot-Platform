@@ -180,3 +180,29 @@ export type Department = {
   meta_description: string;
   categories: Category[]
 }
+
+export type Address = {
+  id: number;
+  user_id: number;
+  country_code: string;
+  full_name: string;
+  phone: string;
+  city: string;
+  type: string;
+  zipcode: string;
+  address1: string;
+  address2: string;
+  state: string;
+  default: boolean;
+  delivery_instructions: string;
+  country: Country;
+}
+
+export type Country = {
+  code: string;
+  name: string;
+  active: boolean;
+  states?: {
+    [key: string]: string;
+  }
+}

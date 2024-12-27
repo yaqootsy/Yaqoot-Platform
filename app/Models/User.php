@@ -3,9 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\AddressTypeEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use SimonHamp\LaravelStripeConnect\Traits\Payable;
@@ -53,5 +56,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function vendor(): HasOne
     {
         return $this->hasOne(Vendor::class, 'user_id');
+    }
+
+    public function shippingAddresses(): MorphMany
+    {
+        return $this->morphMany(Address::class, 'addressable')
+            ->where('type', AddressTypeEnum::Shipping);
+    }
+
+    public function shippingAddress(): MorphOne
+    {
+        return $this->morphOne(Address::class, 'addressable')
+            ->where('type', AddressTypeEnum::Shipping)
+            ->where('default', true);
     }
 }
