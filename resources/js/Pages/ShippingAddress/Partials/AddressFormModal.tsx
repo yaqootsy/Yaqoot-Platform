@@ -105,15 +105,15 @@ function AddressFormModal(
 
           <InputError message={form.errors.country_code} className="mt-2"/>
         </div>
-        <div className="flex flex-col md:flex-row gap-4 mb-3">
+        <div className="flex flex-col sm:flex-row gap-4 mb-3">
           <InputGroup form={form} label='Full Name' field='full_name' className="w-full" required/>
           <InputGroup form={form} label='Phone' field='phone' className="w-full" required/>
         </div>
-        <div className="flex flex-col md:flex-row gap-4 mb-3">
+        <div className="flex flex-col sm:flex-row gap-4 mb-3">
           <InputGroup form={form} label='Address line 1' field='address1' className="w-full" required/>
           <InputGroup form={form} label='Address line 2' field='address2' className="w-full"/>
         </div>
-        <div className="flex flex-col md:flex-row gap-4 mb-3">
+        <div className="flex flex-col sm:flex-row gap-4 mb-3">
           <InputGroup form={form} label='City' field='city' required/>
           {selectedCountry?.states && Object.keys(selectedCountry.states).length > 0 && (
             <div>
