@@ -38,7 +38,7 @@ return new class extends Migration
                 ->references('code')
                 ->on('countries')
                 ->onUpdate('cascade')
-                ->onDelete('set null');
+                ->onDelete('cascade');
 
             $table->timestamps();
         });
