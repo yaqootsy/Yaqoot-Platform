@@ -41,7 +41,8 @@ function AddressItem(
 
   return (
     <div
-      className={'text-sm p-4 border-2 rounded-xl w-full md:w-[280px] min-h-48 relative overflow-hidden pr-16 ' + (address.default ? 'border-primary ' : '') + className}>
+      className={'text-sm p-4 border-2 dark:border-gray-700 rounded-xl w-full md:w-[280px] min-h-48 relative overflow-hidden pr-16 ' +
+          (address.default ? 'border-primary dark:border-primary' : '') + className}>
       <h3 className="font-black">{address.full_name}</h3>
       <div>{address.address1} <br/>
         {address.address2 && <>

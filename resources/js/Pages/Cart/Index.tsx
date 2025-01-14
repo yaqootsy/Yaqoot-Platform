@@ -87,7 +87,6 @@ function Index(
               )}
               {!shippingAddress && (
                 <div className="text-gray-500 text-center">
-                  <pre>{JSON.stringify(shippingAddress, undefined, 2)}</pre>
                   No shipping address selected. <br/>
                 </div>
               )}
