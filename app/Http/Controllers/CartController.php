@@ -24,7 +24,7 @@ class CartController extends Controller
         list($user, $defaultAddress) = $this->userShippingAddress();
         return Inertia::render('Cart/Index', [
             'cartItems' => $cartService->getCartItemsGrouped(),
-            'addresses' => ShippingAddressResource::collection($user->shippingAddresses)->collection->toArray(),
+            'addresses' => $user ? ShippingAddressResource::collection($user->shippingAddresses)->collection->toArray() : [],
             'shippingAddress' => $defaultAddress ? new ShippingAddressResource($defaultAddress) : null
         ]);
     }
@@ -210,6 +210,9 @@ class CartController extends Controller
     public function userShippingAddress(): array
     {
         $user = auth()->user();
+        if (!$user) {
+            return [null, null];
+        }
         // Get shipping address from session
         $shippingAddressId = session()->get('shipping_address_id');
         if ($shippingAddressId) {

@@ -43,11 +43,16 @@ function SelectAddress(
             Select a shipping address
           </h2>
           <div className="flex flex-wrap gap-2">
+            {!addresses.length && (
+              <div className="text-center py-16 px-8 flex-1 text-gray-500">
+                You don't have any addresses yet.
+              </div>
+            )}
             {addresses.map(address => (
               <div key={address.id} className="flex items-center gap-4">
                 <div key={address.id} className="form-control">
                   <label className="label cursor-pointer gap-4">
-                    <input onClick={ev => selectAddress(address)}
+                    <input onChange={ev => selectAddress(address)}
                            type="radio"
                            name="selected_address"
                            checked={selected?.id === address.id}
@@ -55,7 +60,7 @@ function SelectAddress(
 
                     <AddressItem address={address}
                                  readonly={true}
-                                 className={'w-[260px] hover:border-primary ' + (selected?.id === address.id ? 'border-primary' : '')}/>
+                                 className={'w-[260px] hover:border-primary ' + (selected?.id == address.id ? 'border-primary dark:border-primary' : '')}/>
                   </label>
                 </div>
               </div>
