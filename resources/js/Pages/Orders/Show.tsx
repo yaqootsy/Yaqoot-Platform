@@ -165,9 +165,9 @@ export default function Show({ order }: { order: Order }) {
                   <tr>
                     <th>Product</th>
                     <th>Variations</th>
-                    <th class="text-right">Price</th>
-                    <th class="text-right">Quantity</th>
-                    <th class="text-right">Total</th>
+                    <th className="text-right">Price</th>
+                    <th className="text-right">Quantity</th>
+                    <th className="text-right">Total</th>
                   </tr>
                 </thead>
                 <tbody>

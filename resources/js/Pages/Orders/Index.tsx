@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { formatPrice } from '@/helpers';
+import Pagination from '@/Components/Core/Pagination';
 
 interface OrderItem {
   id: number;
@@ -26,6 +27,34 @@ interface ShippingAddress {
     id: number;
     name: string;
   };
+}
+
+// Pagination meta data interface
+interface PaginationMeta {
+  current_page: number;
+  from: number;
+  last_page: number;
+  links: Array<{
+    url: string | null;
+    label: string;
+    active: boolean;
+  }>;
+  path: string;
+  per_page: number;
+  to: number;
+  total: number;
+}
+
+// Paginator interface
+interface Paginator<T> {
+  data: T[];
+  links: {
+    first: string | null;
+    last: string | null;
+    prev: string | null;
+    next: string | null;
+  };
+  meta: PaginationMeta;
 }
 
 interface Order {
@@ -59,7 +88,7 @@ const getStatusBadgeClass = (status: string): string => {
   }
 };
 
-export default function Index({ orders }: { orders: Order[] }) {
+export default function Index({ orders }: { orders: Paginator<Order> }) {
   return (
     <AuthenticatedLayout>
       <Head title="My Orders" />
@@ -72,7 +101,7 @@ export default function Index({ orders }: { orders: Order[] }) {
           </p>
         </div>
 
-        {orders.length === 0 ? (
+        {orders.data.length === 0 ? (
           <div className="text-center py-12">
             <svg 
               className="mx-auto h-16 w-16 text-base-content opacity-30" 
@@ -115,7 +144,7 @@ export default function Index({ orders }: { orders: Order[] }) {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order) => (
+                {orders.data.map((order) => (
                   <tr key={order.id} className="hover">
                     <td>
                       #{order.id}
@@ -157,6 +186,13 @@ export default function Index({ orders }: { orders: Order[] }) {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {orders.data.length > 0 && (
+          <div className="mt-6">
+            <Pagination links={orders.meta.links} />
           </div>
         )}
       </div>

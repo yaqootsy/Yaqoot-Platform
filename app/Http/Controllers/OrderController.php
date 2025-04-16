@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnum;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,10 +19,10 @@ class OrderController extends Controller
             ->with(['orderItems.product', 'shippingAddress'])
             ->where('status', '!=', OrderStatusEnum::Draft->value) // Exclude draft orders
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10); // Show 10 orders per page
 
         return Inertia::render('Orders/Index', [
-            'orders' => $orders,
+            'orders' => OrderResource::collection($orders),
         ]);
     }
 
@@ -42,7 +43,7 @@ class OrderController extends Controller
         ]);
 
         return Inertia::render('Orders/Show', [
-            'order' => $order,
+            'order' => new OrderResource($order),
         ]);
     }
 
@@ -71,7 +72,8 @@ class OrderController extends Controller
         }
         $order->subtotal = $subtotal;
 
-        // Generate invoice and return view
+        // For the invoice view, we'll still use the raw model with the subtotal added
+        // Since this goes to a Blade view, not an Inertia component
         return view('orders.invoice', compact('order'));
     }
 }
