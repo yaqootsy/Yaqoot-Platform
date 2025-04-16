@@ -40,6 +40,10 @@ class OrderResource extends Resource
                     ->label(__('Status'))
                     ->options(OrderStatusEnum::labels())
                     ->required(),
+                Forms\Components\TextInput::make('tracking_code')
+                    ->label(__('Shipping Tracking Code'))
+                    ->placeholder('Enter shipping tracking number')
+                    ->helperText('Provide the tracking code from the shipping carrier. The customer will receive an email notification.')
             ]);
     }
 
@@ -69,6 +73,12 @@ class OrderResource extends Resource
                     ->badge()
                     ->colors(OrderStatusEnum::colors())
                     ->sortable(),
+                Tables\Columns\TextColumn::make('tracking_code')
+                    ->label(__('Tracking Code'))
+                    ->searchable()
+                    ->placeholder('—')
+                    ->copyable()
+                    ->icon('heroicon-o-truck'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
