@@ -78,6 +78,11 @@ function Navbar() {
                 </li>
               }
               <li>
+                <Link href={route('orders.index')} className="justify-between">
+                  My Orders
+                </Link>
+              </li>
+              <li>
                 <Link href={route('shippingAddress.index')} className="justify-between">
                   My Addresses
                 </Link>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeController;
@@ -55,6 +56,11 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/shipping-address/{address}', [ShippingAddressController::class, 'destroy'])
         ->name('shippingAddress.destroy');
+    
+    // Orders routes for buyers
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 
     Route::middleware(['verified'])->group(function () {
         Route::post('/cart/checkout', [CartController::class, 'checkout'])

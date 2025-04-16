@@ -23,3 +23,11 @@ export const hasRole = (user: User, role: string) => {
 export const hasAnyRole = (user: User, roles: string[]) => {
   return roles.some(role => user.roles.includes(role))
 }
+
+export const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',  // This should ideally come from a config or context
+    minimumFractionDigits: 2
+  }).format(price)
+}
