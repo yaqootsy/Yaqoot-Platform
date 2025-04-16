@@ -25,135 +25,208 @@ class ViewOrder extends ViewRecord
     {
         return $infolist
             ->schema([
-                Section::make('Order Details')
+                Grid::make()
                     ->schema([
-                        Grid::make(3)
-                            ->schema([
-                                TextEntry::make('id')
-                                    ->label('Order Number')
-                                    ->size('lg')
-                                    ->weight('bold'),
-                                TextEntry::make('created_at')
-                                    ->label('Date')
-                                    ->dateTime(),
-                                TextEntry::make('status')
-                                    ->label('Status')
-                                    ->badge()
-                                    ->color(fn (string $state): string => match($state) {
-                                        OrderStatusEnum::Paid->value => 'primary',
-                                        OrderStatusEnum::Shipped->value => 'warning',
-                                        OrderStatusEnum::Delivered->value => 'success',
-                                        OrderStatusEnum::Cancelled->value => 'danger',
-                                        default => 'gray',
-                                    }),
-                                TextEntry::make('total_price')
-                                    ->label('Total Price')
-                                    ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
-                                    ->size('lg')
-                                    ->weight('bold'),
-                                TextEntry::make('vendor_subtotal')
-                                    ->label('Vendor Subtotal')
-                                    ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency'))),
-                                TextEntry::make('online_payment_commission')
-                                    ->label('Payment Commission')
-                                    ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency'))),
-                                TextEntry::make('website_commission')
-                                    ->label('Website Commission')
-                                    ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency'))),
-                            ]),
-                    ]),
-
-                Grid::make(2)
-                    ->schema([
-                        Card::make()
-                            ->schema([
-                                Section::make('Customer Information')
-                                    ->schema([
-                                        TextEntry::make('user.name')
-                                            ->label('Customer Name')
-                                            ->icon('heroicon-o-user'),
-                                        TextEntry::make('user.email')
-                                            ->label('Customer Email')
-                                            ->icon('heroicon-o-envelope'),
-                                    ])
-                                    ->columns(1),
-                            ])
-                            ->columnSpan(1),
-
-                        Card::make()
-                            ->schema([
-                                Section::make('Shipping Address')
-                                    ->schema([
-                                        TextEntry::make('shippingAddress.full_name')
-                                            ->label('Full Name'),
-                                        TextEntry::make('shippingAddress.phone')
-                                            ->label('Phone')
-                                            ->icon('heroicon-o-phone'),
-                                        TextEntry::make('shippingAddress.address1')
-                                            ->label('Address Line 1'),
-                                        TextEntry::make('shippingAddress.address2')
-                                            ->label('Address Line 2')
-                                            ->visible(fn ($record) => !empty($record->shippingAddress?->address2)),
-                                        Grid::make(3)
-                                            ->schema([
-                                                TextEntry::make('shippingAddress.city')
-                                                    ->label('City'),
-                                                TextEntry::make('shippingAddress.state')
-                                                    ->label('State/Province'),
-                                                TextEntry::make('shippingAddress.zipcode')
-                                                    ->label('Zip/Postal Code'),
-                                            ]),
-                                        TextEntry::make('shippingAddress.country.name')
-                                            ->label('Country'),
-                                        TextEntry::make('shippingAddress.delivery_instructions')
-                                            ->label('Delivery Instructions')
-                                            ->visible(fn ($record) => !empty($record->shippingAddress?->delivery_instructions)),
-                                    ])
-                                    ->columns(1),
-                            ])
-                            ->columnSpan(1),
-                    ]),
-
-                Section::make('Order Items')
-                    ->schema([
+                        // First row - Order summary card
                         Card::make()
                             ->schema([
                                 Grid::make()
                                     ->schema([
-                                        TextEntry::make('subtotal')
-                                            ->label('Subtotal')
-                                            ->state(function ($record) {
-                                                $subtotal = 0;
-                                                foreach ($record->orderItems as $item) {
-                                                    $subtotal += $item->price * $item->quantity;
-                                                }
-                                                return $subtotal;
-                                            })
-                                            ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
-                                            ->alignEnd(),
+                                        // First column - Order identifiers
+                                        Group::make([
+                                            TextEntry::make('id')
+                                                ->label('Order #')
+                                                ->size('lg')
+                                                ->weight('bold')
+                                                ->copyable(),
+                                            TextEntry::make('created_at')
+                                                ->label('Date')
+                                                ->dateTime('M d, Y h:i A'),
+                                        ])
+                                        ->columnSpan(['lg' => 1]),
+                                            
+                                        // Second column - Status
+                                        Group::make([
+                                            TextEntry::make('status')
+                                                ->label('Status')
+                                                ->badge()
+                                                ->size('lg')
+                                                ->color(fn (string $state): string => match($state) {
+                                                    OrderStatusEnum::Paid->value => 'primary',
+                                                    OrderStatusEnum::Shipped->value => 'warning',
+                                                    OrderStatusEnum::Delivered->value => 'success',
+                                                    OrderStatusEnum::Cancelled->value => 'danger',
+                                                    default => 'gray',
+                                                })
+                                        ])
+                                        ->columnSpan(['lg' => 1]),
 
-                                        TextEntry::make('total')
-                                            ->label('Total')
-                                            ->state(function ($record) {
-                                                return $record->total_price;
-                                            })
-                                            ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
-                                            ->weight('bold')
-                                            ->size('lg')
-                                            ->alignEnd(),
+                                        // Third column - Totals
+                                        Group::make([
+                                            TextEntry::make('total_price')
+                                                ->label('Total')
+                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                ->size('lg')
+                                                ->weight('bold')
+                                                ->color('success')
+                                        ])
+                                        ->columnSpan(['lg' => 1])
+                                    ])
+                                    ->columns(3)
+                            ])
+                            ->columnSpan(['lg' => 2]),
+                            
+                        // Second row - Financial details card
+                        Card::make()
+                            ->schema([
+                                Group::make([
+                                    TextEntry::make('vendor_subtotal')
+                                        ->label('Vendor Subtotal')
+                                        ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                        ->inlineLabel()
+                                        ->size('sm'),
+                                        
+                                    TextEntry::make('online_payment_commission')
+                                        ->label('Payment Commission')
+                                        ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                        ->inlineLabel()
+                                        ->size('sm'),
+                                        
+                                    TextEntry::make('website_commission')
+                                        ->label('Website Commission')
+                                        ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                        ->inlineLabel()
+                                        ->size('sm'),
+                                ])
+                            ])
+                            ->collapsible()
+                            ->columnSpan(['lg' => 1]),
+                    ])
+                    ->columns(['lg' => 3]),
+                    
+                // Customer and Shipping Information
+                Grid::make()
+                    ->schema([
+                        // Customer information
+                        Card::make()
+                            ->schema([
+                                Section::make('Customer Information')
+                                    ->collapsible(false)
+                                    ->compact()
+                                    ->schema([
+                                        TextEntry::make('user.name')
+                                            ->label('Name')
+                                            ->icon('heroicon-o-user')
+                                            ->weight('medium'),
+                                            
+                                        TextEntry::make('user.email')
+                                            ->label('Email')
+                                            ->icon('heroicon-o-envelope')
+                                            ->copyable(),
+                                    ])
+                                    ->columns(1),
+                            ])
+                            ->columnSpan(['lg' => 1]),
+
+                        // Shipping address
+                        Card::make()
+                            ->schema([
+                                Section::make('Shipping Details')
+                                    ->compact()
+                                    ->collapsible(false)
+                                    ->schema([
+                                        Grid::make(2)
+                                            ->schema([
+                                                TextEntry::make('shippingAddress.full_name')
+                                                    ->label('Recipient')
+                                                    ->icon('heroicon-o-user')
+                                                    ->weight('medium'),
+                                                    
+                                                TextEntry::make('shippingAddress.phone')
+                                                    ->label('Phone')
+                                                    ->icon('heroicon-o-phone')
+                                                    ->copyable(),
+                                            ]),
+                                                    
+                                        TextEntry::make('shippingAddress.address1')
+                                            ->label('Address')
+                                            ->icon('heroicon-o-map-pin'),
+                                            
+                                        TextEntry::make('shippingAddress.address2')
+                                            ->label('Address Line 2')
+                                            ->visible(fn ($record) => !empty($record->shippingAddress?->address2)),
+                                            
+                                        Grid::make(3)
+                                            ->schema([
+                                                TextEntry::make('shippingAddress.city')
+                                                    ->label('City'),
+                                                    
+                                                TextEntry::make('shippingAddress.state')
+                                                    ->label('State'),
+                                                    
+                                                TextEntry::make('shippingAddress.zipcode')
+                                                    ->label('Zip Code'),
+                                            ]),
+                                            
+                                        TextEntry::make('shippingAddress.country.name')
+                                            ->label('Country'),
+                                            
+                                        TextEntry::make('shippingAddress.delivery_instructions')
+                                            ->label('Delivery Notes')
+                                            ->visible(fn ($record) => !empty($record->shippingAddress?->delivery_instructions))
+                                            ->icon('heroicon-o-information-circle'),
+                                    ]),
+                            ])
+                            ->columnSpan(['lg' => 2]),
+                    ])
+                    ->columns(['lg' => 3]),
+
+                // Order Items Section
+                Card::make()
+                    ->schema([
+                        Section::make('Order Items')
+                            ->schema([
+                                // Totals summary
+                                Grid::make()
+                                    ->schema([
+                                        Group::make([
+                                            TextEntry::make('subtotal')
+                                                ->label('Items Subtotal')
+                                                ->state(function ($record) {
+                                                    $subtotal = 0;
+                                                    foreach ($record->orderItems as $item) {
+                                                        $subtotal += $item->price * $item->quantity;
+                                                    }
+                                                    return $subtotal;
+                                                })
+                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                ->inlineLabel()
+                                        ])
+                                        ->columnSpan(1),
+                                            
+                                        Group::make([
+                                            TextEntry::make('total')
+                                                ->label('Grand Total')
+                                                ->state(function ($record) {
+                                                    return $record->total_price;
+                                                })
+                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                ->weight('bold')
+                                                ->size('lg')
+                                                ->color('success')
+                                                ->inlineLabel()
+                                        ])
+                                        ->columnSpan(1),
                                     ])
                                     ->columns(2),
-                            ])
-                            ->columnSpanFull(),
 
-                        RepeatableEntry::make('orderItems')
-                            ->schema([
-                                Card::make()
+                                // Order items list
+                                RepeatableEntry::make('orderItems')
                                     ->schema([
                                         Grid::make()
                                             ->schema([
+                                                // Product image
                                                 ImageEntry::make('product_image')
-                                                    ->label('Product')
                                                     ->getStateUsing(function ($record) {
                                                         if ($record->product) {
                                                             if (!empty($record->variation_type_option_ids)) {
@@ -164,21 +237,27 @@ class ViewOrder extends ViewRecord
                                                         return null;
                                                     })
                                                     ->defaultImageUrl(asset('images/placeholder-product.jpg'))
-                                                    ->height(80)
-                                                    ->width(80)
-                                                    ->columnSpan(1),
+                                                    ->height(60)
+                                                    ->width(60)
+                                                    ->columnSpan(['lg' => 1]),
 
+                                                // Product details
                                                 Group::make([
                                                     TextEntry::make('product.title')
-                                                        ->label('Product Name')
+                                                        ->label(null)
                                                         ->placeholder('Product')
-                                                        ->weight('bold')
-                                                        ->size('lg'),
+                                                        ->weight('bold'),
+                                                        
                                                     TextEntry::make('product.user.vendor.store_name')
-                                                        ->label('Vendor')
+                                                        ->label('Sold by')
+                                                        ->color('gray')
+                                                        ->size('sm')
                                                         ->visible(fn ($record) => $record->product?->user?->vendor),
+                                                        
                                                     TextEntry::make('variationDetails')
-                                                        ->label('Variations')
+                                                        ->label(null)
+                                                        ->size('sm')
+                                                        ->color('gray')
                                                         ->getStateUsing(function ($record) {
                                                             if (empty($record->variation_type_option_ids)) {
                                                                 return null;
@@ -193,37 +272,48 @@ class ViewOrder extends ViewRecord
                                                         })
                                                         ->visible(fn ($record) => !empty($record->variation_type_option_ids)),
                                                 ])
-                                                ->columnSpan(2),
+                                                ->columnSpan(['lg' => 4]),
 
+                                                // Price details
                                                 Group::make([
-                                                    TextEntry::make('price')
-                                                        ->label('Unit Price')
-                                                        ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
-                                                        ->alignEnd(),
-                                                    TextEntry::make('quantity')
-                                                        ->label('Quantity')
-                                                        ->alignEnd(),
-                                                    TextEntry::make('itemTotal')
-                                                        ->label('Total')
-                                                        ->formatStateUsing(fn ($record) => Number::currency($record->price * $record->quantity, config('app.currency')))
-                                                        ->getStateUsing(fn ($record) => $record->price * $record->quantity)
-                                                        ->weight('bold')
-                                                        ->alignEnd(),
+                                                    Grid::make(3)
+                                                        ->schema([
+                                                            TextEntry::make('price')
+                                                                ->label('Unit Price')
+                                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                                ->size('sm'),
+                                                                
+                                                            TextEntry::make('quantity')
+                                                                ->label('Qty')
+                                                                ->size('sm'),
+                                                                
+                                                            TextEntry::make('itemTotal')
+                                                                ->label('Total')
+                                                                ->formatStateUsing(fn ($record) => Number::currency($record->price * $record->quantity, config('app.currency')))
+                                                                ->getStateUsing(fn ($record) => $record->price * $record->quantity)
+                                                                ->weight('medium')
+                                                                ->size('sm')
+                                                                ->color('success'),
+                                                        ])
                                                 ])
-                                                ->columnSpan(1),
+                                                ->columnSpan(['lg' => 3]),
                                             ])
-                                            ->columns(4),
+                                            ->columns(['lg' => 8])
                                     ])
+                                    ->contained(false)
+                                    ->columnSpanFull(),
                             ])
-                            ->columnSpanFull(),
-                    ]),
+                            ->compact(),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            Actions\EditAction::make()
+                ->icon('heroicon-o-pencil'),
             Actions\Action::make('print_invoice')
                 ->label('Print Invoice')
                 ->icon('heroicon-o-printer')
