@@ -7,6 +7,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Order;
 
 // Guest Routes
 Route::get('/', [ProductController::class, 'home'])->name('dashboard');
@@ -73,5 +74,27 @@ Route::middleware('auth')->group(function () {
             ->middleware(['role:' . \App\Enums\RolesEnum::Vendor->value]);
     });
 });
+
+// Order invoice route for Filament
+Route::get('/admin/orders/{order}/invoice', function (Order $order) {
+    // Check user permissions - should be authenticated admin or vendor that owns the order
+    if (!auth()->check() ||
+        (!auth()->user()->isAdmin() && $order->vendor_user_id !== auth()->id())) {
+        abort(403);
+    }
+
+    // Load relationships
+    $order->load(['user', 'orderItems.product', 'orderItems.variationOptions.variation_type', 'shippingAddress.country']);
+    
+    // Calculate subtotal
+    $subtotal = 0;
+    foreach ($order->orderItems as $item) {
+        $subtotal += $item->price * $item->quantity;
+    }
+    $order->subtotal = $subtotal;
+
+    // Generate invoice and return view
+    return view('admin.orders.invoice', compact('order'));
+})->name('filament.admin.resources.orders.invoice');
 
 require __DIR__ . '/auth.php';

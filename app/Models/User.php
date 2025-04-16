@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\AddressTypeEnum;
+use App\Enums\RolesEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -69,5 +70,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->morphOne(Address::class, 'addressable')
             ->where('type', AddressTypeEnum::Shipping)
             ->where('default', true);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(RolesEnum::Admin);
     }
 }
