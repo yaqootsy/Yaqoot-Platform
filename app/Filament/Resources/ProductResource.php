@@ -43,7 +43,10 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Grid::make()
+                Forms\Components\Grid::make([
+                    'md' => 1,
+                    'lg' => 2,
+                ])
                     ->schema([
                         TextInput::make('title')
                             ->live(onBlur: true)
@@ -84,7 +87,8 @@ class ProductResource extends Resource
                             ->preload()
                             ->searchable()
                             ->required()
-                    ]),
+                    ])
+                    ->columnSpan(2),
                 Forms\Components\RichEditor::make('description')
                     ->required()
                     ->toolbarButtons([
@@ -105,19 +109,32 @@ class ProductResource extends Resource
                     ->columnSpan(2),
                 TextInput::make('price')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->columnSpan([
+                        'default' => 2,
+                        'lg' => 1
+                    ]),
                 TextInput::make('quantity')
-                    ->integer(),
+                    ->integer()
+                    ->columnSpan([
+                        'default' => 2,
+                        'lg' => 1
+                    ]),
                 Select::make('status')
                     ->options(ProductStatusEnum::labels())
                     ->default(ProductStatusEnum::Draft->value)
-                    ->required(),
+                    ->required()
+                    ->columnSpan([
+                        'default' => 2,
+                        'lg' => 1
+                    ]),
                 Forms\Components\Section::make('SEO')
                     ->collapsible()
                     ->schema([
                         Forms\Components\TextInput::make('meta_title'),
                         Forms\Components\Textarea::make('meta_description')
                     ])
+                    ->columnSpan(2),
             ]);
     }
 
