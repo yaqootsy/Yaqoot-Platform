@@ -133,11 +133,17 @@
             }
         }
     </style>
+
+    <script>
+        window.onload = () => {
+            window.print()
+        }
+    </script>
 </head>
 <body>
     <div class="invoice-container">
         <div class="print-button" style="text-align: right; margin-bottom: 20px;">
-            <a href="{{ route('orders.show', $order) }}" class="back-button">Back to Order</a>
+            <a href="{{ route('orders.show', $order) }}" class="back-button">View Order Details</a>
             <button onclick="window.print()" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Print Invoice</button>
         </div>
 
@@ -153,7 +159,7 @@
                 <h2 style="margin-top: 10px;">Invoice #{{ $order->id }}</h2>
                 <p>Date: {{ $order->created_at->format('M d, Y') }}</p>
                 <p>
-                    Status: 
+                    Status:
                     <span class="status-badge {{ strtolower($order->status) }}">
                         {{ $order->status }}
                     </span>
@@ -172,7 +178,7 @@
                     {{ $order->user->email }}
                 </p>
             </div>
-            
+
             @if($order->shippingAddress)
             <div class="address-block">
                 <h3>Shipped To:</h3>

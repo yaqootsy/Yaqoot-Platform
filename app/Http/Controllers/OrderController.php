@@ -38,7 +38,6 @@ class OrderController extends Controller
 
         $order->load([
             'orderItems.product',
-            'orderItems.variationOptions.variation_type',
             'shippingAddress.country'
         ]);
 
@@ -61,7 +60,6 @@ class OrderController extends Controller
         $order->load([
             'user',
             'orderItems.product',
-            'orderItems.variationOptions.variation_type',
             'shippingAddress.country'
         ]);
 

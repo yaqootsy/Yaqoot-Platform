@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class OrderItem extends Model
 {
@@ -32,8 +33,22 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function variationOptions(): BelongsToMany
+    /**
+     * Define variationOptions as an attribute
+     * This works with both the admin invoice and frontend
+     */
+    protected function variationOptions(): Attribute
     {
-        return $this->belongsToMany(VariationTypeOption::class, 'order_item_variation_type_option', 'order_item_id', 'variation_type_option_id');
+        return Attribute::make(
+            get: function () {
+                if (empty($this->variation_type_option_ids)) {
+                    return collect([]);
+                }
+                
+                return VariationTypeOption::with('variation_type')
+                    ->whereIn('id', $this->variation_type_option_ids)
+                    ->get();
+            }
+        );
     }
 }

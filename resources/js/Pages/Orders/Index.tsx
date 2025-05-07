@@ -103,18 +103,18 @@ export default function Index({ orders }: { orders: Paginator<Order> }) {
 
         {orders.data.length === 0 ? (
           <div className="text-center py-12">
-            <svg 
-              className="mx-auto h-16 w-16 text-base-content opacity-30" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24" 
+            <svg
+              className="mx-auto h-16 w-16 text-base-content opacity-30"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={1.5} 
-                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
               />
             </svg>
             <h3 className="mt-4 text-lg font-medium text-base-content">No orders found</h3>

@@ -44,7 +44,7 @@ class ViewOrder extends ViewRecord
                                                 ->dateTime('M d, Y h:i A'),
                                         ])
                                         ->columnSpan(['lg' => 1]),
-                                            
+
                                         // Second column - Status
                                         Group::make([
                                             TextEntry::make('status')
@@ -75,7 +75,7 @@ class ViewOrder extends ViewRecord
                                     ->columns(3)
                             ])
                             ->columnSpan(['lg' => 2]),
-                            
+
                         // Second row - Financial details card
                         Card::make()
                             ->schema([
@@ -85,13 +85,13 @@ class ViewOrder extends ViewRecord
                                         ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
                                         ->inlineLabel()
                                         ->size('sm'),
-                                        
+
                                     TextEntry::make('online_payment_commission')
                                         ->label('Payment Commission')
                                         ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
                                         ->inlineLabel()
                                         ->size('sm'),
-                                        
+
                                     TextEntry::make('website_commission')
                                         ->label('Website Commission')
                                         ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
@@ -103,7 +103,7 @@ class ViewOrder extends ViewRecord
                             ->columnSpan(['lg' => 1]),
                     ])
                     ->columns(['lg' => 3]),
-                    
+
                 // Customer and Shipping Information
                 Grid::make()
                     ->schema([
@@ -118,7 +118,7 @@ class ViewOrder extends ViewRecord
                                             ->label('Name')
                                             ->icon('heroicon-o-user')
                                             ->weight('medium'),
-                                            
+
                                         TextEntry::make('user.email')
                                             ->label('Email')
                                             ->icon('heroicon-o-envelope')
@@ -141,36 +141,36 @@ class ViewOrder extends ViewRecord
                                                     ->label('Recipient')
                                                     ->icon('heroicon-o-user')
                                                     ->weight('medium'),
-                                                    
+
                                                 TextEntry::make('shippingAddress.phone')
                                                     ->label('Phone')
                                                     ->icon('heroicon-o-phone')
                                                     ->copyable(),
                                             ]),
-                                                    
+
                                         TextEntry::make('shippingAddress.address1')
                                             ->label('Address')
                                             ->icon('heroicon-o-map-pin'),
-                                            
+
                                         TextEntry::make('shippingAddress.address2')
                                             ->label('Address Line 2')
                                             ->visible(fn ($record) => !empty($record->shippingAddress?->address2)),
-                                            
+
                                         Grid::make(3)
                                             ->schema([
                                                 TextEntry::make('shippingAddress.city')
                                                     ->label('City'),
-                                                    
+
                                                 TextEntry::make('shippingAddress.state')
                                                     ->label('State'),
-                                                    
+
                                                 TextEntry::make('shippingAddress.zipcode')
                                                     ->label('Zip Code'),
                                             ]),
-                                            
+
                                         TextEntry::make('shippingAddress.country.name')
                                             ->label('Country'),
-                                            
+
                                         TextEntry::make('shippingAddress.delivery_instructions')
                                             ->label('Delivery Notes')
                                             ->visible(fn ($record) => !empty($record->shippingAddress?->delivery_instructions))
@@ -203,7 +203,7 @@ class ViewOrder extends ViewRecord
                                                 ->inlineLabel()
                                         ])
                                         ->columnSpan(1),
-                                            
+
                                         Group::make([
                                             TextEntry::make('total')
                                                 ->label('Grand Total')
@@ -247,13 +247,13 @@ class ViewOrder extends ViewRecord
                                                         ->label(null)
                                                         ->placeholder('Product')
                                                         ->weight('bold'),
-                                                        
+
                                                     TextEntry::make('product.user.vendor.store_name')
                                                         ->label('Sold by')
                                                         ->color('gray')
                                                         ->size('sm')
                                                         ->visible(fn ($record) => $record->product?->user?->vendor),
-                                                        
+
                                                     TextEntry::make('variationDetails')
                                                         ->label(null)
                                                         ->size('sm')
@@ -282,11 +282,11 @@ class ViewOrder extends ViewRecord
                                                                 ->label('Unit Price')
                                                                 ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
                                                                 ->size('sm'),
-                                                                
+
                                                             TextEntry::make('quantity')
                                                                 ->label('Qty')
                                                                 ->size('sm'),
-                                                                
+
                                                             TextEntry::make('itemTotal')
                                                                 ->label('Total')
                                                                 ->formatStateUsing(fn ($record) => Number::currency($record->price * $record->quantity, config('app.currency')))

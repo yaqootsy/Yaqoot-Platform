@@ -100,11 +100,17 @@
             }
         }
     </style>
+
+    <script>
+        window.onload = () => {
+            window.print()
+        }
+    </script>
 </head>
 <body>
     <div class="invoice-container">
         <div class="print-button" style="text-align: right; margin-bottom: 20px;">
-            <button onclick="window.print()" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Print Invoice</button>
+            <button style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Print Invoice</button>
         </div>
 
         <div class="invoice-header">
@@ -129,7 +135,7 @@
                     {{ $order->user->email }}
                 </p>
             </div>
-            
+
             @if($order->shippingAddress)
             <div class="address-block">
                 <h3>Shipped To:</h3>
