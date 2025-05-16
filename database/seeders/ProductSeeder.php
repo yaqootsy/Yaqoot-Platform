@@ -30,35 +30,35 @@ class ProductSeeder extends Seeder
 
         // Temporarily disable model events for performance
         Product::unsetEventDispatcher();
-        
+
         // Use database transaction for better performance
         \DB::transaction(function () use ($departments, $categories) {
-            $totalProducts = 1000000;
+            $totalProducts = 1000;
             $batchSize = 1000; // Insert 1000 records at a time
             $totalBatches = ceil($totalProducts / $batchSize);
-            
+
             echo "\nCreating $totalProducts products in $totalBatches batches...\n";
-            
+
             // Use memory-efficient batch processing
             for ($batch = 0; $batch < $totalBatches; $batch++) {
                 $productData = [];
                 $currentBatchSize = min($batchSize, $totalProducts - ($batch * $batchSize));
-                
-                echo "Processing batch " . ($batch + 1) . " of $totalBatches (" . ($batch * $batchSize) . "-" . 
+
+                echo "Processing batch " . ($batch + 1) . " of $totalBatches (" . ($batch * $batchSize) . "-" .
                     (($batch * $batchSize) + $currentBatchSize) . ")...\n";
-                
+
                 // Pre-generate all data for the batch before DB insertion
                 for ($i = 0; $i < $currentBatchSize; $i++) {
                     // Select random department with categories
                     $department = $departments->random();
-                    
+
                     // Get categories for this department
                     $departmentCategories = $categories->where('department_id', $department->id);
                     $category = $departmentCategories->random();
-                    
+
                     // Generate product title once for both title and slug
                     $title = $this->generateProductTitle();
-                    
+
                     $productData[] = [
                         'title' => $title,
                         'slug' => Str::slug($title . '-' . Str::random(5)),
@@ -74,19 +74,19 @@ class ProductSeeder extends Seeder
                         'updated_at' => now(),
                     ];
                 }
-                
+
                 // Insert the batch
                 \DB::table('products')->insert($productData);
-                
+
                 // Clear memory
                 unset($productData);
-                
+
                 if (($batch + 1) % 10 === 0) {
                     echo "Completed " . (($batch + 1) * $batchSize) . " of $totalProducts products\n";
                 }
             }
         });
-        
+
         echo "\nFinished creating 1,000,000 products!\n";
     }
 
