@@ -24,8 +24,11 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@babel/runtime": "^7.27.1",
         "@heroicons/react": "^2.2.0",
         "@tailwindcss/typography": "^0.5.15",
-        "daisyui": "^4.12.14"
+        "daisyui": "^4.12.14",
+        "react-instantsearch": "^7.15.7",
+        "typesense-instantsearch-adapter": "^2.9.0"
     }
 }

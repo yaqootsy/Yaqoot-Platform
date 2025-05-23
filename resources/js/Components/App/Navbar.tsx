@@ -1,28 +1,26 @@
-import React, {FormEventHandler} from 'react';
-import {Link, useForm, usePage} from "@inertiajs/react";
+import React, {FormEventHandler, useState} from 'react';
+import {Link, usePage} from "@inertiajs/react";
 import MiniCartDropdown from "@/Components/App/MiniCartDropdown";
 import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import {hasAnyRole, hasRole} from "@/helpers";
+import {useSearchBox} from "react-instantsearch";
 
 function Navbar() {
-  const {auth, departments, keyword} = usePage().props;
-  const {user} = auth;
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get('products_index[query]');
 
-  const searchForm = useForm<{
-    keyword: string;
-  }>({
-    keyword: keyword || '',
-  })
-  const {url} = usePage();
+  const {auth, departments} = usePage().props;
+  const {user} = auth;
+  const {refine} = useSearchBox();
+  const [value, setValue] = useState(query || '');
 
   const searchFormComponent = (className = 'hidden md:flex') => {
     return (
       <form onSubmit={onSubmit} className={'join flex-1 ' + className}>
         <div className="flex-1">
           <input
-            value={searchForm.data.keyword}
-            onChange={(e) =>
-              searchForm.setData('keyword', e.target.value)}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             onBlur={onSubmit}
             className="input input-bordered join-item w-full" placeholder="Search"/>
         </div>
@@ -38,11 +36,7 @@ function Navbar() {
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-
-    searchForm.get(url, {
-      preserveScroll: true,
-      preserveState: true,
-    });
+    refine(value)
   };
 
   return (

@@ -1,8 +1,8 @@
-import {Product} from "@/types";
+import {Product, ProductListItem} from "@/types";
 import {Link, useForm} from "@inertiajs/react";
 import CurrencyFormatter from "@/Components/Core/CurrencyFormatter";
 
-export default function ProductItem({product}: { product: Product }) {
+export default function ProductItem({product}: { product: ProductListItem }) {
 
   const form = useForm<{
     option_ids: Record<string, number>;
@@ -34,16 +34,14 @@ export default function ProductItem({product}: { product: Product }) {
       </Link>
       <div className="card-body p-6">
         <Link href={route('product.show', product.slug)}>
-          <h2 className="card-title text-sm">{product.id} - {
-            (product.title && product.title.length > 50) ? (product.title.substring(0, 90) + '...') : product.title
-          }</h2>
+          <h2 className="card-title text-sm">{(product.title && product.title.length > 50) ? (product.title.substring(0, 90) + '...') : product.title}</h2>
         </Link>
         <p className={"text-sm"}>
-          by <Link href={route('vendor.profile', product.user.store_name)} className="hover:underline">
-          {product.user.name}
+          by <Link href={route('vendor.profile', product.user_store_name)} className="hover:underline">
+          {product.user_name}
         </Link>&nbsp;
-          in <Link href={route('product.byDepartment', product.department.slug)}
-                   className="hover:underline">{product.department.name}</Link>
+          in <Link href={route('product.byDepartment', product.department_slug)}
+                   className="hover:underline">{product.department_name}</Link>
         </p>
         <div className="card-actions items-center justify-between mt-3">
           <button onClick={addToCart} className="btn btn-primary">Add to Cart</button>
