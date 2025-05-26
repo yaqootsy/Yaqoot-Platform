@@ -1,5 +1,5 @@
 import React from 'react';
-import {PageProps, PaginationProps, Product, Vendor} from "@/types";
+import {PageProps, PaginationProps, Product, ProductListItem, Vendor} from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {Head} from "@inertiajs/react";
 import ProductListing from "@/Components/App/ProductListing";
@@ -10,7 +10,7 @@ function Profile(
     products
   }: PageProps<{
     vendor: Vendor,
-    products: PaginationProps<Product>
+    products: PaginationProps<ProductListItem>
   }>) {
   return (
     <AuthenticatedLayout>

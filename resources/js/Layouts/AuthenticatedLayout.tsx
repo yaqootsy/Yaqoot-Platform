@@ -1,5 +1,5 @@
-import {Link, usePage} from '@inertiajs/react';
-import {PropsWithChildren, ReactNode, useEffect, useRef, useState} from 'react';
+import {usePage} from '@inertiajs/react';
+import {PropsWithChildren, ReactNode} from 'react';
 import Navbar from "@/Components/App/Navbar";
 import ToastList from "@/Components/Core/ToastList";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
