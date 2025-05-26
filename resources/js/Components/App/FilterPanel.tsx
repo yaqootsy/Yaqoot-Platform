@@ -1,16 +1,34 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   RefinementList,
   RangeInput, CurrentRefinements
 } from 'react-instantsearch';
+import NumberFormatter from "@/Components/Core/NumberFormatter";
+
+const ATTRIBUTE_LABEL_MAP: any = {
+  department_name: 'Department',
+  category_name: 'Category',
+  price: 'Price Range'
+}
 
 const FilterPanel = () => {
+
+  const transformItems = useCallback((items: any) => {
+    return items.map((item: any) => {
+      return {
+        ...item,
+        label: ATTRIBUTE_LABEL_MAP[item.attribute] || item.label
+      }
+    });
+  }, []);
+
   return (
     <div className="w-full md:w-64 lg:w-72 flex flex-col gap-6">
-      <div className="card bg-base-100 shadow-xl">
+      <div className="card bg-base-100 shadow">
         <div className="card-body p-4">
           <h2 className="card-title text-lg">Current Filters</h2>
           <CurrentRefinements
+            transformItems={transformItems}
             classNames={{
               root: 'flex flex-wrap gap-2',
               item: '',
@@ -22,7 +40,7 @@ const FilterPanel = () => {
         </div>
       </div>
 
-      <div className="card bg-base-100 shadow-xl">
+      <div className="card bg-base-100 shadow">
         <div className="card-body p-4">
           <h2 className="card-title text-lg">Department</h2>
           <RefinementList
@@ -59,7 +77,6 @@ const FilterPanel = () => {
           <h2 className="card-title text-lg mt-4">Price Range</h2>
           <RangeInput
             attribute="price"
-            min={0}
             classNames={{
               root: '',
               form: 'flex items-center justify-between gap-2',

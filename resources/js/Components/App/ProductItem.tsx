@@ -23,7 +23,7 @@ export default function ProductItem({product}: { product: ProductListItem }) {
   }
 
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div className="card bg-base-100 shadow">
       <Link href={route('product.show', product.slug)}>
         <figure>
           <img

@@ -9,6 +9,7 @@ import {
 } from "react-instantsearch";
 import ProductItem from "@/Components/App/ProductItem";
 import FilterPanel from "@/Components/App/FilterPanel";
+import NumberFormatter from "@/Components/Core/NumberFormatter";
 
 
 function CustomHits() {
@@ -30,8 +31,10 @@ function CustomHits() {
   return (
     <>
       <div className="mb-4 flex justify-between items-center">
-        <p className="text-sm text-gray-500">
-          Showing <span className="font-medium">{results.nbHits}</span> products in <span className="font-medium">{results.processingTimeMS}</span> ms
+        <p className="text-gray-500">
+          Showing <span className="font-bold">
+          <NumberFormatter amount={results.nbHits}/>
+        </span> products in <span className="font-bold">{results.processingTimeMS}ms</span>
         </p>
 
         <div className="flex items-center justify-end">
@@ -42,7 +45,7 @@ function CustomHits() {
               select: "select select-bordered",
             }}
             items={[
-              { label: "Relevance", value: "products_index" },
+              {label: "Relevance", value: "products_index"},
               {
                 label: "Title Ascending",
                 value: "products_index/sort/title:asc",
@@ -96,7 +99,7 @@ export default function Home({
 
       <div className="container py-8 px-4 mx-auto">
         <div className="flex flex-col md:flex-row gap-8">
-          <FilterPanel />
+          <FilterPanel/>
 
           <div className="flex-1">
 
