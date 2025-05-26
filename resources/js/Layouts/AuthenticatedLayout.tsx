@@ -8,13 +8,13 @@ import {InstantSearch} from "react-instantsearch";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
   server: {
-    apiKey: "xyz", // Be sure to use an API key that only allows search operations
+    apiKey: import.meta.env.VITE_TYPESENSE_API_KEY,
     nodes: [
       {
-        host: "localhost",
-        port: 8108,
+        host: import.meta.env.VITE_TYPESENSE_HOST,
+        port: import.meta.env.VITE_TYPESENSE_PORT,
         path: "", // Optional. Example: If you have your typesense mounted in localhost:8108/typesense, path should be equal to '/typesense'
-        protocol: "http",
+        protocol: import.meta.env.VITE_TYPESENSE_PROTOCOL || "http", // Optional. Defaults to http
       },
     ],
     cacheSearchResultsForSeconds: 2 * 60, // Cache search results from server. Defaults to 2 minutes. Set to 0 to disable caching.
