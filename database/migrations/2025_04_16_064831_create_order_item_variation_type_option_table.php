@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('order_item_variation_type_option', function (Blueprint $table) {
             $table->foreignId('order_item_id')->constrained('order_items')->onDelete('cascade');
-            $table->foreignId('variation_type_option_id')->constrained('variation_type_options')->onDelete('cascade');
+            $table->unsignedBigInteger('variation_type_option_id');
+            $table->foreign('variation_type_option_id', 'fk_order_item_variation_type_option_variation_type_option_id')
+                ->references('id')
+                ->on('variation_type_options')
+                ->onDelete('cascade');
             $table->primary(['order_item_id', 'variation_type_option_id']);
             $table->timestamps();
         });
