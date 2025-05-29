@@ -1,5 +1,5 @@
 import React from 'react';
-import {Department, PageProps, PaginationProps, Product} from "@/types";
+import {Department, PageProps, PaginationProps, Product, ProductListItem} from "@/types";
 import {Head} from "@inertiajs/react";
 import ProductListing from "@/Components/App/ProductListing";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -11,7 +11,7 @@ function Index(
     products
   }: PageProps<{
     department: Department,
-    products: PaginationProps<Product>,
+    products: PaginationProps<ProductListItem>,
   }>) {
   return (
     <AuthenticatedLayout>

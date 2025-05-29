@@ -1,9 +1,9 @@
 import React from 'react';
 import ProductItem from "@/Components/App/ProductItem";
 import {Link} from "@inertiajs/react";
-import {PaginationProps, Product} from "@/types";
+import {PaginationProps, ProductListItem} from "@/types";
 
-function ProductListing({products}: { products: PaginationProps<Product> }) {
+function ProductListing({products}: { products: PaginationProps<ProductListItem> }) {
   return (
     <div className="container py-8 px-4 mx-auto">
       {products.data.length === 0 && (

@@ -68,6 +68,21 @@ export type Product = {
   }>
 }
 
+export type ProductListItem = {
+  id: number;
+  title: string;
+  slug: string;
+  price: number;
+  quantity: number;
+  image: string;
+  user_id: number;
+  user_name: string;
+  user_store_name: string;
+  department_id: number;
+  department_name: string;
+  department_slug: string;
+}
+
 export type CartItem = {
   id: number;
   product_id: number;
