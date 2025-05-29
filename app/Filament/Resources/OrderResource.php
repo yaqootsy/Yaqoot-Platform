@@ -36,7 +36,14 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Select::make('status')
+                    ->label(__('Status'))
+                    ->options(OrderStatusEnum::labels())
+                    ->required(),
+                Forms\Components\TextInput::make('tracking_code')
+                    ->label(__('Shipping Tracking Code'))
+                    ->placeholder('Enter shipping tracking number')
+                    ->helperText('Provide the tracking code from the shipping carrier. The customer will receive an email notification.')
             ]);
     }
 
@@ -47,6 +54,9 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label(__('Order Number'))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('Customer'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('total_price')
                     ->label(__('Order Total'))
                     ->formatStateUsing(function ($state) {
@@ -59,24 +69,26 @@ class OrderResource extends Resource
                         return Number::currency($state, config('app.currency'));
                     })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('total_price')
-                    ->formatStateUsing(function ($state) {
-                        return Number::currency($state, config('app.currency'));
-                    })
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->colors(OrderStatusEnum::colors())
                     ->sortable(),
+                Tables\Columns\TextColumn::make('tracking_code')
+                    ->label(__('Tracking Code'))
+                    ->searchable()
+                    ->placeholder('—')
+                    ->copyable()
+                    ->icon('heroicon-o-truck'),
                 TextColumn::make('created_at')
                     ->dateTime()
-
+                    ->sortable(),
             ])
-            ->defaultSort('created_at', 'desc') // Apply default sorting
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -98,6 +110,7 @@ class OrderResource extends Resource
         return [
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
+            'view' => Pages\ViewOrder::route('/{record}'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }

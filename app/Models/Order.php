@@ -15,10 +15,16 @@ class Order extends Model
         'user_id',
         'total_price',
         'status',
+        'tracking_code',
+        'tracking_code_added_at',
         'online_payment_commission',
         'website_commission',
         'vendor_subtotal',
         'payment_intent',
+    ];
+    
+    protected $casts = [
+        'tracking_code_added_at' => 'datetime',
     ];
 
     public function scopeForVendor(Builder $query): Builder

@@ -64,7 +64,7 @@ function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1000] mt-3 w-52 p-2 shadow">
               <li>
                 <Link href={route('profile.edit')} className="justify-between">
                   Profile
@@ -77,6 +77,11 @@ function Navbar() {
                   </a>
                 </li>
               }
+              <li>
+                <Link href={route('orders.index')} className="justify-between">
+                  My Orders
+                </Link>
+              </li>
               <li>
                 <Link href={route('shippingAddress.index')} className="justify-between">
                   My Addresses

@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Order;
 
 // Guest Routes
 Route::get('/', [ProductController::class, 'home'])->name('dashboard');
@@ -54,6 +56,11 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/shipping-address/{address}', [ShippingAddressController::class, 'destroy'])
         ->name('shippingAddress.destroy');
+    
+    // Orders routes for buyers
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 
     Route::middleware(['verified'])->group(function () {
         Route::post('/cart/checkout', [CartController::class, 'checkout'])
@@ -73,5 +80,9 @@ Route::middleware('auth')->group(function () {
             ->middleware(['role:' . \App\Enums\RolesEnum::Vendor->value]);
     });
 });
+
+// Order invoice route for Filament
+Route::get('/admin/orders/{order}/invoice', [\App\Http\Controllers\Admin\OrderController::class, 'invoice'])
+    ->name('filament.admin.resources.orders.invoice');
 
 require __DIR__ . '/auth.php';
