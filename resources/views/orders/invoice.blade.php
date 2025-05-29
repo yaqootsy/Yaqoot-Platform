@@ -214,7 +214,7 @@
                     <td>
                         @if($item->variationOptions && $item->variationOptions->count() > 0)
                             @foreach($item->variationOptions as $option)
-                                {{ $option->variation_type->name }}: {{ $option->name }}@if(!$loop->last), @endif
+                                {{ $option->variationType->name }}: {{ $option->name }}@if(!$loop->last), @endif
                             @endforeach
                         @endif
                     </td>

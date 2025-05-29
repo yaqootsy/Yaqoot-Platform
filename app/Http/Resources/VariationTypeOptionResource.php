@@ -18,13 +18,13 @@ class VariationTypeOptionResource extends JsonResource
             'id' => $this->id,
             'variation_type_id' => $this->variation_type_id,
             'name' => $this->name,
-            
+
             // Include relations
-            'variation_type' => $this->whenLoaded('variation_type', function() {
+            'variationType' => $this->whenLoaded('variationType', function() {
                 return [
-                    'id' => $this->variation_type->id,
-                    'name' => $this->variation_type->name,
-                    'frontend_type' => $this->variation_type->frontend_type,
+                    'id' => $this->variationType->id,
+                    'name' => $this->variationType->name,
+                    'frontend_type' => $this->variationType->frontend_type,
                 ];
             }),
         ];

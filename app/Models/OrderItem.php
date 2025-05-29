@@ -44,8 +44,8 @@ class OrderItem extends Model
                 if (empty($this->variation_type_option_ids)) {
                     return collect([]);
                 }
-                
-                return VariationTypeOption::with('variation_type')
+
+                return VariationTypeOption::with('variationType')
                     ->whereIn('id', $this->variation_type_option_ids)
                     ->get();
             }

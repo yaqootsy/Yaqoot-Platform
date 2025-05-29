@@ -265,7 +265,7 @@ class ViewOrder extends ViewRecord
 
                                                             $variations = [];
                                                             foreach ($record->variationOptions as $option) {
-                                                                $variations[] = "{$option->variation_type->name}: {$option->name}";
+                                                                $variations[] = "{$option->variationType->name}: {$option->name}";
                                                             }
 
                                                             return !empty($variations) ? implode(', ', $variations) : null;

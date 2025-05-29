@@ -12,7 +12,7 @@ interface VariationType {
 interface VariationOption {
   id: number;
   name: string;
-  variation_type: VariationType;
+  variationType: VariationType;
 }
 
 interface OrderItem {
@@ -198,7 +198,7 @@ export default function Show({ order }: { order: Order }) {
                           <div className="space-y-1">
                             {item.variationOptions.map((option) => (
                               <div key={option.id}>
-                                <span className="font-medium">{option.variation_type.name}:</span> {option.name}
+                                <span className="font-medium">{option.variationType.name}:</span> {option.name}
                               </div>
                             ))}
                           </div>
