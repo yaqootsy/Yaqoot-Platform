@@ -1,44 +1,25 @@
-# Laravel
-/vendor/
-/node_modules/
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.fleet
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/bootstrap/ssr
+/node_modules
+/public/build
 /public/hot
 /public/storage
 /storage/*.key
-/storage/app/public
-/storage/debugbar
-/storage/framework/cache/data
-/storage/framework/sessions
-/storage/framework/views
-/storage/logs
-
-.env
-.phpunit.result.cache
-Homestead.yaml
+/storage/pail
+/vendor
 Homestead.json
-.env.backup
-
-# Laravel IDE Helper (إن وجد)
-_ide_helper.php
-_ide_helper_models.php
-
-# Laravel Mix (Webpack) cache
-/public/mix-manifest.json
-/public/css
-/public/js
-
-# NPM / Yarn
-npm-debug.log*
-yarn-error.log*
-
-# React (إذا المشروع منفصل)
-/node_modules/
-/build/
-/dist/
-
-# OS / Editor
-.DS_Store
+Homestead.yaml
 Thumbs.db
-.vscode/
-.idea/
-*.log
-*.swp
