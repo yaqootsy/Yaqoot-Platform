@@ -1,4 +1,4 @@
-# Yaqoot - Laravel + React + test
+# Yaqoot - Laravel + React
 
 ## ⚙️ متطلبات التشغيل
 
