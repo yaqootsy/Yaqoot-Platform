@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RolesEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -27,14 +28,43 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+
+    // الكود المحدث من شات جي بي تي يعمل
+    
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
+
+        /** @var User $user */
+        $user = Auth::user();
+
+        if ($user->hasAnyRole([RolesEnum::Admin, RolesEnum::Vendor])) {
+            return redirect()->intended(route('filament.admin.pages.dashboard'));
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
+
+    // الكود القديم حسب الفيديو لا يعمل بشكل صحيح 
+
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     /** @var User $user */
+    //     $user = Auth::user();
+    //     $route = "/";
+    //     if ($user->hasAnyRole([RolesEnum::Admin, RolesEnum::Vendor])) {
+    //         return Inertia::location(route('filament.admin.pages.dashboard'));
+    //     } else {
+    //         $route = route('dashboard', absolute: false);
+    //     }
+
+    //     return redirect()->intended($route);
+    // }
 
     /**
      * Destroy an authenticated session.
