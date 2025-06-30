@@ -37,13 +37,10 @@ fi
 
 cp .env.example .env
 
-echo "توليد مفتاح التطبيق..."
-php artisan key:generate
+echo "تشغيل الهجرات وإدراج البيانات الإفتراضية..."
+php artisan migrate --seed
 
-echo "تشغيل الهجرات..."
-php artisan migrate
+echo "تشغيل السيرفر..."
+composer run dev
 
-echo "بناء ملفات React..."
-npm run dev
-
-echo "✅ تم الإعداد بنجاح. لتشغيل السيرفر: php artisan serve"
+echo "✅ تم الإعداد بنجاح"
