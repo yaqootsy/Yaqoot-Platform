@@ -30,7 +30,7 @@ function MiniCartDropdown() {
       </summary>
       <div
         tabIndex={0}
-        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-full left-0 sm:left-auto sm:w-[480px] shadow">
+        className="card card-compact dropdown-content bg-base-100 z-10 mt-3 w-full left-0 sm:left-auto sm:w-[480px] shadow">
         <div className="card-body">
           <span className="text-lg font-bold">{totalQuantity} Items</span>
 
