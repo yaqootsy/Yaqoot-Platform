@@ -87,6 +87,7 @@ class CartService
 
                     foreach ($cartItem['option_ids'] as $option_id) {
                         $option = data_get($options, $option_id);
+                        if (!$option) continue;
                         if (!$imageUrl) {
                             $imageUrl = $option->getFirstMediaUrl('images', 'small');
                         }
