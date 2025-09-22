@@ -91,9 +91,9 @@ export default function Show({ order }: { order: Order }) {
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-semibold text-base-content">Order #{order.id}</h1>
+            <h1 className="text-3xl font-semibold text-base-content">الطلب #{order.id}</h1>
             <p className="mt-2 text-sm text-base-content/70">
-              Placed on {new Date(order.created_at).toLocaleDateString()}
+              مقدم في {new Date(order.created_at).toLocaleDateString()}
             </p>
           </div>
           <div className="flex space-x-3">
@@ -101,21 +101,21 @@ export default function Show({ order }: { order: Order }) {
               href="/orders"
               className="btn btn-outline"
             >
-              Back to Orders
+              العودة إلى الطلبات
             </Link>
             <Link
               href={`/orders/${order.id}/invoice`}
               target="_blank"
               className="btn btn-primary"
             >
-              Print Invoice
+              طباعة الفاتورة
             </Link>
           </div>
         </div>
 
         <div className="card bg-base-100 shadow mb-8">
           <div className="card-header px-4 py-5 bg-base-200">
-            <h2 className="card-title text-base-content">Order Status</h2>
+            <h2 className="card-title text-base-content">حالة الطلب</h2>
           </div>
           <div className="card-body border-t border-base-300 px-4 py-5">
             <div className="flex justify-between items-center">
@@ -125,12 +125,12 @@ export default function Show({ order }: { order: Order }) {
                 </span>
                 {order.tracking_code && (
                   <div className="text-base-content/80">
-                    <span className="font-medium">Tracking Code:</span> {order.tracking_code}
+                    <span className="font-medium">رمز التتبع:</span> {order.tracking_code}
                   </div>
                 )}
               </div>
               <div className="text-xl font-bold text-base-content">
-                Total: {formatPrice(order.total_price)}
+                الإجمالي: {formatPrice(order.total_price)}
               </div>
             </div>
           </div>
@@ -139,7 +139,7 @@ export default function Show({ order }: { order: Order }) {
         {order.shippingAddress && (
           <div className="card bg-base-100 shadow mb-8">
             <div className="card-header px-4 py-5 bg-base-200">
-              <h2 className="card-title text-base-content">Shipping Address</h2>
+              <h2 className="card-title text-base-content">عنوان الشحن</h2>
             </div>
             <div className="card-body border-t border-base-300 px-4 py-5">
               <div className="text-base-content/80">
@@ -156,18 +156,18 @@ export default function Show({ order }: { order: Order }) {
 
         <div className="card bg-base-100 shadow">
           <div className="card-header px-4 py-5 bg-base-200">
-            <h2 className="card-title text-base-content">Order Items</h2>
+            <h2 className="card-title text-base-content">عناصر الطلب</h2>
           </div>
           <div className="card-body p-0 border-t border-base-300">
             <div className="overflow-x-auto">
               <table className="table table-zebra w-full">
                 <thead>
                   <tr>
-                    <th>Product</th>
-                    <th>Variations</th>
-                    <th className="text-right">Price</th>
-                    <th className="text-right">Quantity</th>
-                    <th className="text-right">Total</th>
+                    <th>المنتج</th>
+                    <th>الاختلافات</th>
+                    <th className="text-right">السعر</th>
+                    <th className="text-right">الكمية</th>
+                    <th className="text-right">الإجمالي</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -221,7 +221,7 @@ export default function Show({ order }: { order: Order }) {
                 <tfoot>
                   <tr>
                     <th colSpan={4} className="text-right">
-                      Subtotal:
+                      المجموع الفرعي:
                     </th>
                     <td className="text-right">
                       {formatPrice(subtotal)}
@@ -230,7 +230,7 @@ export default function Show({ order }: { order: Order }) {
                   {/* We could add shipping, tax, discount here if available in the order object */}
                   <tr className="border-t-2 border-base-300 font-bold">
                     <th colSpan={4} className="text-right">
-                      Total:
+                      الإجمالي:
                     </th>
                     <td className="text-right">
                       {formatPrice(order.total_price)}

@@ -16,6 +16,7 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Card;
 use Filament\Infolists\Components\Group;
 use Illuminate\Support\Number;
+use Illuminate\Support\Facades\Vite;
 
 class ViewOrder extends ViewRecord
 {
@@ -35,42 +36,43 @@ class ViewOrder extends ViewRecord
                                         // First column - Order identifiers
                                         Group::make([
                                             TextEntry::make('id')
-                                                ->label('Order #')
+                                                ->label('رقم الطلب #')
                                                 ->size('lg')
                                                 ->weight('bold')
                                                 ->copyable(),
                                             TextEntry::make('created_at')
-                                                ->label('Date')
+                                                ->label('التاريخ')
                                                 ->dateTime('M d, Y h:i A'),
                                         ])
-                                        ->columnSpan(['lg' => 1]),
+                                            ->columnSpan(['lg' => 1]),
 
                                         // Second column - Status
                                         Group::make([
                                             TextEntry::make('status')
-                                                ->label('Status')
+                                                ->label('الحالة')
                                                 ->badge()
                                                 ->size('lg')
-                                                ->color(fn (string $state): string => match($state) {
+                                                ->color(fn(string $state): string => match ($state) {
                                                     OrderStatusEnum::Paid->value => 'primary',
                                                     OrderStatusEnum::Shipped->value => 'warning',
                                                     OrderStatusEnum::Delivered->value => 'success',
                                                     OrderStatusEnum::Cancelled->value => 'danger',
                                                     default => 'gray',
                                                 })
+                                                ->formatStateUsing(fn(string $state) => OrderStatusEnum::labels()[$state] ?? $state),
                                         ])
-                                        ->columnSpan(['lg' => 1]),
+                                            ->columnSpan(['lg' => 1]),
 
                                         // Third column - Totals
                                         Group::make([
                                             TextEntry::make('total_price')
-                                                ->label('Total')
-                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                ->label('الإجمالي')
+                                                ->formatStateUsing(fn($state) => Number::currency($state, config('app.currency')))
                                                 ->size('lg')
                                                 ->weight('bold')
                                                 ->color('success')
                                         ])
-                                        ->columnSpan(['lg' => 1])
+                                            ->columnSpan(['lg' => 1])
                                     ])
                                     ->columns(3)
                             ])
@@ -81,25 +83,24 @@ class ViewOrder extends ViewRecord
                             ->schema([
                                 Group::make([
                                     TextEntry::make('vendor_subtotal')
-                                        ->label('Vendor Subtotal')
-                                        ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                        ->label('المجموع الفرعي للبائع')
+                                        ->formatStateUsing(fn($state) => Number::currency($state, config('app.currency')))
                                         ->inlineLabel()
                                         ->size('sm'),
 
                                     TextEntry::make('online_payment_commission')
-                                        ->label('Payment Commission')
-                                        ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                        ->label('عمولة الدفع الإلكتروني')
+                                        ->formatStateUsing(fn($state) => Number::currency($state, config('app.currency')))
                                         ->inlineLabel()
                                         ->size('sm'),
 
                                     TextEntry::make('website_commission')
-                                        ->label('Website Commission')
-                                        ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                        ->label('عمولة المنصة')
+                                        ->formatStateUsing(fn($state) => Number::currency($state, config('app.currency')))
                                         ->inlineLabel()
                                         ->size('sm'),
                                 ])
                             ])
-                            ->collapsible()
                             ->columnSpan(['lg' => 1]),
                     ])
                     ->columns(['lg' => 3]),
@@ -110,17 +111,17 @@ class ViewOrder extends ViewRecord
                         // Customer information
                         Card::make()
                             ->schema([
-                                Section::make('Customer Information')
+                                Section::make('معلومات العميل')
                                     ->collapsible(false)
                                     ->compact()
                                     ->schema([
                                         TextEntry::make('user.name')
-                                            ->label('Name')
+                                            ->label('اسم العميل')
                                             ->icon('heroicon-o-user')
                                             ->weight('medium'),
 
                                         TextEntry::make('user.email')
-                                            ->label('Email')
+                                            ->label('البريد الإلكتروني')
                                             ->icon('heroicon-o-envelope')
                                             ->copyable(),
                                     ])
@@ -131,49 +132,49 @@ class ViewOrder extends ViewRecord
                         // Shipping address
                         Card::make()
                             ->schema([
-                                Section::make('Shipping Details')
+                                Section::make('تفاصيل الشحن')
                                     ->compact()
                                     ->collapsible(false)
                                     ->schema([
                                         Grid::make(2)
                                             ->schema([
                                                 TextEntry::make('shippingAddress.full_name')
-                                                    ->label('Recipient')
+                                                    ->label('المستلم')
                                                     ->icon('heroicon-o-user')
                                                     ->weight('medium'),
 
                                                 TextEntry::make('shippingAddress.phone')
-                                                    ->label('Phone')
+                                                    ->label('الهاتف')
                                                     ->icon('heroicon-o-phone')
                                                     ->copyable(),
                                             ]),
 
                                         TextEntry::make('shippingAddress.address1')
-                                            ->label('Address')
+                                            ->label('العنوان 1')
                                             ->icon('heroicon-o-map-pin'),
 
                                         TextEntry::make('shippingAddress.address2')
-                                            ->label('Address Line 2')
-                                            ->visible(fn ($record) => !empty($record->shippingAddress?->address2)),
+                                            ->label('العنوان 2')
+                                            ->visible(fn($record) => !empty($record->shippingAddress?->address2)),
 
                                         Grid::make(3)
                                             ->schema([
                                                 TextEntry::make('shippingAddress.city')
-                                                    ->label('City'),
+                                                    ->label('المدينة/البلدة/القرية'),
 
                                                 TextEntry::make('shippingAddress.state')
-                                                    ->label('State'),
+                                                    ->label('المحافظة'),
 
                                                 TextEntry::make('shippingAddress.zipcode')
-                                                    ->label('Zip Code'),
+                                                    ->label('الرمز البريدي'),
                                             ]),
 
                                         TextEntry::make('shippingAddress.country.name')
-                                            ->label('Country'),
+                                            ->label('الدولة'),
 
                                         TextEntry::make('shippingAddress.delivery_instructions')
-                                            ->label('Delivery Notes')
-                                            ->visible(fn ($record) => !empty($record->shippingAddress?->delivery_instructions))
+                                            ->label('تعليمات التوصيل')
+                                            ->visible(fn($record) => !empty($record->shippingAddress?->delivery_instructions))
                                             ->icon('heroicon-o-information-circle'),
                                     ]),
                             ])
@@ -184,14 +185,14 @@ class ViewOrder extends ViewRecord
                 // Order Items Section
                 Card::make()
                     ->schema([
-                        Section::make('Order Items')
+                        Section::make('ملخص الطلب')
                             ->schema([
                                 // Totals summary
                                 Grid::make()
                                     ->schema([
                                         Group::make([
                                             TextEntry::make('subtotal')
-                                                ->label('Items Subtotal')
+                                                ->label('المجموع الفرعي للعناصر')
                                                 ->state(function ($record) {
                                                     $subtotal = 0;
                                                     foreach ($record->orderItems as $item) {
@@ -199,34 +200,36 @@ class ViewOrder extends ViewRecord
                                                     }
                                                     return $subtotal;
                                                 })
-                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                ->formatStateUsing(fn($state) => Number::currency($state, config('app.currency')))
                                                 ->inlineLabel()
                                         ])
-                                        ->columnSpan(1),
+                                            ->columnSpan(1),
 
                                         Group::make([
                                             TextEntry::make('total')
-                                                ->label('Grand Total')
+                                                ->label('الإجمالي')
                                                 ->state(function ($record) {
                                                     return $record->total_price;
                                                 })
-                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                ->formatStateUsing(fn($state) => Number::currency($state, config('app.currency')))
                                                 ->weight('bold')
                                                 ->size('lg')
                                                 ->color('success')
                                                 ->inlineLabel()
                                         ])
-                                        ->columnSpan(1),
+                                            ->columnSpan(1),
                                     ])
                                     ->columns(2),
 
                                 // Order items list
                                 RepeatableEntry::make('orderItems')
+                                    ->label('عناصر الطلب')
                                     ->schema([
                                         Grid::make()
                                             ->schema([
                                                 // Product image
                                                 ImageEntry::make('product_image')
+                                                    ->label('صورة المنتج')
                                                     ->getStateUsing(function ($record) {
                                                         if ($record->product) {
                                                             if (!empty($record->variation_type_option_ids)) {
@@ -236,7 +239,7 @@ class ViewOrder extends ViewRecord
                                                         }
                                                         return null;
                                                     })
-                                                    ->defaultImageUrl(asset('images/placeholder-product.jpg'))
+                                                    ->defaultImageUrl(Vite::asset('resources/js/assets/images/placeholder.png'))
                                                     ->height(60)
                                                     ->width(60)
                                                     ->columnSpan(['lg' => 1]),
@@ -244,16 +247,16 @@ class ViewOrder extends ViewRecord
                                                 // Product details
                                                 Group::make([
                                                     TextEntry::make('product.title')
-                                                        ->label(null)
+                                                        ->label('المنتج')
                                                         ->placeholder('Product')
                                                         ->weight('bold'),
 
                                                     TextEntry::make('product.user.vendor.store_name')
-                                                        ->label('Sold by')
+                                                        ->label('تباع بواسطة')
                                                         ->color('gray')
                                                         ->size('sm')
-                                                        ->visible(fn ($record) => $record->product?->user?->vendor),
-
+                                                        ->visible(fn($record) => filled($record->product?->user?->vendor?->store_name))
+                                                        ->formatStateUsing(fn($state) => str_replace('-', ' ', $state)),
                                                     TextEntry::make('variationDetails')
                                                         ->label(null)
                                                         ->size('sm')
@@ -270,33 +273,33 @@ class ViewOrder extends ViewRecord
 
                                                             return !empty($variations) ? implode(', ', $variations) : null;
                                                         })
-                                                        ->visible(fn ($record) => !empty($record->variation_type_option_ids)),
+                                                        ->visible(fn($record) => !empty($record->variation_type_option_ids)),
                                                 ])
-                                                ->columnSpan(['lg' => 4]),
+                                                    ->columnSpan(['lg' => 4]),
 
                                                 // Price details
                                                 Group::make([
                                                     Grid::make(3)
                                                         ->schema([
                                                             TextEntry::make('price')
-                                                                ->label('Unit Price')
-                                                                ->formatStateUsing(fn ($state) => Number::currency($state, config('app.currency')))
+                                                                ->label('سعر الوحدة')
+                                                                ->formatStateUsing(fn($state) => Number::currency($state, config('app.currency')))
                                                                 ->size('sm'),
 
                                                             TextEntry::make('quantity')
-                                                                ->label('Qty')
+                                                                ->label('الكمية')
                                                                 ->size('sm'),
 
                                                             TextEntry::make('itemTotal')
-                                                                ->label('Total')
-                                                                ->formatStateUsing(fn ($record) => Number::currency($record->price * $record->quantity, config('app.currency')))
-                                                                ->getStateUsing(fn ($record) => $record->price * $record->quantity)
+                                                                ->label('الإجمالي')
+                                                                ->formatStateUsing(fn($record) => Number::currency($record->price * $record->quantity, config('app.currency')))
+                                                                ->getStateUsing(fn($record) => $record->price * $record->quantity)
                                                                 ->weight('medium')
                                                                 ->size('sm')
                                                                 ->color('success'),
                                                         ])
                                                 ])
-                                                ->columnSpan(['lg' => 3]),
+                                                    ->columnSpan(['lg' => 3]),
                                             ])
                                             ->columns(['lg' => 8])
                                     ])
@@ -315,9 +318,9 @@ class ViewOrder extends ViewRecord
             Actions\EditAction::make()
                 ->icon('heroicon-o-pencil'),
             Actions\Action::make('print_invoice')
-                ->label('Print Invoice')
+                ->label('طباعة الفاتورة')
                 ->icon('heroicon-o-printer')
-                ->url(fn (Order $record) => route('filament.admin.resources.orders.invoice', $record))
+                ->url(fn(Order $record) => route('filament.admin.resources.orders.invoice', $record))
                 ->openUrlInNewTab(),
         ];
     }

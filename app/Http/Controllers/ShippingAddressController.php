@@ -6,6 +6,7 @@ use App\Http\Requests\ShippingAddressRequest;
 use App\Http\Resources\ShippingAddressResource;
 use App\Models\Address;
 use App\Models\Country;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -24,6 +25,7 @@ class ShippingAddressController extends Controller
 
     public function store(ShippingAddressRequest $request)
     {
+        Log::debug($request->all());
         $user = Auth::user();
         $address = $user->shippingAddresses()->create($request->validated());
         if ($request->default) {
@@ -32,11 +34,14 @@ class ShippingAddressController extends Controller
                 ->update(['default' => false]);
         }
         return redirect()->route('shippingAddress.index')
-            ->with('success', 'Shipping address created.');
+            ->with('successToast', 'تم إنشاء عنوان الشحن.');
     }
 
     public function update(ShippingAddressRequest $request, Address $address)
     {
+        Log::debug($request->validated());
+
+        // dd($request);
         if (!$address->belongs(auth()->user())) {
             abort(403, "Unauthorized");
         }
@@ -48,7 +53,7 @@ class ShippingAddressController extends Controller
                 ->update(['default' => false]);
         }
         return redirect()->route('shippingAddress.index')
-            ->with('success', 'Shipping address updated.');
+            ->with('successToast', 'تم تحديث عنوان الشحن.');
     }
 
     public function makeDefault(Address $address)
@@ -63,7 +68,7 @@ class ShippingAddressController extends Controller
 
         $address->update(['default' => 1]);
         return redirect()->route('shippingAddress.index')
-            ->with('successToast', 'Default shipping address updated.');
+            ->with('successToast', 'تم تحديث عنوان الشحن الافتراضي.');
     }
 
     public function destroy(Address $address)
@@ -73,6 +78,6 @@ class ShippingAddressController extends Controller
         }
         $address->delete();
         return redirect()->route('shippingAddress.index')
-            ->with('successToast', 'Shipping address deleted.');
+            ->with('successToast', 'تم حذف عنوان الشحن.');
     }
 }

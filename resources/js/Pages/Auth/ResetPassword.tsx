@@ -35,11 +35,11 @@ export default function ResetPassword({
         <div className="card bg-white dark:bg-gray-800 shadow max-w-[420px] mx-auto">
           <div className="card-body">
 
-            <h1 className={"text-2xl mb-6 text-center"}>Reset your password</h1>
+            <h1 className={"text-2xl mb-6 text-center"}>إعادة تعيين كلمة المرور</h1>
 
             <form onSubmit={submit}>
               <div>
-                <InputLabel htmlFor="email" value="Email"/>
+                <InputLabel htmlFor="email" value="البريد الإلكتروني"/>
 
                 <TextInput
                   id="email"
@@ -55,7 +55,7 @@ export default function ResetPassword({
               </div>
 
               <div className="mt-4">
-                <InputLabel htmlFor="password" value="Password"/>
+                <InputLabel htmlFor="password" value="كلمة المرور"/>
 
                 <TextInput
                   id="password"
@@ -74,7 +74,7 @@ export default function ResetPassword({
               <div className="mt-4">
                 <InputLabel
                   htmlFor="password_confirmation"
-                  value="Confirm Password"
+                  value="تأكيد كلمة المرور"
                 />
 
                 <TextInput
@@ -96,7 +96,7 @@ export default function ResetPassword({
 
               <div className="mt-4 flex items-center justify-end">
                 <PrimaryButton className="ms-4" disabled={processing}>
-                  Reset Password
+                  إعادة تعيين كلمة المرور
                 </PrimaryButton>
               </div>
             </form>

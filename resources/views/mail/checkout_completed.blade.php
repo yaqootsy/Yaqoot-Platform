@@ -1,12 +1,12 @@
 <x-mail::message>
-<h1 style="text-align: center; font-size: 24px">Payment was Completed Successfully</h1>
+<h1 style="text-align: center; font-size: 24px">تمت عملية الدفع بنجاح</h1>
 
 @foreach($orders as $order)
 <x-mail::table>
     <table>
         <tbody>
         <tr>
-            <td>Seller</td>
+            <td>البائع</td>
             <td>
                 <a href="{{ url('/') }}">
                     {{ $order->vendorUser->vendor->store_name }}
@@ -14,15 +14,15 @@
             </td>
         </tr>
         <tr>
-            <td>Order #</td>
+            <td>الطلب #</td>
             <td>#{{ $order->id }}</td>
         </tr>
         <tr>
-            <td>Items</td>
+            <td>العناصر</td>
             <td>{{$order->orderItems->count()}}</td>
         </tr>
         <tr>
-            <td>Total</td>
+            <td>الإجمالي</td>
             <td>{{ \Illuminate\Support\Number::currency($order->total_price) }}</td>
         </tr>
         </tbody>
@@ -33,9 +33,9 @@
     <table>
         <thead>
         <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
+            <th>العنصر</th>
+            <th>الكمية</th>
+            <th>السعر</th>
         </tr>
         </thead>
         <tbody>
@@ -68,7 +68,7 @@
 </x-mail::table>
 
 <x-mail::button :url="$order->id">
-    View Order Details
+    عرض تفاصيل الطلب
 </x-mail::button>
 @endforeach
 
@@ -80,6 +80,6 @@
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur cum cumque enim inventore magnam optio quisquam quos rerum, similique. Culpa debitis distinctio laboriosam nam qui tempora totam veritatis voluptate voluptates.
 </x-mail::panel>
 
-Thanks,<br>
+شكراً,<br>
 {{ config('app.name') }}
 </x-mail::message>

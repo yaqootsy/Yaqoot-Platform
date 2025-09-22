@@ -12,7 +12,7 @@ class ProductImages extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 
-    protected static ?string $title = 'Images';
+    protected static ?string $title = 'صور المنتج';
 
     protected static ?string $navigationIcon = 'heroicon-c-photo';
 
@@ -21,7 +21,7 @@ class ProductImages extends EditRecord
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('images')
-                    ->label(false)
+                    ->label('صور المنتج')
                     ->image()
                     ->multiple()
                     ->openable()
@@ -37,7 +37,8 @@ class ProductImages extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+            ->label('حذف'),
         ];
     }
 }

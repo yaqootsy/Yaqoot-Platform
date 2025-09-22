@@ -18,7 +18,7 @@ class ProductVariations extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 
-    protected static ?string $title = 'Variations';
+    protected static ?string $title = 'الاختلافات';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
@@ -35,19 +35,20 @@ class ProductVariations extends EditRecord
         return $form
             ->schema([
                 Repeater::make('variations')
-                    ->label(false)
+                    ->label('الاختلافات')
                     ->collapsible()
                     ->addable(false)
                     ->defaultItems(1)
                     ->schema([
                         Section::make()
                             ->schema($fields)
+                            ->label('الخصائص')
                             ->columns(3),
                         TextInput::make('quantity')
-                            ->label('Quantity')
+                            ->label('الكمية')
                             ->numeric(),
                         TextInput::make('price')
-                            ->label('Price')
+                            ->label('السعر')
                             ->numeric(),
                     ])
                     ->columns(2)
@@ -58,7 +59,8 @@ class ProductVariations extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+            ->label('حذف'),
         ];
     }
 

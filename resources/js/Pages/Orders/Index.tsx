@@ -95,9 +95,9 @@ export default function Index({ orders }: { orders: Paginator<Order> }) {
 
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-base-content">My Orders</h1>
+          <h1 className="text-3xl font-semibold text-base-content">طلبياتي</h1>
           <p className="mt-2 text-sm text-base-content/70">
-            View your order history, check status, and manage your purchases.
+            اعرض سجل طلباتك، وتحقق من الحالة، وقم بإدارة مشترياتك.
           </p>
         </div>
 
@@ -117,16 +117,16 @@ export default function Index({ orders }: { orders: Paginator<Order> }) {
                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
               />
             </svg>
-            <h3 className="mt-4 text-lg font-medium text-base-content">No orders found</h3>
+            <h3 className="mt-4 text-lg font-medium text-base-content">لا توجد طلبات</h3>
             <p className="mt-1 text-sm text-base-content/70">
-              You haven't placed any orders yet.
+              لم تقم بإجراء أي طلبات حتى الآن.
             </p>
             <div className="mt-6">
               <Link
                 href="/"
                 className="btn btn-primary btn-md"
               >
-                Continue Shopping
+                متابعة التسوق
               </Link>
             </div>
           </div>
@@ -135,12 +135,12 @@ export default function Index({ orders }: { orders: Paginator<Order> }) {
             <table className="table table-zebra w-full">
               <thead>
                 <tr>
-                  <th>Order ID</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Total</th>
-                  <th>Items</th>
-                  <th className="text-right">Actions</th>
+                  <th>رقم الطلب</th>
+                  <th>التاريخ</th>
+                  <th>الحالة</th>
+                  <th>الإجمالي</th>
+                  <th>العناصر</th>
+                  <th className="text-right">الإجراءات</th>
                 </tr>
               </thead>
               <tbody>
@@ -171,14 +171,14 @@ export default function Index({ orders }: { orders: Paginator<Order> }) {
                           href={`/orders/${order.id}`}
                           className="btn btn-sm btn-primary"
                         >
-                          View Details
+                          عرض التفاصيل
                         </Link>
                         <Link
                           href={`/orders/${order.id}/invoice`}
                           target="_blank"
                           className="btn btn-sm btn-outline btn-secondary"
                         >
-                          Invoice
+                          الفاتورة
                         </Link>
                       </div>
                     </td>

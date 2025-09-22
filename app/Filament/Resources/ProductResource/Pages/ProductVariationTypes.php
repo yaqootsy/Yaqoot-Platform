@@ -16,7 +16,7 @@ class ProductVariationTypes extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 
-    protected static ?string $title = 'Variation Types';
+    protected static ?string $title = 'أنواع الاختلافات';
 
     protected static ?string $navigationIcon = 'heroicon-m-numbered-list';
 
@@ -25,27 +25,33 @@ class ProductVariationTypes extends EditRecord
         return $form
             ->schema([
                 Repeater::make('variationTypes')
-                    ->label(false)
+                    ->label('أنواع الاختلافات')
                     ->relationship()
                     ->collapsible()
                     ->defaultItems(1)
-                    ->addActionLabel('Add new variation type')
+                    ->addActionLabel('إضافة نوع اختلاف')
                     ->columns(2)
                     ->columnSpan(2)
                     ->schema([
                         TextInput::make('name')
-                            ->required(),
+                            ->required()
+                            ->label('الاسم'),
                         Select::make('type')
                             ->options(ProductVariationTypeEnum::labels())
-                            ->required(),
+                            ->required()
+                            ->label('النوع'),
                         Repeater::make('options')
+                            ->label('الخيارات')
                             ->relationship()
                             ->collapsible()
+                            ->addActionLabel('إضافة خيار')
                             ->schema([
                                 TextInput::make('name')
+                                    ->label('الاسم')
                                     ->columnSpan(2)
                                     ->required(),
                                 SpatieMediaLibraryFileUpload::make('images')
+                                    ->label('صورة الخيار')
                                     ->image()
                                     ->multiple()
                                     ->openable()
@@ -64,7 +70,8 @@ class ProductVariationTypes extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+            ->label('حذف')  ,
         ];
     }
 }

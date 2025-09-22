@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer base {
+  html {
+    @apply transition-colors duration-300;
+  }
+}
+
+
 .wysiwyg-output > blockquote,
 .wysiwyg-output > dl,
 .wysiwyg-output > dd,
@@ -62,3 +70,20 @@
     background-color: #eaf4ff;
     color: #4156e2;
 }
+
+/* إخفاء شريط التمرير في كل المتصفحات */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE و Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* smooth scrolling for category container */
+.flex.overflow-x-auto { scroll-behavior: smooth; }
+
+
+/* transition helper for mobile collapse (optional but nicer) */
+.transition-max-h { transition: max-height 220ms ease; }

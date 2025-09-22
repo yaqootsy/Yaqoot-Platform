@@ -23,6 +23,8 @@ class ShippingAddressRequest extends FormRequest
     {
         return [
             'country_code' => ['required', 'string', 'exists:countries,code'],
+            'latitude' => ['nullable', 'numeric'],
+            'longitude' => ['nullable', 'numeric'],
             'full_name' => ['required', 'string'],
             'type' => ['required', 'string'],
             'phone' => ['required', 'string'],

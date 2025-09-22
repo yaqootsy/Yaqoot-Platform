@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Order;
 
 // Guest Routes
+
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['ar', 'en'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('change.lang');
+
 Route::get('/', [ProductController::class, 'home'])->name('dashboard');
 Route::get('/product/{product:slug}', [ProductController::class, 'show'])
     ->name('product.show');
@@ -41,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::delete('/vendor/cover-image', [VendorController::class, 'deleteCoverImage'])->name('vendor.cover_image.delete');
 
     Route::get('/shipping-address', [ShippingAddressController::class, 'index'])
         ->name('shippingAddress.index');
@@ -56,7 +65,7 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/shipping-address/{address}', [ShippingAddressController::class, 'destroy'])
         ->name('shippingAddress.destroy');
-    
+
     // Orders routes for buyers
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');

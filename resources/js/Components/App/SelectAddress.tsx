@@ -40,12 +40,12 @@ function SelectAddress(
       <Modal show={show} onClose={closeModal} maxWidth="3xl">
         <div className="p-4 md:p-8">
           <h2 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-4">
-            Select a shipping address
+            اختر عنوان الشحن
           </h2>
           <div className="flex flex-wrap gap-2">
             {!addresses.length && (
               <div className="text-center py-16 px-8 flex-1 text-gray-500">
-                You don't have any addresses yet.
+                ليس لديك أي عناوين حتى الآن.
               </div>
             )}
             {addresses.map(address => (
@@ -67,16 +67,16 @@ function SelectAddress(
             ))}
           </div>
           <div className="mt-4">
-            <Link href={route('shippingAddress.index')} className="link">Manage addresses</Link>
+            <Link href={route('shippingAddress.index')} className="link">إدارة العناوين</Link>
           </div>
 
           <div className="mt-6 flex justify-end">
             <SecondaryButton onClick={closeModal}>
-              Cancel
+              إلغاء
             </SecondaryButton>
 
             <PrimaryButton onClick={onSubmit} className="ms-3">
-              Select
+              اختر
             </PrimaryButton>
           </div>
         </div>

@@ -21,6 +21,8 @@ class ShippingAddressResource extends JsonResource
             'full_name' => $this->full_name,
             'user_id' => $this->user_id,
             'country_code' => $this->country_code,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
             'country' => $this->country,
             'city' => $this->city,
             'type' => $this->type,

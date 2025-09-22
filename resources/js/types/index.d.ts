@@ -178,6 +178,7 @@ export type Order = {
 
 export type Vendor = {
   id: number;
+  user_id: number;
   store_name: string;
   store_address: string;
 }
@@ -185,6 +186,7 @@ export type Vendor = {
 export type Category = {
   id: number;
   name: string;
+  slug: any;
 }
 
 export type Department = {
@@ -199,7 +201,11 @@ export type Department = {
 export type Address = {
   id: number;
   user_id: number;
+  addressable_id: number;
+  addressable_type: string;
   country_code: string;
+  latitude: number | null;
+  longitude: number | null; 
   full_name: string;
   phone: string;
   city: string;

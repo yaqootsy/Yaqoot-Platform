@@ -69,6 +69,16 @@ class HandleInertiaRequests extends Middleware
             'totalQuantity' => $totalQuantity,
             'miniCartItems' => $cartItems,
             'departments' => DepartmentResource::collection($departments)->collection->toArray(),
+            'userAddress' => function () use ($request) {
+                if ($request->user()) {
+                    return $request->user()->shippingAddresses()
+                        ->where('default', true)
+                        ->with('country')
+                        ->first();
+                }
+                return null;
+            },
+
             'keyword' => $request->query('keyword')
         ];
     }

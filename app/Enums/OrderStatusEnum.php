@@ -13,11 +13,11 @@ enum OrderStatusEnum: string
     public static function labels()
     {
         return [
-            self::Draft->value => __('Draft'),
-            self::Paid->value => __('Paid'),
-            self::Shipped->value => __('Shipped'),
-            self::Delivered->value => __('Delivered'),
-            self::Cancelled->value => __('Cancelled'),
+            self::Draft->value => __('مسودة'),
+            self::Paid->value => __('مدفوع'),
+            self::Shipped->value => __('تم الشحن'),
+            self::Delivered->value => __('تم التوصيل'),
+            self::Cancelled->value => __('ملغي'),
         ];
     }
 

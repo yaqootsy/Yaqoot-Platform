@@ -1,38 +1,38 @@
 <x-mail::message>
 <h1 style="text-align: center; font-size: 24px">
-    Congratulations! You have new Order.
+    تهانينا! لديك طلب جديد.
 </h1>
 
 <x-mail::button :url="$order->id">
-    View Order  Details
+    عرض تفاصيل الطلب
 </x-mail::button>
 
-<h3 style="font-size: 20px; margin-bottom: 15px">Order Summary</h3>
+<h3 style="font-size: 20px; margin-bottom: 15px">ملخص الطلب</h3>
 <x-mail::table>
     <table>
         <tbody>
         <tr>
-            <td>Order #</td>
+            <td>الطلب #</td>
             <td>{{$order->id}}</td>
         </tr>
         <tr>
-            <td>Order Date</td>
+            <td>تاريخ الطلب</td>
             <td>{{ $order->created_at }}</td>
         </tr>
         <tr>
-            <td>Order Total</td>
+            <td>إجمالي الطلب</td>
             <td>{{ \Illuminate\Support\Number::currency($order->total_price) }}</td>
         </tr>
         <tr>
-            <td>Payment Processing Fee</td>
+            <td>رسوم معالجة الدفع</td>
             <td>{{ \Illuminate\Support\Number::currency($order->online_payment_commission ?: 0) }}</td>
         </tr>
         <tr>
-            <td>Platform Fee</td>
+            <td>رسوم المنصة</td>
             <td>{{ \Illuminate\Support\Number::currency($order->website_commission ?: 0) }}</td>
         </tr>
         <tr>
-            <td>Your Earnings</td>
+            <td>أرباحك</td>
             <td>{{ \Illuminate\Support\Number::currency($order->vendor_subtotal ?: 0) }}</td>
         </tr>
         </tbody>
@@ -45,9 +45,9 @@
     <table>
         <thead>
         <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
+            <th>العنصر</th>
+            <th>الكمية</th>
+            <th>السعر</th>
         </tr>
         </thead>
         <tbody>
@@ -80,9 +80,9 @@
 </x-mail::table>
 
 <x-mail::panel>
-    Thank you for having business with us.
+    شكراً لكم على تعاملكم معنا.
 </x-mail::panel>
 
-Thanks,<br>
+شكراً,<br>
 {{ config('app.name') }}
 </x-mail::message>

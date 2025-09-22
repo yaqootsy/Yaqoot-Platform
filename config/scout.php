@@ -168,6 +168,7 @@ return [
                     'protocol' => env('TYPESENSE_PROTOCOL', 'http'),
                 ],
             ],
+            'verify_ssl' => false,  // <--- تجاهل مشاكل الشهادة
             'nearest_node' => [
                 'host' => env('TYPESENSE_HOST', 'localhost'),
                 'port' => env('TYPESENSE_PORT', '8108'),
@@ -179,7 +180,7 @@ return [
             'num_retries' => env('TYPESENSE_NUM_RETRIES', 3),
             'retry_interval_seconds' => env('TYPESENSE_RETRY_INTERVAL_SECONDS', 1),
         ],
-        // 'max_total_results' => env('TYPESENSE_MAX_TOTAL_RESULTS', 1000),
+        'max_total_results' => env('TYPESENSE_MAX_TOTAL_RESULTS', 1000),
         'model-settings' => [
             \App\Models\Product::class => [
                 'collection-schema' => [
@@ -191,20 +192,28 @@ return [
                         [
                             'name' => 'title',
                             'type' => 'string',
+                            'infix' => true,
+                            'prefix' => true,
                             'sort' => true
                         ],
                         [
                             'name' => 'description',
                             'type' => 'string',
+                            'infix' => true,
+                            'prefix' => true
                         ],
                         [
                             'name' => 'department_name',
                             'type' => 'string',
+                            'infix' => true,
+                            'prefix' => true,
                             'facet' => true,
                         ],
                         [
                             'name' => 'category_name',
                             'type' => 'string',
+                            'infix' => true,
+                            'prefix' => true,
                             'facet' => true,
                         ],
                         [
@@ -216,14 +225,36 @@ return [
                             'name' => 'created_at',
                             'type' => 'int64',
                         ],
+                        [
+                            'name' => 'user_id',
+                            'type' => 'string',
+                            'infix' => true,
+                            'prefix' => true,
+                            'facet' => true,
+                        ],
+                        [
+                            'name' => 'user_store_name',
+                            'type' => 'string',
+                            'infix' => true,
+                            'prefix' => true,
+                            'facet' => true,
+                        ],
                     ],
                     'default_sorting_field' => 'created_at',
                 ],
                 'search-parameters' => [
-                    'query_by' => 'title,description'
+                    'query_by' => 'title,description,user_store_name,department_name,category_name',
+                    'query_by_weights' => '5,4,3,2,2', // ترتيب أهمية الحقول
+                    'split_on_whitespace' => true,      // يبحث عن أي كلمة منفردة
+                    'num_typos' => 3,                   // يسمح بخطأ/حرف ناقص/زائد حتى 3
+                    'prefix' => 'true',                 // البحث الجزئي في بداية الكلمات
+                    'infix' => 'true',                  // البحث الجزئي في منتصف الكلمات
                 ],
             ],
         ],
+
+
+
     ],
 
 ];

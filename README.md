@@ -1,4 +1,4 @@
-# LaraStore
+# Yaqoot
 Multi vendor e-commerce starter kit built with Laravel and React with Inertia with server side rendering built-in.
 
 ## Requirements
@@ -14,13 +14,13 @@ Multi vendor e-commerce starter kit built with Laravel and React with Inertia wi
 #### 1. Clone or download project repository
 
 ```bash
-git clone https://github.com/larastore-io/laravel-react-inertia.git
+git clone https://github.com/yaqootsy/Yaqoot-Platform.git
 ``` 
 
 #### 2. Navigate into project's root directory
 
 ```bash
-cd laravel-react-inertia
+cd Yaqoot-Platform
 ```
 
 Create `.env` file and adjust the environment variables.
@@ -36,7 +36,7 @@ If you want to use MySql instead of sqlite, modify the `DB_*` variables.
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=larastore
+DB_DATABASE=yaqoot_market
 DB_USERNAME=root
 DB_PASSWORD=
 ...

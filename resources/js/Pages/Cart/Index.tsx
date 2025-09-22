@@ -29,7 +29,7 @@ function Index(
       preserveState: true,
     });
   }
-
+  
   return (
     <AuthenticatedLayout>
       <Head title="Your Cart"/>
@@ -38,13 +38,13 @@ function Index(
         <div className="card flex-1 bg-white dark:bg-gray-800 order-2 lg:order-1">
           <div className="card-body">
             <h2 className="text-lg font-bold">
-              Shopping Cart
+              عربة التسوق
             </h2>
 
             <div className="my-4">
               {Object.keys(cartItems).length === 0 && (
                 <div className="py-2 text-gray-500 text-center">
-                  You don't have any items yet.
+                  ليس لديك أي عناصر حتى الآن.
                 </div>
               )}
               {Object.values(cartItems).map(cartItem => (
@@ -52,14 +52,14 @@ function Index(
                   <div
                     className={"flex flex-col sm:flex-row items-center justify-between pb-4 border-b border-gray-300 mb-4"}>
                     <Link href={route('vendor.profile', cartItem.user.name)} className={"underline"}>
-                      {cartItem.user.name}
+                      <b>{cartItem.user.name}</b>
                     </Link>
                     <form action={route('cart.checkout')} method="post">
                       <input type="hidden" name="_token" value={csrf_token}/>
                       <input type="hidden" name="vendor_id" value={cartItem.user.id}/>
                       <button className="btn btn-sm btn-ghost">
                         <CreditCardIcon className={"size-6"}/>
-                        Pay Only for this seller
+                        ادفع فقط لهذا البائع
                       </button>
                     </form>
                   </div>
@@ -77,7 +77,7 @@ function Index(
               {shippingAddress && (
                 <>
                   <h2 className="text-lg font-bold border-b pb-2 mb-2">
-                    Shipping Address
+                    عنوان الشحن
                   </h2>
                   <AddressItem address={shippingAddress}
                                readonly={true}
@@ -87,38 +87,38 @@ function Index(
               )}
               {!shippingAddress && (
                 <div className="text-gray-500 text-center">
-                  No shipping address selected. <br/>
+                  لم يتم تحديد عنوان الشحن. <br/>
                 </div>
               )}
               <SelectAddress addresses={addresses}
                              selectedAddress={shippingAddress}
                              onChange={onAddressChange}
-                             buttonLabel="Change Address"/>
+                             buttonLabel="تغيير العنوان"/>
             </div>
           </div>
           <div className="card bg-white dark:bg-gray-800">
             <div className="card-body gap-1">
               <div className="flex justify-between">
-                <span>Items ({totalQuantity})</span>
+                <span>العناصر ({totalQuantity})</span>
                 <CurrencyFormatter amount={totalPrice}/>
               </div>
               <div className="flex justify-between">
-                <span>Shipping</span>
+                <span>الشحن</span>
                 <span>N/A</span>
               </div>
               <div className="flex justify-between">
-                <span>Tax</span>
+                <span>الضريبة</span>
                 <span>N/A</span>
               </div>
               <div className="flex justify-between font-bold text-xl">
-                <span>Order Total</span>
+                <span>إجمالي الطلب</span>
                 <CurrencyFormatter amount={totalPrice}/>
               </div>
               <form action={route('cart.checkout')} method="post">
                 <input type="hidden" name="_token" value={csrf_token}/>
                 <PrimaryButton className="rounded-full w-full mt-4" disabled={!shippingAddress}>
                   <CreditCardIcon className={"size-6"}/>
-                  Proceed to checkout
+                  انتقل إلى الدفع
                 </PrimaryButton>
               </form>
             </div>

@@ -41,18 +41,26 @@ class CartController extends Controller
         $data = $request->validate([
             'option_ids' => ['nullable', 'array'],
             'quantity' => [
-                'required', 'integer', 'min:1'
+                'required',
+                'integer',
+                'min:1'
             ],
         ]);
 
+
+
         $productTotalQuantity = $product->getTotalQuantity($data['option_ids']);
         $cartQuantity = $cartService->getQuantity($product, $data['option_ids']);
-
+        Log::info('Cart debug', [
+            'productTotalQuantity' => $productTotalQuantity,
+            'cartQuantity' => $cartQuantity,
+            'requestedQuantity' => $data['quantity'],
+        ]);
         if ($cartQuantity + $data['quantity'] > $productTotalQuantity) {
             $message = match ($productTotalQuantity - $cartQuantity) {
-                0 => 'The Product is out of stock',
-                1 => 'There is only 1 item left in stock',
-                default => 'There are only ' . ($productTotalQuantity - $cartQuantity) . ' items left in stock'
+                0 => 'المنتج غير متوفر',
+                1 => 'لم يتبق سوى قطعة واحدة في المخزون',
+                default => 'لم يتبق سوى  ' . ($productTotalQuantity - $cartQuantity) . ' قطع في المخزون'
             };
             return back()->with('errorToast', $message);
         }
@@ -63,7 +71,7 @@ class CartController extends Controller
             $data['option_ids'] ?: []
         );
 
-        return back()->with('successToast', 'Product added to cart successfully!');
+        return back()->with('successToast', 'تمت إضافة المنتج إلى سلة التسوق بنجاح!');
     }
 
     /**
@@ -73,7 +81,9 @@ class CartController extends Controller
     {
         $request->validate([
             'quantity' => [
-                'integer', 'min:1', function ($attribute, $value, $fail) use ($product, $request) {
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) use ($product, $request) {
                     $optionIds = $request->input('option_ids') ?: [];
                     $productTotalQuantity = $product->getTotalQuantity($optionIds);
 
@@ -89,8 +99,9 @@ class CartController extends Controller
 
         $cartService->updateItemQuantity($product->id, $quantity, $optionIds);
 
-        return back()->with('successToast', 'Quantity was updated');
+        return back()->with('successToast', 'تم تحديث الكمية');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -101,7 +112,7 @@ class CartController extends Controller
 
         $cartService->removeItemFromCart($product->id, $optionIds);
 
-        return back()->with('successToast', 'Product was removed from cart.');
+        return back()->with('successToast', 'تمت إزالة المنتج من سلة التسوق.');
     }
 
     public function checkout(Request $request, CartService $cartService)

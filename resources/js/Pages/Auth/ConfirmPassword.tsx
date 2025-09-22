@@ -27,13 +27,12 @@ export default function ConfirmPassword() {
         <div className="card bg-white dark:bg-gray-800 shadow max-w-[420px] mx-auto">
           <div className="card-body">
             <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
-              This is a secure area of the application. Please confirm your
-              password before continuing.
+              هذه منطقة آمنة من التطبيق. يرجى تأكيد كلمة المرور قبل المتابعة.
             </div>
 
             <form onSubmit={submit}>
               <div className="mt-4">
-                <InputLabel htmlFor="password" value="Password"/>
+                <InputLabel htmlFor="password" value="كلمة المرور"/>
 
                 <TextInput
                   id="password"
@@ -50,7 +49,7 @@ export default function ConfirmPassword() {
 
               <div className="mt-4 flex items-center justify-end">
                 <PrimaryButton className="ms-4" disabled={processing}>
-                  Confirm
+                  تأكيد
                 </PrimaryButton>
               </div>
             </form>

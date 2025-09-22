@@ -11,9 +11,9 @@ enum ProductVariationTypeEnum: string
     public static function labels(): array
     {
         return [
-            self::Select->value => __('Select'),
-            self::Radio->value => __('Radio'),
-            self::Image->value => __('Image'),
+            self::Select->value => 'قائمة اختيار',
+            self::Radio->value => 'زر اختيار',
+            self::Image->value => 'صورة',
         ];
     }
 }

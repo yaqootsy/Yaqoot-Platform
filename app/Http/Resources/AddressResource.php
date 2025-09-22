@@ -16,6 +16,7 @@ class AddressResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id ?? $this->addressable_id, // Use one of these
             'addressable_type' => $this->addressable_type,
             'addressable_id' => $this->addressable_id,
             'type' => $this->type,
@@ -26,8 +27,11 @@ class AddressResource extends JsonResource
             'state' => $this->state,
             'zipcode' => $this->zipcode,
             'phone' => $this->phone,
-            'country_id' => $this->country_id,
-            'default' => $this->default,
+            'country_code' => $this->country_code, // Changed from country_id
+            'latitude' => $this->latitude,       // Added
+            'longitude' => $this->longitude,     // Added
+            'default' => (bool) $this->default,
+            'delivery_instructions' => $this->delivery_instructions,
             
             // Include relations
             'country' => $this->whenLoaded('country', function() {

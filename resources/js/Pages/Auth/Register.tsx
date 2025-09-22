@@ -30,11 +30,11 @@ export default function Register() {
         <div className="card bg-white dark:bg-gray-800 shadow max-w-[420px] mx-auto">
           <div className="card-body">
 
-            <h1 className={"text-2xl mb-6 text-center"}>Create new account</h1>
+            <h1 className={"text-2xl mb-6 text-center"}>إنشاء حساب جديد</h1>
 
             <form onSubmit={submit}>
               <div>
-                <InputLabel htmlFor="name" value="Name"/>
+                <InputLabel htmlFor="name" value="الاسم"/>
 
                 <TextInput
                   id="name"
@@ -51,7 +51,7 @@ export default function Register() {
               </div>
 
               <div className="mt-4">
-                <InputLabel htmlFor="email" value="Email"/>
+                <InputLabel htmlFor="email" value="البريد الإلكتروني"/>
 
                 <TextInput
                   id="email"
@@ -68,7 +68,7 @@ export default function Register() {
               </div>
 
               <div className="mt-4">
-                <InputLabel htmlFor="password" value="Password"/>
+                <InputLabel htmlFor="password" value="كلمة المرور"/>
 
                 <TextInput
                   id="password"
@@ -87,7 +87,7 @@ export default function Register() {
               <div className="mt-4">
                 <InputLabel
                   htmlFor="password_confirmation"
-                  value="Confirm Password"
+                  value="تأكيد كلمة المرور"
                 />
 
                 <TextInput
@@ -114,11 +114,11 @@ export default function Register() {
                   href={route('login')}
                   className="link"
                 >
-                  Already registered?
+                  هل أنت مسجل بالفعل؟
                 </Link>
 
                 <PrimaryButton className="ms-4" disabled={processing}>
-                  Register
+                  تسجيل
                 </PrimaryButton>
               </div>
             </form>

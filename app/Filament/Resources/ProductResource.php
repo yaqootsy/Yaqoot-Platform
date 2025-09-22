@@ -34,6 +34,9 @@ class ProductResource extends Resource
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
+    protected static ?string $modelLabel = 'منتج';          // مفرد
+    protected static ?string $pluralModelLabel = 'المنتجات'; // جمع
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->forVendor();
@@ -49,6 +52,7 @@ class ProductResource extends Resource
                 ])
                     ->schema([
                         TextInput::make('title')
+                            ->label('العنوان')
                             ->live(onBlur: true)
                             ->required()
                             ->afterStateUpdated(
@@ -57,12 +61,13 @@ class ProductResource extends Resource
                                 }
                             ),
                         TextInput::make('slug')
+                            ->label('معرّف الصفحة')
                             ->required(),
                         Select::make('department_id')
                             ->relationship('department', 'name', function ($query) {
                                 $query->where('active', true); // Filter departments with status active
                             })
-                            ->label(__('Department'))
+                            ->label('القسم')
                             ->preload()
                             ->searchable()
                             ->required()
@@ -83,13 +88,14 @@ class ProductResource extends Resource
                                     }
                                 }
                             )
-                            ->label(__('Category'))
+                            ->label('الفئة')
                             ->preload()
                             ->searchable()
                             ->required()
                     ])
                     ->columnSpan(2),
                 Forms\Components\RichEditor::make('description')
+                    ->label('الوصف')
                     ->required()
                     ->toolbarButtons([
                         'blockquote',
@@ -108,6 +114,7 @@ class ProductResource extends Resource
                     ])
                     ->columnSpan(2),
                 TextInput::make('price')
+                    ->label('السعر')
                     ->required()
                     ->numeric()
                     ->columnSpan([
@@ -115,12 +122,14 @@ class ProductResource extends Resource
                         'lg' => 1
                     ]),
                 TextInput::make('quantity')
+                    ->label('الكمية')
                     ->integer()
                     ->columnSpan([
                         'default' => 2,
                         'lg' => 1
                     ]),
                 Select::make('status')
+                    ->label('الحالة')
                     ->options(ProductStatusEnum::labels())
                     ->default(ProductStatusEnum::Draft->value)
                     ->required()
@@ -129,10 +138,21 @@ class ProductResource extends Resource
                         'lg' => 1
                     ]),
                 Forms\Components\Section::make('SEO')
+                    ->heading('تهيئة محركات البحث (SEO)')
+                    ->description('املأ الحقول التالية لتحسين ظهور المنتج في محركات البحث.')
                     ->collapsible()
                     ->schema([
-                        Forms\Components\TextInput::make('meta_title'),
+                        Forms\Components\TextInput::make('meta_title')
+                            ->label('عنوان الميتا')
+                            ->placeholder('مثال: هاتف iPhone 15 في درعا – أفضل سعر')
+                            ->helperText('يظهر هذا العنوان في نتائج البحث ويجب أن يحتوي على اسم المنتج والموقع.')
+                            ->required(),
                         Forms\Components\Textarea::make('meta_description')
+                            ->label('وصف الميتا')
+                            ->rows(3)
+                            ->placeholder('مثال: اكتشف أحدث هاتف iPhone 15 في درعا مع أفضل العروض وأسعار منافسة وخدمة توصيل سريعة.')
+                            ->helperText('الوصف يظهر أسفل العنوان في نتائج البحث ويجب أن يصف المنتج والموقع بشكل مشوق.')
+                            ->required(),
                     ])
                     ->columnSpan(2),
             ]);
@@ -166,11 +186,13 @@ class ProductResource extends Resource
                     ->relationship('department', 'name')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('تعديل'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('حذف'),
                 ]),
             ]);
     }

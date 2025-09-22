@@ -87,7 +87,7 @@ class ProductSeeder extends Seeder
             }
         });
 
-        echo "\nFinished creating 1,000,000 products!\n";
+        echo "\nFinished creating 1,000 products!\n";
     }
 
     /**

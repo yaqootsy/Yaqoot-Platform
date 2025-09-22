@@ -1,10 +1,10 @@
-import {usePage} from '@inertiajs/react';
-import {PropsWithChildren, ReactNode} from 'react';
+import { usePage } from "@inertiajs/react";
+import { PropsWithChildren, ReactNode } from "react";
 import Navbar from "@/Components/App/Navbar";
+import Footer from "@/Components/App/Footer";
 import ToastList from "@/Components/Core/ToastList";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
-import {InstantSearch} from "react-instantsearch";
-
+import { InstantSearch } from "react-instantsearch";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
   server: {
@@ -23,45 +23,46 @@ const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
   //  So you can pass any parameters supported by the search endpoint below.
   //  query_by is required.
   additionalSearchParameters: {
-    query_by: "title,description",
+    query_by: "title,description,user_store_name,department_name,category_name",
   },
 });
 const searchClient = typesenseInstantsearchAdapter.searchClient;
 
-export default function AuthenticatedLayout(
-  {
-    header,
-    children,
-  }: PropsWithChildren<{ header?: ReactNode }>) {
+export default function AuthenticatedLayout({
+  header,
+  children,
+  searchPlaceholder, // جديد
+}: PropsWithChildren<{ header?: ReactNode; searchPlaceholder?: string }>) {
   const props = usePage().props;
 
   return (
     <div className="min-h-screen bg-base-200">
-      <InstantSearch routing={true} indexName="products_index" searchClient={searchClient}>
-        <Navbar/>
+      <InstantSearch
+        routing={true}
+        indexName="products_index"
+        searchClient={searchClient}
+      >
+        <Navbar searchPlaceholder={searchPlaceholder} />
 
         {props.error && (
           <div className="container mx-auto px-8 mt-8 ">
-            <div className="alert alert-error">
-              {props.error}
-            </div>
+            <div className="alert alert-error">{props.error}</div>
           </div>
         )}
 
         {props.success && (
           <div className="container mx-auto px-8 mt-8 ">
-            <div className="alert alert-success">
-              {props.success}
-            </div>
+            <div className="alert alert-success">{props.success}</div>
           </div>
         )}
 
-        <ToastList alertVariant='error' pageProp="errorToast"/>
+        <ToastList alertVariant="error" pageProp="errorToast" />
 
-        <ToastList alertVariant='success' pageProp="successToast"/>
+        <ToastList alertVariant="success" pageProp="successToast" />
 
         <main>{children}</main>
       </InstantSearch>
+      <Footer />
     </div>
   );
 }

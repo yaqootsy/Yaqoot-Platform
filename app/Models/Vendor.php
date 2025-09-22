@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Vendor extends Model
+
+
+class Vendor extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $primaryKey = 'user_id';
 
@@ -26,4 +30,10 @@ class Vendor extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('cover_images')->singleFile();
+    }
+
 }

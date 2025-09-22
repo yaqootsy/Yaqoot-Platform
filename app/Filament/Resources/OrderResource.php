@@ -25,6 +25,10 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $modelLabel = 'طلب';          // مفرد
+    protected static ?string $pluralModelLabel = 'الطلبات'; // جمع
+
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
@@ -37,13 +41,13 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('status')
-                    ->label(__('Status'))
+                    ->label('الحالة')
                     ->options(OrderStatusEnum::labels())
                     ->required(),
                 Forms\Components\TextInput::make('tracking_code')
-                    ->label(__('Shipping Tracking Code'))
-                    ->placeholder('Enter shipping tracking number')
-                    ->helperText('Provide the tracking code from the shipping carrier. The customer will receive an email notification.')
+                    ->label('رمز التتبع')
+                    ->placeholder('أدخل رمز تتبع الشحنة')
+                    ->helperText('قدم رمز التتبع من شركة الشحن. سيتلقى العميل إشعارًا عبر البريد الإلكتروني.')
             ]);
     }
 
@@ -52,34 +56,37 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label(__('Order Number'))
+                    ->label('رقم الطلب')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('Customer'))
+                    ->label('العميل')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('total_price')
-                    ->label(__('Order Total'))
+                    ->label('الإجمالي')
                     ->formatStateUsing(function ($state) {
                         return Number::currency($state, config('app.currency'));
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('vendor_subtotal')
-                    ->label(__('My Subtotal'))
+                    ->label('المجموع الفرعي للبائع')
                     ->formatStateUsing(function ($state) {
                         return Number::currency($state, config('app.currency'));
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label('الحالة')
                     ->badge()
                     ->colors(OrderStatusEnum::colors())
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(fn(string $state) => OrderStatusEnum::labels()[$state] ?? $state),
                 Tables\Columns\TextColumn::make('tracking_code')
-                    ->label(__('Tracking Code'))
+                    ->label('رمز التتبع')
                     ->searchable()
                     ->placeholder('—')
                     ->copyable()
                     ->icon('heroicon-o-truck'),
                 TextColumn::make('created_at')
+                    ->label('تاريخ الإنشاء')
                     ->dateTime()
                     ->sortable(),
             ])

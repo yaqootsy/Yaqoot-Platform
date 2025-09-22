@@ -59,7 +59,7 @@ function CartItem({item}: { item: CartItemType }) {
           </div>
           <div className="grid grid-cols-2 sm:flex sm:grid-cols-4 gap-4 mt-4">
             <div className={"flex items-center gap-2 order-1"}>
-              <div className="text-sm">Quantity:</div>
+              <div className="text-sm">الكمية:</div>
               <div className={error ? 'tooltip tooltip-open tooltip-error' : ''} data-tip={error}>
                 <TextInput type="number"
                            min={1}
@@ -70,9 +70,9 @@ function CartItem({item}: { item: CartItemType }) {
               </div>
             </div>
             <button onClick={() => onDeleteClick()} className="btn btn-sm btn-ghost order-3">
-              Delete
+              حذف
             </button>
-            <button className="btn btn-sm btn-ghost order-4 whitespace-nowrap">Save for Later</button>
+            <button className="btn btn-sm btn-ghost order-4 whitespace-nowrap">حفظ لوقت لاحق</button>
             <div className="font-bold text-lg text-right order-2 sm:order-4 sm:ml-auto">
               <CurrencyFormatter amount={item.price * quantity}/>
             </div>

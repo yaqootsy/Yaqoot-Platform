@@ -16,36 +16,107 @@ class DepartmentSeeder extends Seeder
     {
         $departments = [
             [
-                'name' => 'Electronics',
+                
+                'name' => 'الإلكترونيات',
                 'slug' => 'electronics',
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'Fashion',
-                'slug' => 'fashion',
+                'name' => 'أزياء النساء',
+                'slug' => 'womens-fashion',
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'Home, Garden & Tools',
-                'slug' => Str::slug('Home, Garden & Tools'),
+                'name' => 'أزياء الرجال',
+                'slug' => 'mens-fashion',
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'Books & Audible',
-                'slug' => Str::slug('Books & Audible'),
+                'name' => 'أزياء الأطفال',
+                'slug' => 'kids-fashion',
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'Health & Beauty',
-                'slug' => Str::slug('Health & Beauty'),
+                'name' => 'الجمال والعطور',
+                'slug' => 'beauty-and-fragrances',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'المنزل',
+                'slug' => 'home',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'البقالة',
+                'slug' => 'grocery',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'الصحة والتغذية',
+                'slug' => 'health-and-nutrition',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'البيبي',
+                'slug' => 'baby',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'الرياضة',
+                'slug' => 'sports',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'الألعاب',
+                'slug' => 'toys',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'الطعام',
+                'slug' => 'food',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'السيارات',
+                'slug' => 'cars',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'الكتب والميديا',
+                'slug' => 'books-and-media',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'القرطاسية',
+                'slug' => 'stationery',
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now()

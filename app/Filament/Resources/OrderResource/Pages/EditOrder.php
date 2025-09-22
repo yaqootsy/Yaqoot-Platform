@@ -17,38 +17,39 @@ class EditOrder extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->label('حذف'),
         ];
     }
-    
+
     protected function afterSave(): void
     {
         $order = $this->record;
         $changes = [];
-        
+
         // Check if status was changed
         if ($order->wasChanged('status')) {
             $changes['status'] = $order->status;
         }
-        
+
         // Check if tracking code was added or changed
         if ($order->wasChanged('tracking_code') && $order->tracking_code) {
             $changes['tracking_code'] = $order->tracking_code;
-            
+
             // Update the timestamp when tracking code was added
             $order->tracking_code_added_at = Carbon::now();
             $order->saveQuietly(); // Save without triggering events again
         }
-        
+
         // If there are changes that need notification
         if (!empty($changes)) {
             // Send email notification to the customer
             $order->user->notify(new OrderStatusUpdated($order, $changes));
-            
+
             // Show success notification to the admin/vendor
             Notification::make()
-                ->title('Customer notified')
-                ->body('The customer has been notified of the order update.')
+                ->title('تم إعلام العميل')
+                ->body('تم إعلام العميل بتحديث الطلب.')
                 ->success()
                 ->send();
         }

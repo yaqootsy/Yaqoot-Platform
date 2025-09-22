@@ -8,7 +8,7 @@ function ProductListing({products}: { products: PaginationProps<ProductListItem>
     <div className="container py-8 px-4 mx-auto">
       {products.data.length === 0 && (
         <div className={"py-16 px-8 text-center text-gray-300 text-3xl"}>
-          No products found
+          لم يتم العثور على أي منتجات
         </div>
       )}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
@@ -46,7 +46,7 @@ function ProductListing({products}: { products: PaginationProps<ProductListItem>
                     (!products.links.prev ? 'btn-disabled' : '')
                   ]
                     .join(' ')}>
-              Previous
+              السابق
             </Link>
             <Link href={products.links.next}
                   preserveScroll
@@ -56,7 +56,7 @@ function ProductListing({products}: { products: PaginationProps<ProductListItem>
                     (!products.links.next ? 'btn-disabled' : '')
                   ]
                     .join(' ')}>
-              Next
+              التالي
             </Link>
           </div>
         </>

@@ -22,6 +22,7 @@ class CategoriesRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('parent_id')
@@ -31,10 +32,11 @@ class CategoriesRelationManager extends RelationManager
                             ->pluck('name', 'id')
                             ->toArray();
                     })
-                    ->label('Parent Category')
+                    ->label('القسم الأب')
                     ->preload()
                     ->searchable(),
                 Forms\Components\Checkbox::make('active')
+                    ->label('مفعل')
             ]);
     }
 
@@ -44,27 +46,34 @@ class CategoriesRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('الاسم')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('parent.name')
+                    ->label('القسم الأب')
                     ->sortable()
                     ->searchable(),
                 IconColumn::make('active')
+                    ->label('مفعل')
                     ->boolean()
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                ->label('إضافة'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                ->label('تعديل'),
+                Tables\Actions\DeleteAction::make()
+                ->label('حذف'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                    ->label('حذف جماعي'),
                 ]),
             ]);
     }

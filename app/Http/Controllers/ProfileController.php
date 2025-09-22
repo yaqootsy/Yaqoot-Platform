@@ -18,7 +18,16 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $user = $request->user();
+        if ($user->vendor) {
+            $vendor = $user->vendor;
+            $coverMedia = $vendor->getFirstMedia('cover_images');
+        } else {
+            $coverMedia = null;
+        }
+
         return Inertia::render('Profile/Edit', [
+            'coverMedia' => $coverMedia ? $coverMedia->getUrl() : null,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
