@@ -27,6 +27,8 @@ class ProductListResource extends JsonResource
             'department_id' => $this->department->id,
             'department_name' => $this->department->name,
             'department_slug' => $this->department->slug,
+            'distance' => $this->distance ?? null, // من السيرفر
+            'duration' => $this->duration ?? null, // من السيرفر
         ];
     }
 }

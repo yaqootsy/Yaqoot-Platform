@@ -15,7 +15,7 @@ import {
 import { hasAnyRole, hasRole } from "@/helpers";
 import { useSearchBox } from "react-instantsearch";
 import ThemeToggle from "../Core/ThemeToggle";
-import ecartlogo from "@/assets/images/ecartlogo.svg";
+import yaqootLogo from "@/assets/images/d.png";
 import { Department, Address } from "@/types";
 
 function Navbar({ searchPlaceholder }: { searchPlaceholder?: string }) {
@@ -74,8 +74,8 @@ function Navbar({ searchPlaceholder }: { searchPlaceholder?: string }) {
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost text-xl">
-            <img src={ecartlogo} alt="eCart" style={{ width: "3rem" }} />
-            إي كارت
+            <img src={yaqootLogo} alt="Yaqoot Market" style={{ width: "3rem" }} />
+            ياقوت
           </Link>
         </div>
         <div className="flex-none gap-4">

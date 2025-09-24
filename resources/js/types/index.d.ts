@@ -1,4 +1,4 @@
-import {Config} from 'ziggy-js';
+import { Config } from "ziggy-js";
 
 export interface User {
   id: number;
@@ -13,7 +13,7 @@ export interface User {
     store_name: string;
     store_address: string;
     cover_image: string;
-  }
+  };
 }
 
 export type Image = {
@@ -21,21 +21,21 @@ export type Image = {
   thumb: string;
   small: string;
   large: string;
-}
+};
 
 export type VariationTypeOption = {
   id: number;
   name: string;
   images: Image[];
-  type: VariationType
-}
+  type: VariationType;
+};
 
 export type VariationType = {
   id: number;
   name: string;
-  type: 'Select' | 'Radio' | 'Image';
-  options: VariationTypeOption[]
-}
+  type: "Select" | "Radio" | "Image";
+  options: VariationTypeOption[];
+};
 
 export type Product = {
   id: number;
@@ -59,14 +59,14 @@ export type Product = {
     name: string;
     slug: string;
   };
-  variationTypes: VariationType[],
+  variationTypes: VariationType[];
   variations: Array<{
     id: number;
     variation_type_option_ids: number[];
     quantity: number;
     price: number;
-  }>
-}
+  }>;
+};
 
 export type ProductListItem = {
   id: number;
@@ -81,7 +81,9 @@ export type ProductListItem = {
   department_id: number;
   department_name: string;
   department_slug: string;
-}
+  distance: string; // جديد
+  duration: string; // جديد
+};
 
 export type CartItem = {
   id: number;
@@ -92,15 +94,15 @@ export type CartItem = {
   quantity: number;
   image: string;
   option_ids: Record<string, number>;
-  options: VariationTypeOption[]
-}
+  options: VariationTypeOption[];
+};
 
 export type GroupedCartItems = {
   user: User;
   items: CartItem[];
   totalPrice: number;
   totalQuantity: number;
-}
+};
 
 export type PaginationProps<T> = {
   data: Array<T>;
@@ -111,17 +113,17 @@ export type PaginationProps<T> = {
     per_page: number;
     total: number;
     links: Array<{ url: string; label: string; active: boolean }>;
-  },
+  };
   links: {
     first: string;
     last: string;
     prev: string;
     next: string;
-  }
-}
+  };
+};
 
 export type PageProps<
-  T extends Record<string, unknown> = Record<string, unknown>,
+  T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
   appName: string;
   csrf_token: string;
@@ -130,11 +132,11 @@ export type PageProps<
   successToast: {
     message: string;
     time: number;
-  },
+  };
   errorToast: {
     message: string;
     time: number;
-  },
+  };
   auth: {
     user: User;
   };
@@ -145,7 +147,6 @@ export type PageProps<
   departments: Department[];
   keyword: string;
 };
-
 
 export type OrderItem = {
   id: number;
@@ -158,8 +159,8 @@ export type OrderItem = {
     slug: string;
     description: string;
     image: string;
-  }
-}
+  };
+};
 
 export type Order = {
   id: number;
@@ -173,21 +174,21 @@ export type Order = {
     store_name: string;
     store_address: string;
   };
-  orderItems: OrderItem[]
-}
+  orderItems: OrderItem[];
+};
 
 export type Vendor = {
   id: number;
   user_id: number;
   store_name: string;
   store_address: string;
-}
+};
 
 export type Category = {
   id: number;
   name: string;
   slug: any;
-}
+};
 
 export type Department = {
   id: number;
@@ -195,8 +196,8 @@ export type Department = {
   slug: string;
   meta_title: string;
   meta_description: string;
-  categories: Category[]
-}
+  categories: Category[];
+};
 
 export type Address = {
   id: number;
@@ -205,7 +206,7 @@ export type Address = {
   addressable_type: string;
   country_code: string;
   latitude: number | null;
-  longitude: number | null; 
+  longitude: number | null;
   full_name: string;
   phone: string;
   city: string;
@@ -217,7 +218,7 @@ export type Address = {
   default: boolean;
   delivery_instructions: string;
   country: Country;
-}
+};
 
 export type Country = {
   code: string;
@@ -225,5 +226,5 @@ export type Country = {
   active: boolean;
   states?: {
     [key: string]: string;
-  }
-}
+  };
+};
