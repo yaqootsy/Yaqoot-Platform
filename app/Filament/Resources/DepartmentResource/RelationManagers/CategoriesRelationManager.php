@@ -15,6 +15,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class CategoriesRelationManager extends RelationManager
 {
     protected static string $relationship = 'categories';
+    
+    protected static ?string $modelLabel = 'فئة';          // مفرد
+
+    protected static ?string $pluralModelLabel = 'الفئات'; // جمع
 
     public function form(Form $form): Form
     {
@@ -36,7 +40,7 @@ class CategoriesRelationManager extends RelationManager
                     ->preload()
                     ->searchable(),
                 Forms\Components\Checkbox::make('active')
-                    ->label('مفعل')
+                    ->label('نشط')
             ]);
     }
 
@@ -44,6 +48,7 @@ class CategoriesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('name')
+            ->heading('الفئات')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم')
@@ -54,7 +59,7 @@ class CategoriesRelationManager extends RelationManager
                     ->sortable()
                     ->searchable(),
                 IconColumn::make('active')
-                    ->label('مفعل')
+                    ->label('نشط')
                     ->boolean()
             ])
             ->filters([

@@ -54,6 +54,16 @@ class VendorController extends Controller
 
         $vendor = $user->vendor ?: new Vendor();
         $vendor->user_id = $user->id;
+        
+        // ✅ جلب العنوان الافتراضي للمستخدم ونسخ الإحداثيات
+        if (!$user->vendor) {
+            $defaultAddress = $user->shippingAddress()->where('default', 1)->first();
+            if ($defaultAddress) {
+                $vendor->latitude  = $defaultAddress->latitude;
+                $vendor->longitude = $defaultAddress->longitude;
+            }
+        }
+
 
         // حفظ الاسم القديم قبل التعديل
         $oldStoreName = $vendor->store_name;

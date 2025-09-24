@@ -35,6 +35,7 @@ class ProductResource extends Resource
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
     protected static ?string $modelLabel = 'منتج';          // مفرد
+    
     protected static ?string $pluralModelLabel = 'المنتجات'; // جمع
 
     public static function getEloquentQuery(): Builder
@@ -165,24 +166,31 @@ class ProductResource extends Resource
                 SpatieMediaLibraryImageColumn::make('images')
                     ->collection('images')
                     ->limit(1)
-                    ->label('Image')
+                    ->label('صورة المنتج')
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('العنوان')
                     ->sortable()
                     ->words(7)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label('الحالة')
                     ->badge()
                     ->colors(ProductStatusEnum::colors()),
-                Tables\Columns\TextColumn::make('department.name'),
-                Tables\Columns\TextColumn::make('category.name'),
+                Tables\Columns\TextColumn::make('department.name')
+                    ->label('القسم'),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('الفئة'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('تم إنشاؤه في')
                     ->dateTime()
             ])
             ->filters([
                 SelectFilter::make('status')
+                    ->label('الحالة')
                     ->options(ProductStatusEnum::labels()),
                 SelectFilter::make('department_id')
+                    ->label('القسم')
                     ->relationship('department', 'name')
             ])
             ->actions([

@@ -26,19 +26,26 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $modelLabel = 'قسم';          // مفرد
+
+    protected static ?string $pluralModelLabel = 'الأقسام'; // جمع
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->label('الاسم')
                     ->live(onBlur: true)
                     ->required()
                     ->afterStateUpdated(function (string $operation, $state, callable $set) {
                         $set('slug', Str::slug($state));
                     }),
                 TextInput::make('slug')
+                    ->label('معرّف الصفحة')
                     ->required(),
                 Checkbox::make('active')
+                    ->label('نشط')
             ]);
     }
 
@@ -47,12 +54,15 @@ class DepartmentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('الاسم')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('slug')
+                    ->label('معرّف الصفحة')
                     ->sortable()
                     ->searchable(),
                 IconColumn::make('active')
+                    ->label('نشط')
                     ->boolean()
             ])
             ->defaultSort('created_at', 'desc')
@@ -60,12 +70,15 @@ class DepartmentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('تعديل'),
+                Tables\Actions\DeleteAction::make()
+                    ->label('حذف'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('حذف  جماعي'),
                 ]),
             ]);
     }

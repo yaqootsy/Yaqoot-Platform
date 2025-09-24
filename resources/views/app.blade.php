@@ -16,7 +16,8 @@
                 }
                 document.documentElement.setAttribute('data-theme', theme);
             } catch (e) {
-                /* silent */ }
+                /* silent */
+            }
         })();
     </script>
 
@@ -29,6 +30,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     {{-- <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_key') ?? env('GOOGLE_MAPS_KEY') }}&libraries=places"></script>
 
     <!-- Scripts -->
     @routes

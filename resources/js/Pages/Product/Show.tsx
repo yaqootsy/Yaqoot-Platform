@@ -1,4 +1,4 @@
-import { PageProps, Product, VariationTypeOption } from "@/types";
+import { PageProps, Product, VariationTypeOption, Address } from "@/types";
 import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import { useEffect, useMemo, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -26,6 +26,72 @@ function Show({
   });
 
   const { url } = usePage();
+  const { userAddress } = usePage().props;
+  const typedUserAddress = userAddress as Address | undefined;
+
+    const [eta, setEta] = useState("جاري الحساب...");
+    const [dis, setDis] = useState("جاري الحساب...");
+
+  useEffect(() => {
+    // تأكد أن Google Maps جاهزة
+    if (!window.google || !window.google.maps) {
+      console.error("Google Maps API غير محملة.");
+      setEta("خدمة الخرائط غير متاحة");
+      setDis("خدمة الخرائط غير متاحة");
+      return;
+    }
+
+    // تحويل القيم لأرقام والتأكد من أنها صالحة
+    const userLat = Number(typedUserAddress?.latitude);
+    const userLng = Number(typedUserAddress?.longitude);
+    const vendorLat = Number(product?.user?.latitude);
+    const vendorLng = Number(product?.user?.longitude);
+
+    if (
+      isNaN(userLat) ||
+      isNaN(userLng) ||
+      isNaN(vendorLat) ||
+      isNaN(vendorLng)
+    ) {
+      console.error("إحداثيات غير صالحة:", {
+        userLat,
+        userLng,
+        vendorLat,
+        vendorLng,
+      });
+      setEta("موقع غير معروف");
+      setDis("موقع غير معروف");
+      return;
+    }
+
+    const service = new google.maps.DistanceMatrixService();
+
+    service.getDistanceMatrix(
+      {
+        origins: [{ lat: userLat, lng: userLng }],
+        destinations: [{ lat: vendorLat, lng: vendorLng }],
+        travelMode: google.maps.TravelMode.DRIVING,
+        language: "ar",
+      },
+      (response, status) => {
+        if (status === "OK") {
+          const element = response?.rows?.[0]?.elements?.[0];
+          if (element?.status === "OK") {
+            setEta(element.duration.text); // الوقت المتوقع للوصول
+            setDis(element.distance.text); // الوقت المتوقع للوصول
+          } else {
+            console.warn("Element status:", element?.status);
+            setEta("غير متاح");
+            setDis("غير متاح");
+          }
+        } else {
+          console.error("DistanceMatrix Error:", status);
+          setEta("خطأ في حساب الوقت");
+          setDis("خطأ في حساب المسافة");
+        }
+      }
+    );
+  }, [typedUserAddress, product]);
 
   const [selectedOptions, setSelectedOptions] = useState<
     Record<number, VariationTypeOption>
@@ -71,9 +137,7 @@ function Show({
 
   useEffect(() => {
     for (let type of product.variationTypes) {
-      // console.log(variationOptions)
       const selectedOptionId: number = variationOptions[type.id];
-      console.log(selectedOptionId, type.options);
       chooseOption(
         type.id,
         type.options.find((op) => op.id == selectedOptionId) || type.options[0],
@@ -206,7 +270,6 @@ function Show({
         ([typeId, option]: [string, VariationTypeOption]) => [typeId, option.id]
       )
     );
-    console.log(idsMap);
     form.setData("option_ids", idsMap);
   }, [selectedOptions]);
 
@@ -249,6 +312,13 @@ function Show({
               >
                 <b>{product.department.name}</b>
               </Link>
+            </p>
+
+            <p className={"mb-8"}>
+              توصيل إلى <b> {typedUserAddress?.city} </b> 
+
+              متوقع في <b> {eta || "جارٍ الحساب..."} </b>
+              <p>المسافة: <b> {dis || "جارٍ الحساب..."} </b></p>
             </p>
 
             <div>

@@ -97,7 +97,7 @@ const footerSections = [
 
 // بيانات الحقوق القانونية
 const legalLinks = [
-  { label: "© 2025 ecart-sy. كل الحقوق محفوظة", href: "#" },
+  { label: "© 2025 YaqootMarket. كل الحقوق محفوظة", href: "#" },
   { label: "الوظائف", href: "#" },
   { label: "سياسة الضمان", href: "#" },
   { label: "بِع معنا", href: "#" },
@@ -133,11 +133,11 @@ export default function Footer() {
               <InformationCircleIcon className="w-6 h-6" />
               <div>
                 <p className="font-medium">مركز المساعدة</p>
-                <p className="text-gray-500 text-sm">ecart-sy.com/help</p>
+                <p className="text-gray-500 text-sm">YaqootMarket.com/help</p>
               </div>
             </a>
             <a
-              href="mailto:support@ecart-sy.com"
+              href="mailto:support@YaqootMarket.com"
               target="_blank"
               rel="nofollow noopener noreferrer"
               className="flex items-center gap-3 p-3 bg-white rounded-lg shadow hover:bg-gray-50 transition"
@@ -145,7 +145,7 @@ export default function Footer() {
               <EnvelopeIcon className="w-6 h-6" />
               <div>
                 <p className="font-medium">الدعم عبر البريد الإلكتروني</p>
-                <p className="text-gray-500 text-sm">support@ecart-sy.com</p>
+                <p className="text-gray-500 text-sm">support@YaqootMarket.com</p>
               </div>
             </a>
           </div>
@@ -169,7 +169,7 @@ export default function Footer() {
         <div className="mb-8 mt-10 flex flex-col md:flex-row md:justify-between md:items-center">
           <div className="mb-4 md:mb-0">
             <p className="text-md mb-2 font-semibold">
-              تسوق بسهولة مع تطبيق إي كارت
+              تسوق بسهولة مع تطبيق ياقوت ماركت
             </p>
             <div className="flex items-center justify-around gap-3 p-3 bg-white rounded-lg shadow hover:bg-gray-50 transition">
               <img src={GetItOnGooglePlay} alt="Google Play" className="h-10" />

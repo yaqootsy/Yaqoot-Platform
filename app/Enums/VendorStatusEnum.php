@@ -11,18 +11,18 @@ enum VendorStatusEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Pending => __('Pending'),
-            self::Approved => __('Approved'),
-            self::Rejected => __('Rejected'),
+            self::Pending => 'معلق',
+            self::Approved => 'موافق عليه',
+            self::Rejected => 'مرفوض',
         };
     }
 
     public static function labels(): array
     {
         return [
-            self::Pending->value => __('Pending'),
-            self::Approved->value => __('Approved'),
-            self::Rejected->value => __('Rejected'),
+            self::Pending->value => 'معلق',
+            self::Approved->value => 'موافق عليه',
+            self::Rejected->value => 'مرفوض',
         ];
     }
 

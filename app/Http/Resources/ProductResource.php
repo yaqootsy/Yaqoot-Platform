@@ -44,6 +44,8 @@ class ProductResource extends JsonResource
                 'id' => $this->user->id,
                 'name' => $this->user->name,
                 'store_name' => $this->user->vendor->store_name,
+                'latitude' => $this->user->vendor->latitude,
+                'longitude' => $this->user->vendor->longitude,
             ],
             'department' => [
                 'id' => $this->department->id,
