@@ -26,10 +26,12 @@
     "dependencies": {
         "@babel/runtime": "^7.27.1",
         "@heroicons/react": "^2.2.0",
+        "@inertiajs/inertia": "^0.11.1",
         "@tailwindcss/typography": "^0.5.15",
         "daisyui": "^4.12.14",
         "leaflet": "^1.9.4",
         "maplibre-gl": "^5.7.2",
+        "react-hot-toast": "^2.6.0",
         "react-instantsearch": "^7.15.7",
         "swiper": "^11.2.6",
         "typesense-instantsearch-adapter": "^2.9.0"

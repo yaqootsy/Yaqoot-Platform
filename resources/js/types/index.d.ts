@@ -8,6 +8,8 @@ export interface User {
   stripe_account_active: boolean;
   roles: string[];
   vendor: {
+    latestPendingChange?: PendingChange; // لو كنت تستخدم first()
+    latestPendingChanges?: PendingChange[]; // لو تستخدم get()
     status: string;
     status_label: string;
     store_name: string;
@@ -15,6 +17,7 @@ export interface User {
     cover_image: string;
   };
 }
+
 
 export type Image = {
   id: number;
@@ -227,4 +230,19 @@ export type Country = {
   states?: {
     [key: string]: string;
   };
+};
+
+
+export type PendingChange = {
+  id: number | string;
+  vendor_id: number;
+  field: string;
+  old_value: string | null;
+  new_value: string | null;
+  status: "pending" | "approved" | "rejected";
+  status_label: string;
+  reviewed_by?: number | null;
+  reviewed_at?: string | null;
+  created_at: string;
+  updated_at: string;
 };

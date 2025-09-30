@@ -166,7 +166,7 @@ class CartController extends Controller
 
                     $lineItem = [
                         'price_data' => [
-                            'currency' => config('app.currency'),
+                            'currency' => config('app.stripe_currency'),
                             'product_data' => [
                                 'name' => $cartItem['title'],
                                 'images' => [$cartItem['image']],

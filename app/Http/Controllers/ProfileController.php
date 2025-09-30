@@ -22,11 +22,17 @@ class ProfileController extends Controller
         if ($user->vendor) {
             $vendor = $user->vendor;
             $coverMedia = $vendor->getFirstMedia('cover_images');
+            $latestPending = $user->vendor->pendingChanges()
+                ->latest('created_at')
+                ->get();
+
         } else {
             $coverMedia = null;
+            $latestPending = null;
         }
 
         return Inertia::render('Profile/Edit', [
+            'latestPendingChanges' => $latestPending,
             'coverMedia' => $coverMedia ? $coverMedia->getUrl() : null,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),

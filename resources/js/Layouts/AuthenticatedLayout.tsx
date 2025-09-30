@@ -5,6 +5,7 @@ import Footer from "@/Components/App/Footer";
 import ToastList from "@/Components/Core/ToastList";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { InstantSearch } from "react-instantsearch";
+import { Toaster } from "react-hot-toast";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
   server: {
@@ -61,6 +62,7 @@ export default function AuthenticatedLayout({
         <ToastList alertVariant="success" pageProp="successToast" />
 
         <main>{children}</main>
+        <Toaster position="top-center" />
       </InstantSearch>
       <Footer />
     </div>
