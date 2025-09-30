@@ -74,7 +74,11 @@ function Navbar({ searchPlaceholder }: { searchPlaceholder?: string }) {
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost text-xl">
-            <img src={yaqootLogo} alt="Yaqoot Market" style={{ width: "3rem" }} />
+            <img
+              src={yaqootLogo}
+              alt="Yaqoot Market"
+              style={{ width: "3rem" }}
+            />
             ياقوت
           </Link>
         </div>
@@ -151,21 +155,39 @@ function Navbar({ searchPlaceholder }: { searchPlaceholder?: string }) {
                   </Link>
                 </li>
 
-                {hasAnyRole(auth.user, ["Vendor"]) && (
-                  <li>
-                    <Link
-                      href={route("vendor.profile", user.vendor?.store_name)}
-                      className="justify-between flex items-center gap-2"
-                    >
-                      <span className="inline-flex items-center gap-2">
-                        <BuildingStorefrontIcon className="w-4 h-4" />
-                        متجري
-                      </span>
-                    </Link>
-                  </li>
-                )}
+                {hasAnyRole(auth.user, ["Vendor"]) &&
+                  user.vendor.status == "approved" && (
+                    <>
+                      <li>
+                        <Link
+                          href={route(
+                            "vendor.profile",
+                            user.vendor?.store_name
+                          )}
+                          className="justify-between flex items-center gap-2"
+                        >
+                          <span className="inline-flex items-center gap-2">
+                            <BuildingStorefrontIcon className="w-4 h-4" />
+                            متجري
+                          </span>
+                        </Link>
+                      </li>
 
-                {hasAnyRole(auth.user, ["Admin", "Vendor"]) && (
+                      <li>
+                        <a
+                          href="/admin"
+                          className="justify-between flex items-center gap-2"
+                        >
+                          <span className="inline-flex items-center gap-2">
+                            <ArrowLeftEndOnRectangleIcon className="w-4 h-4" />
+                            منطقة البائعين
+                          </span>
+                        </a>
+                      </li>
+                    </>
+                  )}
+
+                {hasAnyRole(auth.user, ["Admin"]) && (
                   <li>
                     <a
                       href="/admin"
@@ -173,9 +195,7 @@ function Navbar({ searchPlaceholder }: { searchPlaceholder?: string }) {
                     >
                       <span className="inline-flex items-center gap-2">
                         <ArrowLeftEndOnRectangleIcon className="w-4 h-4" />
-                        {hasRole(auth.user, "Admin")
-                          ? "منطقة الإدارة"
-                          : "منطقة البائعين"}
+                        منطقة الإدارة
                       </span>
                     </a>
                   </li>

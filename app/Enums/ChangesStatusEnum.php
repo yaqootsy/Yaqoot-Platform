@@ -2,9 +2,8 @@
 
 namespace App\Enums;
 
-enum VendorStatusEnum: string
+enum ChangesStatusEnum: string
 {
-    case Draft = 'draft';
     case Pending = 'pending';
     case Approved = 'approved';
     case Rejected = 'rejected';
@@ -12,7 +11,6 @@ enum VendorStatusEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Draft => 'مسودة',
             self::Pending => 'معلق',
             self::Approved => 'موافق عليه',
             self::Rejected => 'مرفوض',
@@ -22,7 +20,6 @@ enum VendorStatusEnum: string
     public static function labels(): array
     {
         return [
-            self::Draft->value => 'مسودة',
             self::Pending->value => 'معلق',
             self::Approved->value => 'موافق عليه',
             self::Rejected->value => 'مرفوض',
@@ -32,10 +29,9 @@ enum VendorStatusEnum: string
     public static function colors(): array
     {
         return [
-            'gray'  => self::Draft->value,    // أحمر
-            'warning'    => self::Pending->value,  // رمادي
-            'success' => self::Approved->value, // أخضر
-            'danger' => self::Rejected->value, // أصفر أو أي لون تريده
+            'warning'    => self::Pending->value,
+            'success' => self::Approved->value, 
+            'danger' => self::Rejected->value, 
         ];
     }
 }

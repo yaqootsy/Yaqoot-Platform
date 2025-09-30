@@ -88,6 +88,15 @@ Route::middleware('auth')->group(function () {
             ->name('stripe.connect')
             ->middleware(['role:' . \App\Enums\RolesEnum::Vendor->value]);
     });
+
+    Route::get('/vendor-pending/{vendor}/{field}/{filename}', function ($vendorId, $field, $filename) {
+        $path = storage_path("app/private/vendor_pending/{$vendorId}/{$field}/{$filename}");
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        $mime = mime_content_type($path);
+        return response()->file($path, ['Content-Type' => $mime]);
+    })->name('vendor.pending.file');
 });
 
 // Order invoice route for Filament
