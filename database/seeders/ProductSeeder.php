@@ -61,7 +61,7 @@ class ProductSeeder extends Seeder
 
                     $productData[] = [
                         'title' => $title,
-                        'slug' => Str::slug($title . '-' . Str::random(5)),
+                        'slug' => slugArabic($title . '-' . Str::random(5)),
                         'description' => $this->generateProductDescription(),
                         'price' => $this->generatePrice(),
                         'department_id' => $department->id,

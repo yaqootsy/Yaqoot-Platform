@@ -35,7 +35,7 @@ class ProductResource extends Resource
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
     protected static ?string $modelLabel = 'منتج';          // مفرد
-    
+
     protected static ?string $pluralModelLabel = 'المنتجات'; // جمع
 
     public static function getEloquentQuery(): Builder
@@ -58,7 +58,7 @@ class ProductResource extends Resource
                             ->required()
                             ->afterStateUpdated(
                                 function (string $operation, $state, callable $set) {
-                                    $set("slug", Str::slug($state));
+                                    $set("slug", slugArabic($state));
                                 }
                             ),
                         TextInput::make('slug')
