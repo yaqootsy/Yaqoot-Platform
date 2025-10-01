@@ -39,7 +39,7 @@ class DepartmentResource extends Resource
                     ->live(onBlur: true)
                     ->required()
                     ->afterStateUpdated(function (string $operation, $state, callable $set) {
-                        $set('slug', Str::slug($state));
+                        $set('slug', slugArabic($state));
                     }),
                 TextInput::make('slug')
                     ->label('معرّف الصفحة')
