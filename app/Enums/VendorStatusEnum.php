@@ -32,10 +32,10 @@ enum VendorStatusEnum: string
     public static function colors(): array
     {
         return [
-            'gray'  => self::Draft->value,    // أحمر
-            'warning'    => self::Pending->value,  // رمادي
-            'success' => self::Approved->value, // أخضر
-            'danger' => self::Rejected->value, // أصفر أو أي لون تريده
+            'gray'  => self::Draft->value, 
+            'warning'    => self::Pending->value, 
+            'success' => self::Approved->value,
+            'danger' => self::Rejected->value,
         ];
     }
 }

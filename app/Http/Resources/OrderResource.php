@@ -29,6 +29,8 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'status' => $this->status,
+            'cancelled_by' => $this->cancelled_by,
+            'cancelled_at' => $this->cancelled_at,
             'total_price' => $this->total_price,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

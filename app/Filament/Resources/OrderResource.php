@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentStatusEnum;
+use App\Enums\PaymentMethodEnum;
 use App\Enums\RolesEnum;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
@@ -23,7 +25,7 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
     protected static ?string $modelLabel = 'طلب';          // مفرد
     protected static ?string $pluralModelLabel = 'الطلبات'; // جمع
@@ -31,9 +33,7 @@ class OrderResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->forVendor()
-            ->where('status', '!=', OrderStatusEnum::Draft);
+        return parent::getEloquentQuery()->forVendor();
     }
 
     public static function form(Form $form): Form
@@ -74,11 +74,25 @@ class OrderResource extends Resource
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('الحالة')
+                    ->label('حالة الطلب')
                     ->badge()
                     ->colors(OrderStatusEnum::colors())
                     ->sortable()
                     ->formatStateUsing(fn(string $state) => OrderStatusEnum::labels()[$state] ?? $state),
+
+
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->label('طريقة الدفع')
+                    ->badge()
+                    ->colors(PaymentMethodEnum::colors())
+                    ->sortable()
+                    ->formatStateUsing(fn(string $state) => PaymentMethodEnum::labels()[$state] ?? $state),
+                Tables\Columns\TextColumn::make('payment_status')
+                    ->label('حالة الدفع')
+                    ->badge()
+                    ->colors(PaymentStatusEnum::colors())
+                    ->sortable()
+                    ->formatStateUsing(fn(string $state) => PaymentStatusEnum::labels()[$state] ?? $state),
                 Tables\Columns\TextColumn::make('tracking_code')
                     ->label('رمز التتبع')
                     ->searchable()
@@ -92,11 +106,20 @@ class OrderResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('حالة الطلب')
+                    ->options(OrderStatusEnum::labels()),
+                Tables\Filters\SelectFilter::make('payment_status')
+                    ->label('حالة الدفع')
+                    ->options(PaymentStatusEnum::labels())
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->disabled(fn($record) => $record->status === OrderStatusEnum::Cancelled->value)
+                    ->tooltip(fn($record) => $record->status === OrderStatusEnum::Cancelled->value
+                        ? 'لا يمكن تعديل الطلب الملغى'
+                        : null),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -116,7 +139,7 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
+            // 'create' => Pages\CreateOrder::route('/create'),
             'view' => Pages\ViewOrder::route('/{record}'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];

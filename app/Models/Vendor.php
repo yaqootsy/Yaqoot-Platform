@@ -19,6 +19,11 @@ class Vendor extends Model implements HasMedia
 
     protected $primaryKey = 'user_id';
 
+    protected $casts = [
+        'is_temporarily_closed' => 'boolean',
+        'temporary_close_until' => 'date',
+    ];
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')

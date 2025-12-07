@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Http\Resources\OrderViewResource;
 use App\Mail\CheckoutCompleted;
 use App\Mail\NewOrderMail;
@@ -116,7 +116,7 @@ class StripeController extends Controller
                 $productsToDeletedFromCart = [];
                 foreach ($orders as $order) {
                     $order->payment_intent = $pi;
-                    $order->status = OrderStatusEnum::Paid;
+                    $order->status = PaymentStatusEnum::Paid;
                     $order->save();
 
                     $productsToDeletedFromCart =

@@ -53,35 +53,7 @@ class VendorResource extends Resource
                             ->label('اسم المتجر الحالي')
                             ->disabled()
                             ->dehydrated(false),
-
-                        // Forms\Components\Placeholder::make('pending_changes')
-                        //     ->label('التغييرات المعلقة')
-                        //     ->content(function ($record) {
-                        //         if (! $record) {
-                        //             return new HtmlString('—');
-                        //         }
-
-                        //         $pending = $record->pendingChanges()->where('status', 'pending')->get();
-                        //         if ($pending->isEmpty()) {
-                        //             return new HtmlString('لا توجد تغييرات معلقة.');
-                        //         }
-
-                        //         $html = '<ul class="text-sm space-y-1">';
-                        //         foreach ($pending as $p) {
-                        //             // تأمين القيمة: نقتصر على نص مختصر مهرب لمنع XSS
-                        //             $val = e(Str::limit($p->new_value, 80));
-                        //             $time = $p->created_at ? $p->created_at->format('Y-m-d H:i') : '';
-                        //             $field = e($p->field);
-                        //             $html .= "<li><strong>{$field}</strong>: {$val} <span class='text-gray-500'>({$time})</span></li>";
-                        //         }
-                        //         $html .= '</ul>';
-
-                        //         // إرجاع HtmlString ليتم عرضه كـ HTML
-                        //         return new HtmlString($html);
-                        //     })
-                        //     ->dehydrated(false)
-                        //     ->columnSpan(2),
-
+                            
                         Forms\Components\Select::make('status')
                             ->label('الحالة')
                             ->options(VendorStatusEnum::labels())
@@ -132,7 +104,17 @@ class VendorResource extends Resource
                 ImageColumn::make('cover_image')
                     ->label('صورة الغلاف')
                     // ->size(80)
-                    ->getStateUsing(fn($record) => $record->getFirstMedia('cover_images')?->getUrl())
+                    ->getStateUsing(function ($record) {
+                        $media = $record->getFirstMedia('cover_images');
+                        if (!$media) {
+                            return null; // لا توجد أي صورة
+                        }
+                        // تحقق إذا كان هناك conversion باسم 'thumb'
+                        if (in_array('thumb', $media->getGeneratedConversions()->toArray())) {
+                            return $media->getUrl('thumb'); // استخدم الـ thumb
+                        }
+                        return $media->getUrl(); // استخدم الصورة الأصلية
+                    })
                     ->extraAttributes(['style' => 'height:auto; width:auto; object-fit:contain;'])
                     ->url(fn($record) => $record->getFirstMedia('cover_images')?->getUrl())
                     ->openUrlInNewTab(),

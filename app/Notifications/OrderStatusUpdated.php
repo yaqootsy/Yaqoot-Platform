@@ -7,74 +7,74 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderStatusUpdated extends Notification
+class OrderStatusUpdated extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     * 
-     * @param \App\Models\Order $order
-     * @param array $changes
-     */
     public function __construct(protected $order, protected $changes = [])
     {}
-    
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
     public function via(object $notifiable): array
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
     public function toMail(object $notifiable): MailMessage
     {
         $message = (new MailMessage)
-            ->subject("Order #{$this->order->id} Update")
-            ->greeting("Hello {$notifiable->name}!")
-            ->line("We're writing to inform you about an update to your order #{$this->order->id}.");
+            ->subject("تحديث بخصوص طلبك رقم {$this->order->id}")
+            ->greeting("مرحباً {$notifiable->name} 👋،")
+            ->line("يسعدنا إبلاغك بآخر المستجدات حول طلبك رقم {$this->order->id}.");
 
-        // If status was updated
+        // ✅ حالة الطلب
         if (isset($this->changes['status'])) {
-            $statusLabel = ucfirst(strtolower($this->changes['status']));
-            $message->line("Your order status has been updated to: **{$statusLabel}**");
-            
-            // Add specific messaging based on status
-            if ($this->changes['status'] === 'shipped') {
-                $message->line("Your order is on its way to you!");
-            } elseif ($this->changes['status'] === 'delivered') {
-                $message->line("Your order has been delivered. We hope you enjoy your purchase!");
+            $status = strtolower($this->changes['status']);
+
+            switch ($status) {
+                case 'pending':
+                    $message->line("لقد تم تسجيل طلبك وهو الآن بانتظار تأكيد التاجر.");
+                    break;
+
+                case 'processing':
+                    $message->line("تم استلام طلبك ويجري حالياً تجهيزه بعناية ✨.");
+                    break;
+
+                case 'shipped':
+                    $message->line("تم شحن طلبك وهو الآن في الطريق إليك 🚚. نتمنى أن يصلك بسرعة وسلامة.");
+                    break;
+
+                case 'delivered':
+                    $message->line("تم تسليم طلبك بنجاح ✅. شكراً لثقتك بنا ونتمنى أن تستمتع بمشترياتك!");
+                    break;
+
+                case 'cancelled':
+                    $cancelledBy = $this->order->cancelled_by === 'customer' ? 'من طرفك' : 'من طرف التاجر';
+                    $message->line("تم إلغاء طلبك {$cancelledBy} بتاريخ {$this->order->cancelled_at}. نأسف لذلك ونتمنى خدمتك بشكل أفضل في المرات القادمة.");
+                    break;
+
+                default:
+                    $message->line("تم تحديث حالة طلبك إلى: {$this->changes['status']}.");
             }
         }
 
-        // If tracking code was added or updated
-        if (isset($this->changes['tracking_code']) && !empty($this->changes['tracking_code'])) {
+        // ✅ كود التتبع
+        if (!empty($this->changes['tracking_code'])) {
             $trackingCode = $this->changes['tracking_code'];
-            $message->line("A tracking code has been assigned to your order: **{$trackingCode}**");
-            $message->line("You can use this code to track your package with the shipping carrier.");
+            $message->line("تمت إضافة كود تتبع خاص بطلبك: **{$trackingCode}**");
+            $message->line("يمكنك استخدام هذا الكود لمتابعة شحنتك لدى شركة التوصيل بسهولة.");
         }
 
-        // Add view order button
+        // ✅ زر تفاصيل الطلب
         $orderUrl = url("/orders/{$this->order->id}");
-        $message->action('View Order Details', $orderUrl);
+        $message->action('عرض تفاصيل الطلب', $orderUrl);
+
+        $message->line('💙 شكراً لتسوقك معنا عبر ' . config('app.name') . '. نحن دائماً بانتظارك!');
         
-        $message->line('Thank you for shopping with ' . config('app.name') . '!');
+        $message->salutation(" "); // يزيل Regards
 
         return $message;
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(object $notifiable): array
     {
         return [

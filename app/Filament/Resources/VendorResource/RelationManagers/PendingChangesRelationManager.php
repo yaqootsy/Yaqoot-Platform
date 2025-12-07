@@ -49,10 +49,25 @@ class PendingChangesRelationManager extends RelationManager
                 ImageColumn::make('old_image')
                     ->label('الصورة الحالية')
                     ->size(80)
-                    ->getStateUsing(fn($record) => $record->field === 'cover_image'
-                        ? $record->vendor->getFirstMedia('cover_images')?->getUrl()
-                        : null)
-                    ->url(fn($record) => $record->vendor->getFirstMedia('cover_images')?->getUrl())
+                    ->getStateUsing(function ($record) {
+                        if ($record->field !== 'cover_image') {
+                            return null;
+                        }
+
+                        $media = $record->vendor->getFirstMedia('cover_images');
+                        if (!$media) {
+                            return null;
+                        }
+
+                        // تحقق من وجود thumb
+                        return in_array('thumb', $media->getGeneratedConversions()->toArray())
+                            ? $media->getUrl('thumb')
+                            : $media->getUrl();
+                    })
+                    ->url(function ($record) {
+                        $media = $record->vendor->getFirstMedia('cover_images');
+                        return $media?->getUrl();
+                    })
                     ->openUrlInNewTab(),
 
                 ImageColumn::make('new_image')
@@ -91,30 +106,6 @@ class PendingChangesRelationManager extends RelationManager
                         return null;
                     })
                     ->openUrlInNewTab(),
-
-
-                // ImageColumn::make('new_image')
-                //     ->label('الصورة الجديدة')
-                //     ->size(80)
-                //     ->getStateUsing(
-                //         fn($record) => $record->field === 'cover_image' && $record->new_value
-                //             ? route('vendor.pending.file', [
-                //                 'vendor' => $record->vendor_id,
-                //                 'field' => 'cover_image',
-                //                 'filename' => basename($record->new_value),
-                //             ])
-                //             : null
-                //     )
-                //     ->url(
-                //         fn($record) => $record->field === 'cover_image' && $record->new_value
-                //             ? route('vendor.pending.file', [
-                //                 'vendor' => $record->vendor_id,
-                //                 'field' => 'cover_image',
-                //                 'filename' => basename($record->new_value),
-                //             ])
-                //             : null
-                //     )
-                //     ->openUrlInNewTab(),
 
                 TextColumn::make('status')
                     ->label('الحالة')

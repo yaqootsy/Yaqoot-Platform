@@ -28,7 +28,7 @@ class CheckoutCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Thank you for your purchase',
+            subject: 'شكراً على شرائك',
         );
     }
 

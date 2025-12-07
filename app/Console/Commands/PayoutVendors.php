@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Models\Order;
 use App\Models\Payout;
 use App\Models\Vendor;
@@ -47,7 +48,7 @@ class PayoutVendors extends Command
 
             $vendorSubtotal = Order::query()
                 ->where('vendor_user_id', $vendor->user_id)
-                ->where('status', OrderStatusEnum::Paid->value)
+                ->where('payment_status', PaymentStatusEnum::Paid->value)
                 ->whereBetween('created_at', [$startingFrom, $until])
                 ->sum('vendor_subtotal');
 

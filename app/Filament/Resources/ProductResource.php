@@ -30,7 +30,7 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-queue-list';
+    protected static ?string $navigationIcon = 'heroicon-s-building-storefront';
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
@@ -146,14 +146,12 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('meta_title')
                             ->label('عنوان الميتا')
                             ->placeholder('مثال: هاتف iPhone 15 في درعا – أفضل سعر')
-                            ->helperText('يظهر هذا العنوان في نتائج البحث ويجب أن يحتوي على اسم المنتج والموقع.')
-                            ->required(),
+                            ->helperText('يظهر هذا العنوان في نتائج البحث ويجب أن يحتوي على اسم المنتج والموقع.'),
                         Forms\Components\Textarea::make('meta_description')
                             ->label('وصف الميتا')
                             ->rows(3)
                             ->placeholder('مثال: اكتشف أحدث هاتف iPhone 15 في درعا مع أفضل العروض وأسعار منافسة وخدمة توصيل سريعة.')
-                            ->helperText('الوصف يظهر أسفل العنوان في نتائج البحث ويجب أن يصف المنتج والموقع بشكل مشوق.')
-                            ->required(),
+                            ->helperText('الوصف يظهر أسفل العنوان في نتائج البحث ويجب أن يصف المنتج والموقع بشكل مشوق.'),
                     ])
                     ->columnSpan(2),
             ]);

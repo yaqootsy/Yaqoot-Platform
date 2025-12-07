@@ -8,6 +8,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CodController;
 use App\Models\Order;
 
 // Guest Routes
@@ -70,6 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])
+        ->name('orders.cancel');
 
     Route::middleware(['verified'])->group(function () {
         Route::post('/cart/checkout', [CartController::class, 'checkout'])
@@ -87,6 +90,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/stripe/connect', [StripeController::class, 'connect'])
             ->name('stripe.connect')
             ->middleware(['role:' . \App\Enums\RolesEnum::Vendor->value]);
+
+        // POST /cod/collect/{order}
+        Route::post('/cod/collect/{order}', [CodController::class, 'collect'])
+            ->name('cod.collect');
     });
 
     Route::get('/vendor-pending/{vendor}/{field}/{filename}', function ($vendorId, $field, $filename) {

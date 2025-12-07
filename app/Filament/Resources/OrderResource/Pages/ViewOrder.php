@@ -53,8 +53,9 @@ class ViewOrder extends ViewRecord
                                                 ->badge()
                                                 ->size('lg')
                                                 ->color(fn(string $state): string => match ($state) {
-                                                    OrderStatusEnum::Paid->value => 'primary',
-                                                    OrderStatusEnum::Shipped->value => 'warning',
+                                                    OrderStatusEnum::Pending->value => 'warning',
+                                                    OrderStatusEnum::Processing->value => 'info',
+                                                    OrderStatusEnum::Shipped->value => 'primary',
                                                     OrderStatusEnum::Delivered->value => 'success',
                                                     OrderStatusEnum::Cancelled->value => 'danger',
                                                     default => 'gray',
@@ -251,14 +252,14 @@ class ViewOrder extends ViewRecord
                                                         ->placeholder('Product')
                                                         ->weight('bold'),
 
-                                                    TextEntry::make('product.user.vendor.store_name')
-                                                        ->label('تباع بواسطة')
-                                                        ->color('gray')
-                                                        ->size('sm')
-                                                        ->visible(fn($record) => filled($record->product?->user?->vendor?->store_name))
-                                                        ->formatStateUsing(fn($state) => str_replace('-', ' ', $state)),
+                                                    // TextEntry::make('product.user.vendor.store_name')
+                                                    //     ->label('تباع بواسطة')
+                                                    //     ->color('gray')
+                                                    //     ->size('sm')
+                                                    //     ->visible(fn($record) => filled($record->product?->user?->vendor?->store_name))
+                                                    //     ->formatStateUsing(fn($state) => str_replace('-', ' ', $state)),
                                                     TextEntry::make('variationDetails')
-                                                        ->label(null)
+                                                        ->label(false)
                                                         ->size('sm')
                                                         ->color('gray')
                                                         ->getStateUsing(function ($record) {

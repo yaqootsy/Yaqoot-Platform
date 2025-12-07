@@ -1,45 +1,44 @@
-import {PageProps, GroupedCartItems, Address} from "@/types";
+import { PageProps, GroupedCartItems, Address } from "@/types";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import {Head, Link, router} from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import CurrencyFormatter from "@/Components/Core/CurrencyFormatter";
 import PrimaryButton from "@/Components/Core/PrimaryButton";
-import {CreditCardIcon} from "@heroicons/react/24/outline";
+import { CreditCardIcon } from "@heroicons/react/24/outline";
 import CartItem from "@/Components/App/CartItem";
 import AddressItem from "@/Pages/ShippingAddress/Partials/AddressItem";
 import SelectAddress from "@/Components/App/SelectAddress";
 
-function Index(
-  {
-    csrf_token,
-    cartItems,
-    totalQuantity,
-    totalPrice,
-    shippingAddress,
-    addresses
-  }: PageProps<{
-    cartItems: Record<number, GroupedCartItems>,
-    shippingAddress: Address,
-    addresses: Address[]
-  }>) {
-
-
+function Index({
+  csrf_token,
+  cartItems,
+  totalQuantity,
+  totalPrice,
+  shippingAddress,
+  addresses,
+}: PageProps<{
+  cartItems: Record<number, GroupedCartItems>;
+  shippingAddress: Address;
+  addresses: Address[];
+}>) {
   const onAddressChange = (address: Address) => {
-    router.put(route('cart.shippingAddress', address.id), {}, {
-      preserveScroll: true,
-      preserveState: true,
-    });
-  }
-  
+    router.put(
+      route("cart.shippingAddress", address.id),
+      {},
+      {
+        preserveScroll: true,
+        preserveState: true,
+      }
+    );
+  };
+
   return (
     <AuthenticatedLayout>
-      <Head title="Your Cart"/>
+      <Head title="Your Cart" />
 
       <div className="container mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-4">
         <div className="card flex-1 bg-white dark:bg-gray-800 order-2 lg:order-1">
           <div className="card-body">
-            <h2 className="text-lg font-bold">
-              عربة التسوق
-            </h2>
+            <h2 className="text-lg font-bold">عربة التسوق</h2>
 
             <div className="my-4">
               {Object.keys(cartItems).length === 0 && (
@@ -47,61 +46,110 @@ function Index(
                   ليس لديك أي عناصر حتى الآن.
                 </div>
               )}
-              {Object.values(cartItems).map(cartItem => (
+
+              {Object.values(cartItems).map((cartItem) => (
                 <div key={cartItem.user.id}>
                   <div
-                    className={"flex flex-col sm:flex-row items-center justify-between pb-4 border-b border-gray-300 mb-4"}>
-                    <Link href={route('vendor.profile', cartItem.user.name)} className={"underline"}>
+                    className={
+                      "flex flex-col sm:flex-row items-center justify-between pb-4 border-b border-gray-300 mb-4"
+                    }
+                  >
+                    <Link
+                      href={route("vendor.profile", cartItem.user.name)}
+                      className={"underline"}
+                    >
                       <b>{cartItem.user.name}</b>
                     </Link>
-                    <form action={route('cart.checkout')} method="post">
-                      <input type="hidden" name="_token" value={csrf_token}/>
-                      <input type="hidden" name="vendor_id" value={cartItem.user.id}/>
-                      <button className="btn btn-sm btn-ghost">
-                        <CreditCardIcon className={"size-6"}/>
+
+                    {/* Small per-vendor checkout form: includes payment method radio */}
+                    {/* <form
+                      action={route("cart.checkout")}
+                      method="post"
+                      className="flex items-center gap-2"
+                    >
+                      <input type="hidden" name="_token" value={csrf_token} />
+                      <input
+                        type="hidden"
+                        name="vendor_id"
+                        value={cartItem.user.id}
+                      />
+
+                      <div className="flex items-center gap-2">
+                        <label className="flex items-center gap-1 text-sm">
+                          <input
+                            type="radio"
+                            name="payment_method"
+                            value="stripe"
+                            defaultChecked
+                            className="form-radio"
+                          />
+                          <span className="mr-1">Stripe</span>
+                        </label>
+
+                        <label className="flex items-center gap-1 text-sm">
+                          <input
+                            type="radio"
+                            name="payment_method"
+                            value="cod"
+                            className="form-radio"
+                          />
+                          <span className="mr-1">الدفع عند الاستلام</span>
+                        </label>
+                      </div>
+
+                      <button type="submit" className="btn btn-sm btn-ghost">
+                        <CreditCardIcon className={"size-6"} />
                         ادفع فقط لهذا البائع
                       </button>
-                    </form>
+                    </form> */}
                   </div>
-                  {cartItem.items.map(item => (
-                    <CartItem item={item} key={item.id}/>
+
+                  {cartItem.items.map((item) => (
+                    <CartItem item={item} key={item.id} />
                   ))}
                 </div>
               ))}
             </div>
           </div>
         </div>
+
         <div className="lg:min-w-[260px] order-1 lg:order-2">
           <div className="card bg-white dark:bg-gray-800 mb-4">
             <div className="card-body">
-              {shippingAddress && (
+              {shippingAddress ? (
                 <>
                   <h2 className="text-lg font-bold border-b pb-2 mb-2">
                     عنوان الشحن
                   </h2>
-                  <AddressItem address={shippingAddress}
-                               readonly={true}
-                               defaultBadge={false}
-                               className="w-auto h-auto border-none !p-0 pr-0"/>
+                  <AddressItem
+                    address={shippingAddress}
+                    readonly={true}
+                    defaultBadge={false}
+                    className="w-auto h-auto border-none !p-0 pr-0"
+                  />
                 </>
-              )}
-              {!shippingAddress && (
+              ) : (
                 <div className="text-gray-500 text-center">
-                  لم يتم تحديد عنوان الشحن. <br/>
+                  لم يتم تحديد عنوان الشحن.
                 </div>
               )}
-              <SelectAddress addresses={addresses}
-                             selectedAddress={shippingAddress}
-                             onChange={onAddressChange}
-                             buttonLabel="تغيير العنوان"/>
+
+              <SelectAddress
+                addresses={addresses}
+                selectedAddress={shippingAddress}
+                onChange={onAddressChange}
+                buttonLabel="تغيير العنوان"
+              />
             </div>
           </div>
+
           <div className="card bg-white dark:bg-gray-800">
             <div className="card-body gap-1">
               <div className="flex justify-between">
                 <span>العناصر ({totalQuantity})</span>
-                <CurrencyFormatter amount={totalPrice}/>
+                <CurrencyFormatter amount={totalPrice} />
               </div>
+
               <div className="flex justify-between">
                 <span>الشحن</span>
                 <span>N/A</span>
@@ -110,15 +158,49 @@ function Index(
                 <span>الضريبة</span>
                 <span>N/A</span>
               </div>
+
               <div className="flex justify-between font-bold text-xl">
                 <span>إجمالي الطلب</span>
-                <CurrencyFormatter amount={totalPrice}/>
+                <CurrencyFormatter amount={totalPrice} />
               </div>
-              <form action={route('cart.checkout')} method="post">
-                <input type="hidden" name="_token" value={csrf_token}/>
-                <PrimaryButton className="rounded-full w-full mt-4" disabled={!shippingAddress}>
-                  <CreditCardIcon className={"size-6"}/>
-                  انتقل إلى الدفع
+
+              {/* Main checkout form for entire cart */}
+              <form action={route("cart.checkout")} method="post">
+                <input type="hidden" name="_token" value={csrf_token} />
+
+                <div className="mt-3">
+                  <div className="text-sm mb-2">اختر طريقة الدفع:</div>
+
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="payment_method"
+                        value="stripe"
+                        className="form-radio"
+                      />
+                      <span>Stripe</span>
+                    </label>
+
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="payment_method"
+                        value="cod"
+                        defaultChecked
+                        className="form-radio"
+                      />
+                      <span>الدفع عند الاستلام</span>
+                    </label>
+                  </div>
+                </div>
+
+                <PrimaryButton
+                  className="rounded-full w-full mt-4"
+                  disabled={!shippingAddress}
+                >
+                  تأكيد الطلب
+                  <CreditCardIcon className={"size-6"} />
                 </PrimaryButton>
               </form>
             </div>
