@@ -14,6 +14,20 @@ class EditOrder extends EditRecord
 {
     protected static string $resource = OrderResource::class;
 
+    protected function beforeFill(): void
+    {
+        // منع الوصول للطلبات الملغاة
+        if ($this->getRecord()->status === 'cancelled') {
+            Notification::make()
+                ->title('لا يمكن تعديل الطلب')
+                ->body('هذا الطلب ملغى ولا يمكن التعديل عليه.')
+                ->danger()
+                ->send();
+
+            $this->redirect($this->getResource()::getUrl('index'));
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -27,26 +41,31 @@ class EditOrder extends EditRecord
         $order = $this->record;
         $changes = [];
 
-        // Check if status was changed
+        // إذا تغيّرت الحالة
         if ($order->wasChanged('status')) {
             $changes['status'] = $order->status;
+
+            // لو الحالة الجديدة ملغي → اعتبرها إلغاء من التاجر (vendor)
+            if ($order->status === 'cancelled') {
+                $order->updateQuietly([
+                    'payment_status' => 'failed',
+                    'cancelled_by' => 'vendor',
+                    'cancelled_at' => now(),
+                ]);
+            }
         }
 
-        // Check if tracking code was added or changed
+        // إذا تغيّر كود التتبع
         if ($order->wasChanged('tracking_code') && $order->tracking_code) {
             $changes['tracking_code'] = $order->tracking_code;
 
-            // Update the timestamp when tracking code was added
             $order->tracking_code_added_at = Carbon::now();
-            $order->saveQuietly(); // Save without triggering events again
+            $order->saveQuietly();
         }
 
-        // If there are changes that need notification
         if (!empty($changes)) {
-            // Send email notification to the customer
             $order->user->notify(new OrderStatusUpdated($order, $changes));
 
-            // Show success notification to the admin/vendor
             Notification::make()
                 ->title('تم إعلام العميل')
                 ->body('تم إعلام العميل بتحديث الطلب.')

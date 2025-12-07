@@ -183,6 +183,7 @@ return [
         'max_total_results' => env('TYPESENSE_MAX_TOTAL_RESULTS', 1000),
         'model-settings' => [
             \App\Models\Product::class => [
+                'collection-name' => 'products_index',
                 'collection-schema' => [
                     'fields' => [
                         [

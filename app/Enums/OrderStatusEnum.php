@@ -4,8 +4,8 @@ namespace App\Enums;
 
 enum OrderStatusEnum: string
 {
-    case Draft = 'draft';
-    case Paid = 'paid';
+    case Pending = 'pending';
+    case Processing = 'processing';
     case Shipped = 'shipped';
     case Delivered = 'delivered';
     case Cancelled = 'cancelled';
@@ -13,22 +13,22 @@ enum OrderStatusEnum: string
     public static function labels()
     {
         return [
-            self::Draft->value => __('مسودة'),
-            self::Paid->value => __('مدفوع'),
-            self::Shipped->value => __('تم الشحن'),
-            self::Delivered->value => __('تم التوصيل'),
-            self::Cancelled->value => __('ملغي'),
+            self::Pending->value => 'طلب جديد بانتظار التأكيد',
+            self::Processing->value => 'جارٍ تجهيز الطلب', 
+            self::Shipped->value => 'تم شحن الطلب',
+            self::Delivered->value => 'تم تسليم الطلب',
+            self::Cancelled->value => 'تم إلغاء الطلب', 
         ];
     }
 
     public static function colors()
     {
         return [
-            'gray' => self::Draft->value,
-            'primary' => self::Paid->value,
-            'warning' => self::Shipped->value,
+            'warning' => self::Pending->value,
+            'info' => self::Processing->value,
+            'primary' => self::Shipped->value,
             'success' => self::Delivered->value,
-            'error' => self::Cancelled->value,
+            'danger' => self::Cancelled->value,
         ];
     }
 }

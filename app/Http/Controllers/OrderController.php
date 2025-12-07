@@ -17,7 +17,6 @@ class OrderController extends Controller
     {
         $orders = auth()->user()->orders()
             ->with(['orderItems.product', 'shippingAddress'])
-            ->where('status', '!=', OrderStatusEnum::Draft->value) // Exclude draft orders
             ->orderBy('created_at', 'desc')
             ->paginate(10); // Show 10 orders per page
 
@@ -73,5 +72,28 @@ class OrderController extends Controller
         // For the invoice view, we'll still use the raw model with the subtotal added
         // Since this goes to a Blade view, not an Inertia component
         return view('orders.invoice', compact('order'));
+    }
+
+    public function cancel(Order $order)
+    {
+        // تأكد إنو المستخدم صاحب الطلب
+        if ($order->user_id !== auth()->id()) {
+            abort(403, 'غير مسموح لك بإلغاء هذا الطلب.');
+        }
+
+        // بس الطلبات اللي ما تم شحنها
+        if (! in_array(strtolower($order->status), ['pending', 'processing'])) {
+            return back()->with('error', 'لا يمكن إلغاء الطلب بعد شحنه.');
+        }
+
+        $order->update([
+            'status' => 'cancelled',
+            'payment_status' => 'failed',
+            'cancelled_by' => 'customer', // أو 'vendor' حسب السياق
+            'cancelled_at' => now(),
+        ]);
+
+        return redirect()->route('orders.show', $order)
+            ->with('success', 'تم إلغاء الطلب بنجاح.');
     }
 }

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from '@inertiajs/react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import { formatPrice } from '@/helpers';
-import Pagination from '@/Components/Core/Pagination';
+import React from "react";
+import { Link } from "@inertiajs/react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head } from "@inertiajs/react";
+import { formatPrice } from "@/helpers";
+import Pagination from "@/Components/Core/Pagination";
 
 interface OrderItem {
   id: number;
@@ -29,7 +29,6 @@ interface ShippingAddress {
   };
 }
 
-// Pagination meta data interface
 interface PaginationMeta {
   current_page: number;
   from: number;
@@ -45,7 +44,6 @@ interface PaginationMeta {
   total: number;
 }
 
-// Paginator interface
 interface Paginator<T> {
   data: T[];
   links: {
@@ -68,36 +66,50 @@ interface Order {
   shippingAddress?: ShippingAddress;
 }
 
-// Helper function to get badge class based on order status
 const getStatusBadgeClass = (status: string): string => {
   switch (status.toLowerCase()) {
-    case 'completed':
-      return 'badge-success';
-    case 'processing':
-      return 'badge-info';
-    case 'pending':
-      return 'badge-warning';
-    case 'cancelled':
-      return 'badge-error';
-    case 'shipped':
-      return 'badge-primary';
-    case 'draft':
-      return 'badge-ghost';
+    case "pending":
+      return "bg-yellow-100 text-yellow-800";
+    case "processing":
+      return "bg-sky-100 text-sky-800";
+    case "shipped":
+      return "bg-indigo-100 text-indigo-800";
+    case "delivered":
+      return "bg-green-100 text-green-800";
+    case "cancelled":
+      return "bg-red-100 text-red-800";
     default:
-      return 'badge-neutral';
+      return "bg-gray-100 text-gray-800";
+  }
+};
+
+const getStatusLabel = (status: string): string => {
+  switch (status.toLowerCase()) {
+    case "pending":
+      return "بانتظار الموافقة";
+    case "processing":
+      return "جارٍ التجهيز";
+    case "shipped":
+      return "في الطريق";
+    case "delivered":
+      return "تم التسليم";
+    case "cancelled":
+      return "ملغي";
+    default:
+      return status;
   }
 };
 
 export default function Index({ orders }: { orders: Paginator<Order> }) {
   return (
     <AuthenticatedLayout>
-      <Head title="My Orders" />
+      <Head title="طلباتي" />
 
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-semibold text-base-content">طلبياتي</h1>
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-semibold text-base-content">طلباتي</h1>
           <p className="mt-2 text-sm text-base-content/70">
-            اعرض سجل طلباتك، وتحقق من الحالة، وقم بإدارة مشترياتك.
+            اعرض سجل طلباتك، تحقق من الحالة، وقم بإدارة مشترياتك.
           </p>
         </div>
 
@@ -118,75 +130,102 @@ export default function Index({ orders }: { orders: Paginator<Order> }) {
               />
             </svg>
             <h3 className="mt-4 text-lg font-medium text-base-content">لا توجد طلبات</h3>
-            <p className="mt-1 text-sm text-base-content/70">
-              لم تقم بإجراء أي طلبات حتى الآن.
-            </p>
+            <p className="mt-1 text-sm text-base-content/70">لم تقم بإجراء أي طلبات حتى الآن.</p>
             <div className="mt-6">
-              <Link
-                href="/"
-                className="btn btn-primary btn-md"
-              >
+              <Link href="/" className="btn btn-primary btn-md">
                 متابعة التسوق
               </Link>
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="table table-zebra w-full">
-              <thead>
-                <tr>
-                  <th>رقم الطلب</th>
-                  <th>التاريخ</th>
-                  <th>الحالة</th>
-                  <th>الإجمالي</th>
-                  <th>العناصر</th>
-                  <th className="text-right">الإجراءات</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.data.map((order) => (
-                  <tr key={order.id} className="hover">
-                    <td>
-                      #{order.id}
-                    </td>
-                    <td>
-                      {new Date(order.created_at).toLocaleDateString()}
-                    </td>
-                    <td>
-                      <span
-                        className={`badge ${getStatusBadgeClass(order.status)}`}
-                      >
-                        {order.status}
-                      </span>
-                    </td>
-                    <td>
-                      {formatPrice(order.total_price)}
-                    </td>
-                    <td>
-                      {order.orderItems ? order.orderItems.length : 0}
-                    </td>
-                    <td className="text-right">
-                      <div className="flex justify-end space-x-2">
-                        <Link
-                          href={`/orders/${order.id}`}
-                          className="btn btn-sm btn-primary"
-                        >
-                          عرض التفاصيل
-                        </Link>
-                        <Link
-                          href={`/orders/${order.id}/invoice`}
-                          target="_blank"
-                          className="btn btn-sm btn-outline btn-secondary"
-                        >
-                          الفاتورة
-                        </Link>
+          <>
+            {/* Desktop table (visible on lg and above) */}
+            <div className="hidden lg:block">
+              <div className="overflow-x-auto bg-white shadow-sm rounded-lg">
+                <table className="min-w-full divide-y divide-base-200">
+                  <thead className="bg-base-100">
+                    <tr>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-base-content/80">رقم الطلب</th>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-base-content/80">التاريخ</th>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-base-content/80">الحالة</th>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-base-content/80">الإجمالي</th>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-base-content/80">العناصر</th>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-base-content/80">الإجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-base-200">
+                    {orders.data.map((order) => (
+                      <tr key={order.id} className="hover:bg-base-200/40">
+                        <td className="px-4 py-4 text-center text-sm text-base-content">#{order.id}</td>
+                        <td className="px-4 py-4 text-center text-sm text-base-content">
+                          {new Date(order.created_at).toLocaleString()}
+                        </td>
+                        <td className="px-4 py-4 text-center text-sm">
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeClass(order.status)}`}>
+                            {getStatusLabel(order.status)}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4 text-center text-sm text-base-content">{formatPrice(order.total_price)}</td>
+                        <td className="px-4 py-4 text-center text-sm text-base-content">{order.orderItems?.length ?? 0}</td>
+                        <td className="px-4 py-4 text-center text-right text-sm">
+                          <div className="flex items-center justify-end gap-2">
+                            <Link href={`/orders/${order.id}`} className="btn btn-sm btn-primary">
+                              عرض
+                            </Link>
+                            <Link href={`/orders/${order.id}/invoice`} className="btn btn-sm btn-outline btn-secondary" target="_blank">
+                              فاتورة
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Mobile cards (visible on small screens) */}
+            <div className="space-y-4 lg:hidden">
+              {orders.data.map((order) => (
+                <div key={order.id} className="bg-white shadow rounded-lg p-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-semibold text-base-content">طلب #{order.id}</h3>
+                        <span className={`text-xs px-2 py-0.5 rounded ${getStatusBadgeClass(order.status)}`}>
+                          {getStatusLabel(order.status)}
+                        </span>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      <p className="text-xs text-base-content/70 mt-1">{new Date(order.created_at).toLocaleString()}</p>
+                    </div>
+
+                    <div className="text-right">
+                      <p className="text-sm font-medium">{formatPrice(order.total_price)}</p>
+                      <p className="text-xs text-base-content/70">{order.orderItems?.length ?? 0} عناصر</p>
+                    </div>
+                  </div>
+
+                  {/* optional shipping address preview */}
+                  {order.shippingAddress && (
+                    <div className="mt-3 text-sm text-base-content/70">
+                      <div>{order.shippingAddress.full_name}</div>
+                      <div className="truncate">{order.shippingAddress.address1} {order.shippingAddress.address2 ?? ''}</div>
+                      <div>{order.shippingAddress.city} — {order.shippingAddress.country?.name}</div>
+                    </div>
+                  )}
+
+                  <div className="mt-3 flex gap-2">
+                    <Link href={`/orders/${order.id}`} className="btn btn-sm btn-primary flex-1">
+                      عرض التفاصيل
+                    </Link>
+                    <Link href={`/orders/${order.id}/invoice`} target="_blank" className="btn btn-sm btn-outline btn-secondary">
+                      فاتورة
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
         {/* Pagination Controls */}

@@ -293,12 +293,12 @@ class CartService
         $cartItems = $this->getCartItems();
 
         return collect($cartItems)
-            ->groupBy(fn ($item) => $item['user']['id'])
-            ->map(fn ($items, $userId) => [
+            ->groupBy(fn($item) => $item['user']['id'])
+            ->map(fn($items, $userId) => [
                 'user' => $items->first()['user'],
                 'items' => $items->toArray(),
                 'totalQuantity' => $items->sum('quantity'),
-                'totalPrice' => $items->sum(fn ($item) => $item['price'] * $item['quantity']),
+                'totalPrice' => $items->sum(fn($item) => $item['price'] * $item['quantity']),
             ])
             ->toArray();
     }
@@ -349,5 +349,20 @@ class CartService
             ->filter(fn($item) => $item['product_id'] === $product->id)
             ->filter(fn($item) => $item['option_ids'] === $optionIds)
             ->sum('quantity');
+    }
+
+
+    public function clearCart(): void
+    {
+        if (Auth::check()) {
+            // حذف كل العناصر للمستخدم المسجل
+            CartItem::where('user_id', Auth::id())->delete();
+        } else {
+            // حذف كل عناصر الكوكيز للضيف
+            Cookie::queue(self::COOKIE_NAME, '', -1);
+        }
+
+        // مسح الكاش
+        $this->cachedCartItems = null;
     }
 }

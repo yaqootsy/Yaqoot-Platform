@@ -72,13 +72,13 @@
 </x-mail::button>
 @endforeach
 
-<x-mail::subcopy>
+{{-- <x-mail::subcopy>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam at blanditiis dolores doloribus, eaque error in ipsum libero nihil odio porro quaerat qui quisquam quo rerum tenetur ullam vero voluptatem.
 </x-mail::subcopy>
 
 <x-mail::panel>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur cum cumque enim inventore magnam optio quisquam quos rerum, similique. Culpa debitis distinctio laboriosam nam qui tempora totam veritatis voluptate voluptates.
-</x-mail::panel>
+</x-mail::panel> --}}
 
 شكراً,<br>
 {{ config('app.name') }}
