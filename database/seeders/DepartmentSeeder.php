@@ -121,6 +121,27 @@ class DepartmentSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            [
+                'name' => 'أدوات الصيانة',
+                'slug' => 'maintenance-tools',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'الكهربائيات',
+                'slug' => 'electrical',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'ملابس بسيطة',
+                'slug' => 'simple-clothing',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
         ];
 
         DB::table('departments')->insert($departments);

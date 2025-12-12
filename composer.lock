@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36eef7c7a3ad7b0ce6e5befa0de5cc20",
+    "content-hash": "448dc4a21f926d9b049c6e8bcaa277e8",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2623,16 +2623,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v10.19.0",
+            "version": "v10.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "996b2a8b5ccc583e7df667c8aac924a46bc8bdd3"
+                "reference": "13ed8e0eeaddd894bf360b85cb873980de19dbaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/996b2a8b5ccc583e7df667c8aac924a46bc8bdd3",
-                "reference": "996b2a8b5ccc583e7df667c8aac924a46bc8bdd3",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/13ed8e0eeaddd894bf360b85cb873980de19dbaf",
+                "reference": "13ed8e0eeaddd894bf360b85cb873980de19dbaf",
                 "shasum": ""
             },
             "require": {
@@ -2653,10 +2653,9 @@
                 "algolia/algoliasearch-client-php": "^3.2|^4.0",
                 "meilisearch/meilisearch-php": "^1.0",
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^7.31|^8.11|^9.0|^10.0",
+                "orchestra/testbench": "^7.31|^8.36|^9.15|^10.8",
                 "php-http/guzzle7-adapter": "^1.0",
                 "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^9.3|^10.4|^11.5",
                 "typesense/typesense-php": "^4.9.3"
             },
             "suggest": {
@@ -2700,7 +2699,7 @@
                 "issues": "https://github.com/laravel/scout/issues",
                 "source": "https://github.com/laravel/scout"
             },
-            "time": "2025-08-26T14:24:24+00:00"
+            "time": "2025-11-25T15:19:35+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -8841,16 +8840,16 @@
         },
         {
             "name": "typesense/typesense-php",
-            "version": "v5.1.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/typesense/typesense-php.git",
-                "reference": "0e8dee542c05b201becf4734319075e6c4d540b3"
+                "reference": "1fbf79e1c10a8fd4cc3df9c3cddbe158e93542f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/typesense/typesense-php/zipball/0e8dee542c05b201becf4734319075e6c4d540b3",
-                "reference": "0e8dee542c05b201becf4734319075e6c4d540b3",
+                "url": "https://api.github.com/repos/typesense/typesense-php/zipball/1fbf79e1c10a8fd4cc3df9c3cddbe158e93542f7",
+                "reference": "1fbf79e1c10a8fd4cc3df9c3cddbe158e93542f7",
                 "shasum": ""
             },
             "require": {
@@ -8908,7 +8907,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-05T17:35:26+00:00"
+            "time": "2025-08-15T15:21:26+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

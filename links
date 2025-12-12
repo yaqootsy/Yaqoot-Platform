@@ -1,0 +1,19 @@
+Laravel: http://localhost:8080
+
+Vite frontend: http://localhost:5173
+
+Typesense: http://localhost:8108
+
+phpMyAdmin: http://localhost:8081
+
+php artisan scout:flush "App\Models\Product"
+php artisan scout:import "App\Models\Product"
+
+php artisan db:seed --class=ProductSeeder
+
+
+
+فكرة اضافة البراند الى المنتج ووضع قيمة افتراضية "ماركة غير معروفة"
+اضافة بلد المنشا
+الباركود
+اضافة اختيار الموقع والخريطة في صفحة اعدادات التاجر
