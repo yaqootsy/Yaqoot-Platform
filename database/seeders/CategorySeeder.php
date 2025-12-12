@@ -16,6 +16,14 @@ class CategorySeeder extends Seeder
         $categories = [
             // 1. الإلكترونيات (department_id: 1)
                 [
+                    'name' => 'إكسسوارات إلكترونية',
+                    'department_id' => 1,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
                     'name' => 'الجوالات والاكسسوارات',
                     'department_id' => 1,
                     'parent_id' => null,
@@ -1056,6 +1064,22 @@ class CategorySeeder extends Seeder
 
             // 5. المنزل (department_id: 6)
                 [
+                    'name' => 'منظفات المنزل',
+                    'department_id' => 6,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name' => 'أدوات منزلية',
+                    'department_id' => 6,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
                     'name' => 'المطبخ والسفرة',
                     'department_id' => 6,
                     'parent_id' => null,
@@ -1554,6 +1578,22 @@ class CategorySeeder extends Seeder
             
             // 6. الجمال والعطور (department_id: 5)
                 [
+                    'name' => 'منظفات شخصية',
+                    'department_id' => 5,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name' => 'تجميل وعناية شخصية',
+                    'department_id' => 5,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
                     'name' => 'مكياج',
                     'department_id' => 5,
                     'parent_id' => null,
@@ -1988,6 +2028,14 @@ class CategorySeeder extends Seeder
 
             // 7. البيبي (department_id: 9)
                 [
+                    'name' => 'مستلزمات أطفال',
+                    'department_id' => 9,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
                     'name' => 'أساسيات البيبي',
                     'department_id' => 9,
                     'parent_id' => null,
@@ -2341,6 +2389,14 @@ class CategorySeeder extends Seeder
                 ],
             
             // 8. الألعاب (department_id: 11)
+                [
+                    'name' => 'ألعاب أطفال',
+                    'department_id' => 11,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
                 [
                     'name' => 'الألعاب',
                     'department_id' => 11,
@@ -3524,6 +3580,46 @@ class CategorySeeder extends Seeder
             
             // 11. البقالة (department_id: 7)
                 [
+                    'name' => 'ورقيات ومحارم',
+                    'department_id' => 7,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name' => 'مواد غذائية',
+                    'department_id' => 7,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name' => 'معلبات',
+                    'department_id' => 7,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name' => 'سناكات وتسلية',
+                    'department_id' => 7,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'name' => 'حبوب وبقوليات',
+                    'department_id' => 7,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
                     'name' => 'مستلزمات العناية بالبيت',
                     'department_id' => 7,
                     'parent_id' => null,
@@ -4168,6 +4264,14 @@ class CategorySeeder extends Seeder
 
             // 13. القرطاسية (department_id: 15)
                 [
+                    'name' => 'أدوات مدرسية',
+                    'department_id' => 15,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
                     'name' => 'الأوراق',
                     'department_id' => 15,
                     'parent_id' => null,
@@ -4539,6 +4643,37 @@ class CategorySeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now()
                 ],
+
+            // أدوات الصيانة (department_id: 16)
+                [
+                    'name' => 'أدوات صيانة',
+                    'department_id' => 16,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+
+            // الكهربائيات (department_id: 17)
+                [
+                    'name' => 'أدوات كهربائية بسيطة',
+                    'department_id' => 17,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+
+            // ملابس بسيطة (department_id: 18)
+                [
+                    'name' => 'ملابس بسيطة',
+                    'department_id' => 18,
+                    'parent_id' => null,
+                    'active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+
         ];
 
         DB::table('categories')->insert($categories);
