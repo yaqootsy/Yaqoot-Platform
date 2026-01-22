@@ -15,6 +15,8 @@ function Show({
   product: Product;
   variationOptions: number[];
 }>) {
+  const isVendorClosed = product.is_temporarily_closed === true;
+
   const form = useForm<{
     option_ids: Record<string, number>;
     quantity: number;
@@ -89,7 +91,7 @@ function Show({
           setEta("خطأ في حساب الوقت");
           setDis("خطأ في حساب المسافة");
         }
-      }
+      },
     );
   }, [typedUserAddress, product]);
 
@@ -141,21 +143,21 @@ function Show({
       chooseOption(
         type.id,
         type.options.find((op) => op.id == selectedOptionId) || type.options[0],
-        false
+        false,
       );
     }
   }, []);
 
   const getOptionIdsMap = (newOptions: object) => {
     return Object.fromEntries(
-      Object.entries(newOptions).map(([a, b]) => [a, b.id])
+      Object.entries(newOptions).map(([a, b]) => [a, b.id]),
     );
   };
 
   const chooseOption = (
     typeId: number,
     option: VariationTypeOption,
-    updateRouter: boolean = true
+    updateRouter: boolean = true,
   ) => {
     setSelectedOptions((prevSelectedOptions) => {
       const newOptions = {
@@ -172,7 +174,7 @@ function Show({
           {
             preserveScroll: true,
             preserveState: true,
-          }
+          },
         );
       }
 
@@ -185,6 +187,8 @@ function Show({
   };
 
   const addToCart = () => {
+    if (isVendorClosed) return; // منع الإضافة من الواجهة
+
     form.post(route("cart.store", product.id), {
       preserveScroll: true,
       preserveState: true,
@@ -247,7 +251,8 @@ function Show({
         <select
           value={form.data.quantity}
           onChange={onQuantityChange}
-          className="select select-bordered w-full"
+          disabled={isVendorClosed}
+          className={`select select-bordered w-full ${isVendorClosed ? "btn-disabled cursor-not-allowed" : ""}`}
         >
           {Array.from({
             length: Math.min(10, computedProduct.quantity),
@@ -257,7 +262,11 @@ function Show({
             </option>
           ))}
         </select>
-        <button onClick={addToCart} className="btn btn-primary">
+        <button
+          onClick={addToCart}
+          disabled={isVendorClosed}
+          className={`btn btn-primary ${isVendorClosed ? "btn-disabled cursor-not-allowed" : ""}`}
+        >
           أضف إلى السلة
         </button>
       </div>
@@ -267,8 +276,11 @@ function Show({
   useEffect(() => {
     const idsMap = Object.fromEntries(
       Object.entries(selectedOptions).map(
-        ([typeId, option]: [string, VariationTypeOption]) => [typeId, option.id]
-      )
+        ([typeId, option]: [string, VariationTypeOption]) => [
+          typeId,
+          option.id,
+        ],
+      ),
     );
     form.setData("option_ids", idsMap);
   }, [selectedOptions]);
@@ -291,11 +303,18 @@ function Show({
 
       <div className="container mx-auto p-8">
         <div className="grid gap-4 sm:gap-8 grid-cols-1 lg:grid-cols-12">
-          <div className="col-span-12 md:col-span-7">
+          <div className={`col-span-12 md:col-span-7 ${isVendorClosed ? "opacity-50" : ""}`}>
             <Carousel images={images} />
           </div>
           <div className="col-span-12 md:col-span-5">
+            {isVendorClosed && (
+              <div className="text-red-600 text-lg font-bold mb-4">
+                المتجر مغلق — لا يمكن الشراء الآن
+              </div>
+            )}
+
             <h1 className="text-2xl">{product.title}</h1>
+
             <p className={"mb-8"}>
               الماركة: <b>{product.brand}</b>
               &nbsp; بلد المنشأ: <b>{product.origin_country}</b>

@@ -46,7 +46,17 @@ function CustomHits() {
               select: "select select-bordered",
             }}
             items={[
-              {label: "الأكثر رواجاً", value: "products_index"},
+              { 
+                label: "الأحدث", 
+                value: "products_index"},
+              {
+                label: "الأكثر رواجاً", 
+                value: "products_index"
+              },
+              {
+                label: "الأفضل تقييماً",
+                value: "products_index/sort/rate:desc",
+              },
               {
                 label: "العنوان تصاعدي",
                 value: "products_index/sort/title:asc",
@@ -63,10 +73,6 @@ function CustomHits() {
                 label: "السعر: من الأعلى إلى الأقل",
                 value: "products_index/sort/price:desc",
               },
-              // {
-              //   label: "الأفضل تقييماً",
-              //   value: "products_index/sort/rate:desc",
-              // },
             ]}
           />
         </div>

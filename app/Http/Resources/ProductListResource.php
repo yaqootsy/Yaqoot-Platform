@@ -29,6 +29,8 @@ class ProductListResource extends JsonResource
             'department_slug' => $this->department->slug,
             'distance' => $this->distance ?? null, // من السيرفر
             'duration' => $this->duration ?? null, // من السيرفر
+            'is_temporarily_closed' => $this->user->vendor->is_temporarily_closed,
+            'temporary_close_until' => $this->user->vendor->temporary_close_until,
         ];
     }
 }

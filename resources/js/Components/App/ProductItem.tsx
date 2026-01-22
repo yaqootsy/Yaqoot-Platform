@@ -3,6 +3,7 @@ import { Link, useForm } from "@inertiajs/react";
 import CurrencyFormatter from "@/Components/Core/CurrencyFormatter";
 import placeholderImage from "@/assets/images/placeholder.png";
 export default function ProductItem({ product }: { product: ProductListItem }) {
+  const isVendorClosed = product.is_temporarily_closed === true;  
   const form = useForm<{
     option_ids: Record<string, number>;
     quantity: number;
@@ -12,6 +13,8 @@ export default function ProductItem({ product }: { product: ProductListItem }) {
   });
 
   const addToCart = () => {
+    if (isVendorClosed) return; // منع الإضافة من الواجهة
+
     form.post(route("cart.store", product.id), {
       preserveScroll: true,
       preserveState: true,
@@ -20,10 +23,9 @@ export default function ProductItem({ product }: { product: ProductListItem }) {
       },
     });
   };
-  console.log(product);
   
   return (
-    <div className="card bg-base-100 shadow">
+    <div className={`card bg-base-100 shadow ${isVendorClosed ? "opacity-50" : ""}`}>
       <Link className="p-3" href={route("product.show", product.slug)}>
         <figure>
           <img
@@ -34,6 +36,11 @@ export default function ProductItem({ product }: { product: ProductListItem }) {
         </figure>
       </Link>
       <div className="card-body p-6">
+        {isVendorClosed && (
+          <div className="text-red-600 text-xs mb-2">
+            المتجر مغلق — لا يمكن الشراء الآن
+          </div>
+        )}
         <Link href={route("product.show", product.slug)}>
           <h2 className="card-title text-sm">
             {product.title && product.title.length > 50
@@ -65,7 +72,11 @@ export default function ProductItem({ product }: { product: ProductListItem }) {
         )}
 
         <div className="card-actions items-center justify-between mt-3">
-          <button onClick={addToCart} className="btn btn-light btn-sm">
+          <button
+            onClick={addToCart}
+            disabled={isVendorClosed}
+            className={`btn btn-light btn-sm ${isVendorClosed ? "btn-disabled cursor-not-allowed" : ""}`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

@@ -266,6 +266,8 @@ class Product extends Model implements HasMedia
             'category_name' => $this->category ? $this->category->name : '',
             'category_slug' => $this->category ? $this->category->slug : '',
             'created_at' => $this->created_at->timestamp,
+            'is_temporarily_closed' => $this->user->vendor->is_temporarily_closed,
+            'temporary_close_until' => optional($this->user->vendor->temporary_close_until)?->toDateString(),
         ];
     }
 }

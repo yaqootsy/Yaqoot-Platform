@@ -20,6 +20,11 @@ class VendorSettings extends Page implements HasForms
     protected static ?string $navigationIcon = 'heroicon-o-cog';
     protected static ?int $navigationSort = 100;
 
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->check() && auth()->user()->hasRole(RolesEnum::Vendor->value);
+    }
     // تأكد أن الصفحة تظهر فقط للبائع
     public static function canView(): bool
     {
