@@ -18,7 +18,6 @@ export interface User {
   };
 }
 
-
 export type Image = {
   id: number;
   thumb: string;
@@ -54,6 +53,8 @@ export type Product = {
   description: string;
   meta_title: string;
   meta_description: string;
+  is_temporarily_closed: boolean;
+  temporary_close_until: string | null;
   user: {
     id: number;
     name: string;
@@ -90,6 +91,8 @@ export type ProductListItem = {
   department_slug: string;
   distance: string; // جديد
   duration: string; // جديد
+  is_temporarily_closed: boolean;
+  temporary_close_until: string | null;
 };
 
 export type CartItem = {
@@ -131,7 +134,7 @@ export type PaginationProps<T> = {
 };
 
 export type PageProps<
-  T extends Record<string, unknown> = Record<string, unknown>
+  T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {
   appName: string;
   csrf_token: string;
@@ -236,7 +239,6 @@ export type Country = {
     [key: string]: string;
   };
 };
-
 
 export type PendingChange = {
   id: number | string;

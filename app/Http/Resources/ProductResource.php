@@ -31,6 +31,8 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'meta_title' => $this->meta_title,
             'meta_description' => $this->meta_description,
+            'is_temporarily_closed' => $this->user->vendor->is_temporarily_closed,
+            'temporary_close_until' => $this->user->vendor->temporary_close_until,
             'price' => $this->price,
             'quantity' => $this->quantity,
             'image' => $this->getFirstMediaUrl('images'),

@@ -1900,3 +1900,32 @@
 #66 {main}
 "} 
 [2025-12-20 14:34:14] local.INFO: Vendor mail queued {"order_id":1,"vendor_email":"vendor@example.com"} 
+[2026-01-22 16:43:28] local.ERROR: Access level to App\Filament\Pages\VendorSettings::shouldRegisterNavigation() must be public (as in class Filament\Pages\Page) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Access level to App\\Filament\\Pages\\VendorSettings::shouldRegisterNavigation() must be public (as in class Filament\\Pages\\Page) at /var/www/html/app/Filament/Pages/VendorSettings.php:24)
+[stacktrace]
+#0 {main}
+"} 
+[2026-01-22 16:43:32] local.ERROR: Access level to App\Filament\Pages\VendorSettings::shouldRegisterNavigation() must be public (as in class Filament\Pages\Page) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Access level to App\\Filament\\Pages\\VendorSettings::shouldRegisterNavigation() must be public (as in class Filament\\Pages\\Page) at /var/www/html/app/Filament/Pages/VendorSettings.php:24)
+[stacktrace]
+#0 {main}
+"} 
+[2026-01-22 16:43:37] local.ERROR: Access level to App\Filament\Pages\VendorSettings::shouldRegisterNavigation() must be public (as in class Filament\Pages\Page) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Access level to App\\Filament\\Pages\\VendorSettings::shouldRegisterNavigation() must be public (as in class Filament\\Pages\\Page) at /var/www/html/app/Filament/Pages/VendorSettings.php:24)
+[stacktrace]
+#0 {main}
+"} 
+[2026-01-22 20:37:51] local.ERROR: Command "optimaiz" is not defined.
+
+Did you mean one of these?
+    optimize
+    optimize:clear {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"optimaiz\" is not defined.
+
+Did you mean one of these?
+    optimize
+    optimize:clear at /var/www/html/vendor/symfony/console/Application.php:726)
+[stacktrace]
+#0 /var/www/html/vendor/symfony/console/Application.php(284): Symfony\\Component\\Console\\Application->find('optimaiz')
+#1 /var/www/html/vendor/symfony/console/Application.php(193): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1205): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /var/www/html/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#5 {main}
+"} 
