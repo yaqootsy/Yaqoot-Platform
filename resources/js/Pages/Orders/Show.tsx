@@ -12,13 +12,21 @@ interface VariationOption {
   name: string;
   variationType: VariationType;
 }
+
+interface ProductImage {
+  id: number;
+  thumb: string;
+  small: string;
+  large: string;
+}
+
 interface OrderItem {
   id: number;
   product: {
     id: number;
     title: string;
     slug: string;
-    featured_image_url?: string;
+    images?: ProductImage[];
     variationTypes?: {
       id: number;
       name: string;
@@ -345,9 +353,10 @@ export default function Show({ order }: { order: Order }) {
                   return (
                     <div key={item.id} className="flex gap-4 items-center">
                       <div className="w-20 h-20 flex-shrink-0 rounded-md overflow-hidden border bg-base-200">
-                        {item.product?.featured_image_url ? (
+                        {item.product?.images &&
+                        item.product.images.length > 0 ? (
                           <img
-                            src={item.product.featured_image_url}
+                            src={item.product.images[0].small}
                             alt={item.product.title}
                             className="w-full h-full object-cover"
                           />
@@ -378,7 +387,7 @@ export default function Show({ order }: { order: Order }) {
                               ))}
                             </div>
                           ) : (
-                            <span className="text-xs">—</span>
+                            <span className="text-xs"></span>
                           )}
                         </div>
                       </div>

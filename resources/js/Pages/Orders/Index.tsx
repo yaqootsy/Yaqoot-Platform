@@ -101,6 +101,7 @@ const getStatusLabel = (status: string): string => {
 };
 
 export default function Index({ orders }: { orders: Paginator<Order> }) {
+  console.log(orders);
   return (
     <AuthenticatedLayout>
       <Head title="طلباتي" />
@@ -209,7 +210,7 @@ export default function Index({ orders }: { orders: Paginator<Order> }) {
                   {order.shippingAddress && (
                     <div className="mt-3 text-sm text-base-content/70">
                       <div>{order.shippingAddress.full_name}</div>
-                      <div className="truncate">{order.shippingAddress.address1} {order.shippingAddress.address2 ?? ''}</div>
+                      <div className="truncate">{order.shippingAddress.address1} - {order.shippingAddress.address2 ?? ''}</div>
                       <div>{order.shippingAddress.city} — {order.shippingAddress.country?.name}</div>
                     </div>
                   )}

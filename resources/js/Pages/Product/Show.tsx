@@ -29,15 +29,15 @@ function Show({
   const { userAddress } = usePage().props;
   const typedUserAddress = userAddress as Address | undefined;
 
-    const [eta, setEta] = useState("جاري الحساب...");
-    const [dis, setDis] = useState("جاري الحساب...");
+  const [eta, setEta] = useState("جاري الحساب...");
+  const [dis, setDis] = useState("جاري الحساب...");
 
   useEffect(() => {
     // تأكد أن Google Maps جاهزة
     if (!window.google || !window.google.maps) {
       console.error("Google Maps API غير محملة.");
-      setEta("خدمة الخرائط غير متاحة");
-      setDis("خدمة الخرائط غير متاحة");
+      setEta("غير متاح");
+      setDis("غير متاح");
       return;
     }
 
@@ -295,9 +295,12 @@ function Show({
             <Carousel images={images} />
           </div>
           <div className="col-span-12 md:col-span-5">
-            <h1 className="text-2xl ">{product.title}</h1>
-
+            <h1 className="text-2xl">{product.title}</h1>
             <p className={"mb-8"}>
+              الماركة: <b>{product.brand}</b>
+              &nbsp; بلد المنشأ: <b>{product.origin_country}</b>
+            </p>
+            <p className={"mb-2"}>
               بواسطة{" "}
               <Link
                 href={route("vendor.profile", product.user.store_name)}
@@ -315,10 +318,11 @@ function Show({
             </p>
 
             <p className={"mb-8"}>
-              توصيل إلى <b> {typedUserAddress?.city} </b> 
-
+              توصيل إلى <b> {typedUserAddress?.city} </b>
               متوقع في <b> {eta || "جارٍ الحساب..."} </b>
-              <p>المسافة: <b> {dis || "جارٍ الحساب..."} </b></p>
+              <p>
+                المسافة: <b> {dis || "جارٍ الحساب..."} </b>
+              </p>
             </p>
 
             <div>

@@ -17,15 +17,18 @@ class VariationTypeOption extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(100);
+            ->width(100)
+            ->format('webp');
 
         $this->addMediaConversion('small')
-            ->width(480);
+            ->width(480)
+            ->format('webp');
 
         $this->addMediaConversion('large')
-            ->width(1200);
+            ->width(1200)
+            ->format('webp');
     }
-
+    
     public function variationType(): BelongsTo
     {
         return $this->belongsTo(VariationType::class);

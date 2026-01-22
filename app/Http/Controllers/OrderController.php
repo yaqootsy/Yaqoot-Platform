@@ -16,7 +16,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = auth()->user()->orders()
-            ->with(['orderItems.product', 'shippingAddress'])
+            ->with(['orderItems.product', 'shippingAddress.country'])
             ->orderBy('created_at', 'desc')
             ->paginate(10); // Show 10 orders per page
 
