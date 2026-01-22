@@ -14,21 +14,53 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
+use Spatie\Image\Enums\ImageFormat;
 
 class Product extends Model implements HasMedia
 {
     use InteractsWithMedia, Searchable;
 
+    protected static function booted()
+    {
+        // 1️⃣ عند الإنشاء: إلحاق ID مرة واحدة فقط
+        static::created(function (Product $product) {
+            if (
+                $product->slug &&
+                ! Str::endsWith($product->slug, '-' . $product->id)
+            ) {
+                $product->updateQuietly([
+                    'slug' => $product->slug . '-' . $product->id,
+                ]);
+            }
+        });
+
+        // 2️⃣ عند التحديث: إذا تغيّر الـ slug (قادِم من الفرونت)
+        static::updating(function (Product $product) {
+            if ($product->isDirty('slug')) {
+
+                // إزالة أي -رقم في نهاية الـ slug
+                $cleanSlug = preg_replace('/-\d+$/', '', $product->slug);
+
+                // إرفاق نفس ID
+                $product->slug = $cleanSlug . '-' . $product->id;
+            }
+        });
+    }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(100);
+            ->width(100)
+            ->format('webp');
 
         $this->addMediaConversion('small')
-            ->width(480);
+            ->width(480)
+            ->format('webp');
 
         $this->addMediaConversion('large')
-            ->width(1200);
+            ->width(1200)
+            ->format('webp');
     }
 
     public function scopeForVendor(Builder $query): Builder
@@ -222,7 +254,8 @@ class Product extends Model implements HasMedia
             'slug' => $this->slug,
             'price' => (float)$this->getPriceForFirstOptions(),
             'quantity' => $this->quantity,
-            'image' => $this->getFirstImageUrl(),
+            // 'image' => $this->getFirstImageUrl(),
+            'image' => $this->getFirstImageUrl('small') ?: $this->getFirstImageUrl(),
             'user_id' => (string)$this->user->id,
             'user_name' => $this->user->name,
             'user_store_name' => $this->user->vendor->store_name,

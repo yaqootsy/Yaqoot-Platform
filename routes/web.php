@@ -10,6 +10,7 @@ use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CodController;
 use App\Models\Order;
+use App\Models\Product;
 
 // Guest Routes
 
@@ -23,6 +24,18 @@ Route::get('/lang/{locale}', function ($locale) {
 Route::get('/', [ProductController::class, 'home'])->name('dashboard');
 Route::get('/product/{product:slug}', [ProductController::class, 'show'])
     ->name('product.show');
+
+
+// Route::get('/product/{slug}/{sku}', function ($slug, $sku) {
+//     $product = Product::where('sku', $sku)->firstOrFail();
+
+//     if ($slug !== $product->slug) {
+//         return redirect()->to("/product/{$product->slug}/{$product->sku}", 301);
+//     }
+
+//     return view('product.show', compact('product'));
+// });
+
 
 Route::get('/d/{department:slug}', [ProductController::class, 'byDepartment'])
     ->name('product.byDepartment');

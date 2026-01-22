@@ -42,6 +42,8 @@ export type VariationType = {
 
 export type Product = {
   id: number;
+  brand: string;
+  origin_country: string;
   title: string;
   slug: string;
   price: number;
@@ -73,6 +75,8 @@ export type Product = {
 
 export type ProductListItem = {
   id: number;
+  brand: string;
+  origin_country: string;
   title: string;
   slug: string;
   price: number;

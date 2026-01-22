@@ -63,7 +63,9 @@ class ProductResource extends Resource
                             ),
                         TextInput::make('slug')
                             ->label('معرّف الصفحة')
-                            ->required(),
+                            ->required()
+                            ->readOnly(),
+
                         Select::make('department_id')
                             ->relationship('department', 'name', function ($query) {
                                 $query->where('active', true); // Filter departments with status active
@@ -129,6 +131,17 @@ class ProductResource extends Resource
                         'default' => 2,
                         'lg' => 1
                     ]),
+                TextInput::make('brand')
+                    ->label('العلامة التجارية')
+                    ->maxLength(255),
+
+                TextInput::make('origin_country')
+                    ->label('بلد المنشأ')
+                    ->maxLength(255),
+
+                TextInput::make('barcode')
+                    ->label('الباركود')
+                    ->maxLength(255),
                 Select::make('status')
                     ->label('الحالة')
                     ->options(ProductStatusEnum::labels())
@@ -182,6 +195,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تم إنشاؤه في')
                     ->dateTime()
+                    ->sortable()
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -200,7 +214,8 @@ class ProductResource extends Resource
                     Tables\Actions\DeleteBulkAction::make()
                         ->label('حذف'),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
