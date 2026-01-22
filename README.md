@@ -1,148 +1,128 @@
-# Yaqoot
-Multi vendor e-commerce starter kit built with Laravel and React with Inertia with server side rendering built-in.
+# Yaqoot Platform — Dockerized Setup
 
-## Requirements
- - PHP >= 8.2
- - Laravel 11
- - MariaDB 10.3+
- - MySQL 5.7+
- - PostgreSQL 10.0+
- - SQLite 3.26.0+
- - SQL Server 2017+
+Multi-vendor e-commerce platform built with **Laravel 11 + Inertia + React (SSR)**
 
-## Project Setup
-#### 1. Clone or download project repository
+---
+
+## المتطلبات
+
+يجب توفر التالي فقط على جهازك:
+
+* Docker >= 24
+* Docker Compose (مدمج مع Docker Desktop)
+* Git
+
+---
+
+## طريقة التشغيل الصحيحة (Docker فقط)
+
+### 1) تنزيل المشروع
 
 ```bash
 git clone https://github.com/yaqootsy/Yaqoot-Platform.git
-``` 
-
-#### 2. Navigate into project's root directory
-
-```bash
 cd Yaqoot-Platform
 ```
 
-Create `.env` file and adjust the environment variables.
+---
+
+### 2) إنشاء ملف البيئة
 
 ```bash
 cp .env.example .env
 ```
 
-If you want to use MySql instead of sqlite, modify the `DB_*` variables.
+ثم افتح `.env` وأضف البيانات المطلوبة مثل تفاصيل البريد الإلكتروني
 
-```env
-...
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=yaqoot_market
-DB_USERNAME=root
-DB_PASSWORD=
-...
-```
 
-Then we have two options:
-1. Setup with docker and sail
-2. Or setup manually 
+---
 
-### Setup with Docker
-
-#### Download docker images
-
-This command will download all necessary docker images and setup the project.
+### 3) بناء وتشغيل المشروع لأول مرة
 
 ```bash
-docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php84-composer:latest \
-    composer install --ignore-platform-reqs
+docker compose up --build -d
 ```
 
-After this whenever you need to execute artisan commands you need to execute them from docker image.
+---
+
+### 4) الدخول إلى حاوية التطبيق
 
 ```bash
-./vendor/bin/sail bash
+docker exec -it yaqoot_app bash
 ```
 
-After executing the following command you are inside the docker container and you can execute any php or artisan commands.
-
-#### Generate application key
+داخل الحاوية نفّذ:
 
 ```bash
-php artisan key:generate --ansi
-```
-
-#### Start the project
-
-```bash
-./vendor/bin/sail up
-```
-
-You can optionally provide `-d` flag to the above command to start the containers in detached mode.
-
-#### Stop the project
-If you started the project without `-d` flag you can simply hit `ctrl + C` (`cmd + C` on Mac) to stop running containers. However if you started the project with `-d` you need to execute the following commands to stop running containers.
-
-```bash
-./vendor/bin/sail stop
-```
-
-If you want to drop all containers, execute
-
-```bash
-./vendor/bin/sail down
-```
-
-### Manual Setup
-
-#### 3. Install Dependencies
-
-```bash
-composer install && npm install
-```
-
-#### 4. Generate application key
-
-```bash
-php artisan key:generate --ansi
-```
-
-#### 5. Create storage link
-
-```bash
-php artisan storage:link
-```
-
-#### 6. Adjust `.env` parameters
-
-Open `.env` file and adjust the parameters based on your needs
-
-```env
-...
-APP_URL=http://localhost:8000
-...
-```
-
-#### 7. Run Migrations
-
-```bash
+composer install
+npm install
+npm run build
+php artisan key:generate
 php artisan migrate --seed
+exit
 ```
 
-#### 8. Start the application 
+---
+
+## الروابط بعد التشغيل
+
+| الخدمة        | الرابط                                         |
+| ------------- | ---------------------------------------------- |
+| الموقع        | [http://localhost:8080](http://localhost:8080) |
+| phpMyAdmin    | [http://localhost:8081](http://localhost:8081) |
+| Typesense API | [http://localhost:8108](http://localhost:8108) |
+
+---
+
+## أوامر Docker الأساسية
+
+تشغيل المشروع:
 
 ```bash
-composer run dev
+docker compose up -d
 ```
 
-## License
+إيقاف المشروع:
 
-The project is under [MIT License](LICENSE.md).
+```bash
+docker compose down
+```
 
+إعادة تشغيل:
 
+```bash
+docker compose restart
+```
 
+الدخول للحاوية لتنفيذ أوامر php:
 
+```bash
+docker exec -it yaqoot_app bash
+```
 
+عرض اللوجات:
+
+```bash
+docker compose logs -f app
+```
+
+---
+
+## إعادة بناء المشروع بعد تعديل Dockerfile
+
+```bash
+docker compose build app
+docker compose up -d
+```
+
+أو بدون كاش:
+
+```bash
+docker compose build --no-cache app
+docker compose up -d
+```
+
+---
+
+## ملاحظة مهمة
+
+* كل المكتبات يجب أن تكون داخل **Dockerfile**
